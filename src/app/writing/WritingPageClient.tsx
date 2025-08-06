@@ -119,14 +119,7 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
         </div>
       </main>
 
-      <Link href="/contact">
-        <Button
-          variant="outline"
-          className="rounded-full border-gray-600 text-gray-300 hover:bg-gray-800 bg-transparent px-4 py-2 fixed bottom-8 right-8"
-        >
-          <Sparkles className="h-4 w-4 mr-2" /> Contact Me
-        </Button>
-      </Link>
+    
     </div>
   )
 }
