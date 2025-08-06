@@ -11,7 +11,8 @@ import InteractiveBackground from "@/components/interactive-background"
 import TestimonialsCarousel from "@/components/testimonials-carousel"
 import HeroSection from "@/components/hero-section"
 import NavBar from "@/components/nav-bar"
-// import BlogsCarousel from "@/components/blogs-carousel"
+import MySkills from "@/components/my-skills"
+// import BlogsCarousel from "@/components/blogs-carousel" (redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 // import MySkills from "@/components/my-skills"
 
 
@@ -44,12 +45,12 @@ function HomePageContent() {
 
       {/* Navigation */}
       < NavBar />
-      
 
       {/* Hero Section */}
       < HeroSection />
 
       {/* My Skills Section */}
+      < MySkills />
 
       {/* My Coding Journey Section (Certificates) */}
 
