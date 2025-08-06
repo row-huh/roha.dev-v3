@@ -17,6 +17,7 @@ import UniversityJourney from "@/components/university-journey"
 import Timeline from "@/components/timeline"
 import BarricadeTape from "@/components/barricade-tape"
 import ContractorArc from "@/components/contractor"
+import DeepLearningJourney from "@/components/deep-learning-journey"
 // import BlogsCarousel from "@/components/blogs-carousel" (redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 // import MySkills from "@/components/my-skills"
 
@@ -78,7 +79,7 @@ function HomePageContent() {
       < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY" />
 
       {/* Deep Learning Journey Section */}
-      
+      < DeepLearningJourney />
 
       {/* What I'm Building Section */}
       
