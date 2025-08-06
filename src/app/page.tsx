@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation"
 import InteractiveBackground from "@/components/interactive-background"
 import TestimonialsCarousel from "@/components/testimonials-carousel"
 import HeroSection from "@/components/hero-section"
+import NavBar from "@/components/nav-bar"
 // import BlogsCarousel from "@/components/blogs-carousel"
 // import MySkills from "@/components/my-skills"
 
@@ -42,9 +43,11 @@ function HomePageContent() {
       <InteractiveBackground />
 
       {/* Navigation */}
-
+      < NavBar />
+      
 
       {/* Hero Section */}
+      < HeroSection />
 
       {/* My Skills Section */}
 
