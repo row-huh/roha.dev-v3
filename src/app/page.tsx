@@ -1,103 +1,172 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { motion, useScroll, useMotionValue, useSpring } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Github, ExternalLink, Sparkles } from "lucide-react"
+import Link from "next/link"
+import { useEffect } from "react"
+import { usePathname } from "next/navigation"
+import InteractiveBackground from "@/components/interactive-background"
+
+
+
+
+function HomePageContent() {
+  const { scrollYProgress } = useScroll()
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const pathname = usePathname()
+
+  const springX = useSpring(mouseX, { stiffness: 100, damping: 30 })
+  const springY = useSpring(mouseY, { stiffness: 100, damping: 30 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
+    }
+
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [mouseX, mouseY])
+
+
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+      {/* Interactive Background with Marble */}
+      <InteractiveBackground />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-7xl mx-auto px-8 py-6">
+          <div className="flex justify-between items-center">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xl font-semibold text-white">
+              roha.dev
+            </motion.div>
+
+            <div className="flex items-center gap-4">
+              <div className="flex gap-1 bg-gray-800/50 rounded-full p-1 border border-gray-700/50 backdrop-blur-sm">
+                <motion.div
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-full"
+                >
+                  <Link
+                    href="/about"
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${pathname === "/about" ? "bg-gray-700/50 text-white" : "text-gray-300 hover:bg-gray-700/50 hover:text-white"}`}
+                  >
+                    About
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-full"
+                >
+                  <Link
+                    href="/projects"
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${pathname === "/projects" ? "bg-gray-700/50 text-white" : "text-gray-300 hover:bg-gray-700/50 hover:text-white"}`}
+                  >
+                    Work
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-full"
+                >
+                  <Link
+                    href="/writing"
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${pathname === "/writing" ? "bg-gray-700/50 text-white" : "text-gray-300 hover:bg-gray-700/50 hover:text-white"}`}
+                  >
+                    Writing
+                  </Link>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-full"
+                >
+                  <Link
+                    href="/contact"
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${pathname === "/contact" ? "bg-gray-700/50 text-white" : "text-gray-300 hover:bg-gray-700/50 hover:text-white"}`}
+                  >
+                    Contact
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </nav>
+
+      {/* Hero Section */}
+
+      {/* My Skills Section */}
+
+      {/* My Coding Journey Section (Certificates) */}
+
+      {/* University Journey Section */}
+
+      {/* Hackathons Timeline Section */}
+
+
+      {/* Barricade Tape */}
+
+      {/* Contractor Section */}
+      {/* Barricade Tape */}
+      
+
+      {/* Deep Learning Journey Section */}
+      
+
+      {/* What I'm Building Section */}
+      
+      {/* Collaborations */}
+      
+
+      {/* What's Playing */}
+      <section className="py-56 px-8 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl font-medium text-white mb-6">Currently Playing</h2>
+            <p className="text-lg text-gray-400 mb-12">
+              The soundtrack to late-night coding sessions and breakthrough moments.
+            </p>
+
+            <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-4 rounded-3xl max-w-2xl mx-auto">
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src="https://open.spotify.com/embed/track/6zHiZppuA4gzZoaiMUu0hf?utm_source=generator"
+                width="100%"
+                height="352"
+                frameBorder="0"
+                allowFullScreen={true}
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                title="Spotify Embed"
+              ></iframe>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Blogs Carousel Section */}
+ 
+
+      {/* Final CTA */}
+
     </div>
-  );
+  )
+}
+
+export default function HomePage() {
+  return <HomePageContent />
 }
