@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/home/row-huh/Documents/roha.dev-v3/app/layout\":[\"static/media/e4af272ccee01ff0-s.p.woff2\",\"static/media/53890c8af469a830-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
