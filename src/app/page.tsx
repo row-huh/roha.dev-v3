@@ -12,6 +12,7 @@ import TestimonialsCarousel from "@/components/testimonials-carousel"
 import HeroSection from "@/components/hero-section"
 import NavBar from "@/components/nav-bar"
 import MySkills from "@/components/my-skills"
+import Cs50Certificates from "@/components/cs50-certificates"
 // import BlogsCarousel from "@/components/blogs-carousel" (redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 // import MySkills from "@/components/my-skills"
 
@@ -53,6 +54,7 @@ function HomePageContent() {
       < MySkills />
 
       {/* My Coding Journey Section (Certificates) */}
+      < Cs50Certificates />
 
       {/* University Journey Section */}
 
