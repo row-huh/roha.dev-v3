@@ -20,8 +20,7 @@ import ContractorArc from "@/components/contractor"
 import DeepLearningJourney from "@/components/deep-learning-journey"
 import WhatImBuilding from "@/components/what-im-building"
 import BlogsCarousel from "@/components/blogs-carousel" //(redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
-// import MySkills from "@/components/my-skills"
-
+import WhatsPlaying from "@/components/whats-playing"
 
 
 function HomePageContent() {
@@ -90,7 +89,7 @@ function HomePageContent() {
 
 
       {/* What's Playing */}
-      
+      < WhatsPlaying />
 
       {/* Blogs Carousel Section */}
       < BlogsCarousel />
