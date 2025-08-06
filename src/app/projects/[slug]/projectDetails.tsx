@@ -233,7 +233,7 @@ export const projectDetails = {
         <li>CSS</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=OS+Simulator",
+  "image": "/relic.png",
   "githubLink": "",
   "liveDemoLink": ""
   },

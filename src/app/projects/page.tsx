@@ -102,7 +102,7 @@ export default function ProjectsPage() {
       slug: "relic",
       title: "Relic",
       description: "Search through an entire historical archive of data to correlate events from the past to history",
-      image: "/public/projects/projects/relic.png",
+      image: "/projects/projects/relic.png",
       tags: ["PHP", "MySQL", "Node.js"],
       githubLink: "",
       liveDemoLink: "#",
