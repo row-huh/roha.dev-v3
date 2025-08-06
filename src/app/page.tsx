@@ -13,6 +13,7 @@ import HeroSection from "@/components/hero-section"
 import NavBar from "@/components/nav-bar"
 import MySkills from "@/components/my-skills"
 import Cs50Certificates from "@/components/cs50-certificates"
+import UniversityJourney from "@/components/university-journey"
 // import BlogsCarousel from "@/components/blogs-carousel" (redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 // import MySkills from "@/components/my-skills"
 
@@ -57,13 +58,19 @@ function HomePageContent() {
       < Cs50Certificates />
 
       {/* University Journey Section */}
+      < UniversityJourney />
+
 
       {/* Hackathons Timeline Section */}
 
 
       {/* Barricade Tape */}
 
+
+
       {/* Contractor Section */}
+
+
       {/* Barricade Tape */}
       
 
