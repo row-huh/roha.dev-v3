@@ -96,7 +96,13 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
                   className={`bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-6 rounded-3xl h-full flex flex-col md:flex-row items-start gap-6 transition-all duration-300 hover:bg-gray-800/40`}
                 >
                   <Link href={`/writing/${post.slug}`} className="block w-full md:w-auto">
-
+                    <Image
+                      src={post.image || "/placeholder.svg"}
+                      alt={post.title}
+                      width={200} // Fixed width for list view
+                      height={120} // Fixed height for list view
+                      className={`rounded-2xl object-cover w-full md:w-48 h-32 md:h-auto flex-shrink-0 mb-4 md:mb-0`}
+                    />
                   </Link>
                   <div className="flex flex-col flex-grow">
                     <Link href={`/writing/${post.slug}`} className="block">

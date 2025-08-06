@@ -7,12 +7,15 @@ import { ArrowLeft } from "lucide-react"
 import InteractiveBackground from "@/components/interactive-background"
 import Image from "next/image"
 import type { BlogPostContent } from "@/lib/blog" // Import the type
+import NavBar from "@/components/nav-bar"
+
 
 export default function BlogDetailPageClient({
   post,
 }: {
   post: BlogPostContent // Receive the full post data as a prop
 }) {
+
   if (!post) {
     // This case should ideally be handled by generateStaticParams and getPostData
     // but kept for robust client-side error handling if direct navigation occurs.
@@ -33,67 +36,12 @@ export default function BlogDetailPageClient({
   }
 
   return (
+    
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
       <InteractiveBackground />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-8 py-6">
-          <div className="flex justify-between items-center">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xl font-semibold text-white">
-              roha.dev
-            </motion.div>
-
-            <div className="flex gap-1 bg-gray-800/50 rounded-full p-1 border border-gray-700/50 backdrop-blur-sm">
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Home
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/projects"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Work
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link href="/writing" className="px-4 py-2 rounded-full text-sm font-medium bg-gray-700/50 text-white">
-                  Writing
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/contact"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Contact
-                </Link>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      < NavBar />
 
       <main className="relative z-10 pt-24 pb-16 px-8">
         <motion.div
@@ -119,13 +67,13 @@ export default function BlogDetailPageClient({
 
           {/* Image section - now outside the main text block, but still within the max-width container */}
           <div className="max-w-4xl mx-auto mb-12">
-            <Image
+            {/* <Image
               src={post.image || "/placeholder.svg"}
               alt={post.title}
               width={1200} // Wider image for full-page feel
               height={400} // Adjusted height
               className="rounded-2xl object-cover w-full h-96" // Full width within container, fixed height
-            />
+            /> */}
           </div>
 
           {/* Blog content - now within its own max-width for readability */}

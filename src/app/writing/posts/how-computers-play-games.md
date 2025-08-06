@@ -2,7 +2,7 @@
 title: "How Computers Play Games - And Why are They so Good at it?"
 description: "An in-depth look at the algorithms that make computers unbeatable"
 date: "Aug 1, 2024"
-image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/cyberpunk-anime-girl-sci-fi-4k-wallpaper-uhdpaper.com-468%405%40c.jpg-ae1SMvR1soRNtvSstJphuUvsqX1QMY.jpeg"
+image: ""
 category: "highlights"
 ---
 
