@@ -14,6 +14,7 @@ import NavBar from "@/components/nav-bar"
 import MySkills from "@/components/my-skills"
 import Cs50Certificates from "@/components/cs50-certificates"
 import UniversityJourney from "@/components/university-journey"
+import Timeline from "@/components/timeline"
 // import BlogsCarousel from "@/components/blogs-carousel" (redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 // import MySkills from "@/components/my-skills"
 
@@ -62,7 +63,7 @@ function HomePageContent() {
 
 
       {/* Hackathons Timeline Section */}
-
+      < Timeline />
 
       {/* Barricade Tape */}
 
