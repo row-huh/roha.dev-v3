@@ -9,7 +9,7 @@ import { useEffect } from "react"
 import { usePathname } from "next/navigation"
 import InteractiveBackground from "@/components/interactive-background"
 import TestimonialsCarousel from "@/components/testimonials-carousel"
-// import HeroSection from "@/components/hero-section"
+import HeroSection from "@/components/hero-section"
 // import BlogsCarousel from "@/components/blogs-carousel"
 // import MySkills from "@/components/my-skills"
 
