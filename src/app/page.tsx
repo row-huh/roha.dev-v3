@@ -15,6 +15,7 @@ import MySkills from "@/components/my-skills"
 import Cs50Certificates from "@/components/cs50-certificates"
 import UniversityJourney from "@/components/university-journey"
 import Timeline from "@/components/timeline"
+import BarricadeTape from "@/components/barricade-tape"
 // import BlogsCarousel from "@/components/blogs-carousel" (redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 // import MySkills from "@/components/my-skills"
 
@@ -66,14 +67,14 @@ function HomePageContent() {
       < Timeline />
 
       {/* Barricade Tape */}
-
+      < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY"/>
 
 
       {/* Contractor Section */}
 
 
       {/* Barricade Tape */}
-      
+      < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY" />
 
       {/* Deep Learning Journey Section */}
       
