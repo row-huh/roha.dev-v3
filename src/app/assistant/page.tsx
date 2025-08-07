@@ -95,7 +95,7 @@ export default function AssistantPage() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
-      <AnimatedBackground />
+      < InteractiveBackground />
 
       {/* Header */}
       <div className="bg-gray-900/80 backdrop-blur-md border-b border-gray-800 relative z-10">
