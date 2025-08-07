@@ -86,7 +86,7 @@ export const projectDetails = {
           <li>No external libraries or frameworks</li>
         </ul>
       `,
-      image: "/placeholder.svg?height=200&width=300&text=Decentralized+ID",
+      image: "/projects/projects/time-venturers.png",
       githubLink: "https://github.com/row-huh/time-ventures",
       liveDemoLink: "https://www.youtube.com/watch?v=2ck6IDWG4Kc&t=15s&pp=ygUKcm9oYXRoZWRldg%3D%3D"
     },
@@ -130,7 +130,8 @@ export const projectDetails = {
           </p>
           <p class="mb-4">
             Built privately, but here's a screenshot of how it really was:<br>
-            <img src="/placeholder.svg?height=200&width=300&text=Pethia+Screenshot" alt="Pethia Bot Conversation" class="my-4 rounded-lg shadow-lg">
+            <img src="/projects/demo/peth-demo2.png" alt="Pethia Bot Conversation" class="my-4 rounded-lg shadow-lg">
+
           </p>
           <p class="mb-4">
             The project was a formative experience, pushing me to build a complex, rule-based system from the ground up. Because the instructions and logic contain private information tailored to my friends, the bot's GitHub repository remains private.
@@ -148,8 +149,9 @@ export const projectDetails = {
             <li>Discord.py</li>
             <li>External APIs</li>
           </ul>
+
         `,
-      "image": "/placeholder.svg?height=200&width=300&text=Decentralized+ID",
+      "image": "/projects/projects/pethia.png",
       "githubLink": "",
       "liveDemoLink": ""
     }, 
@@ -174,7 +176,7 @@ export const projectDetails = {
           <li>Discord.py</li>
         </ul>
       `,
-    "image": "/placeholder.svg?height=200&width=300&text=Decentralized+ID",
+    "image": "/projects/projects/bool.png",
     "githubLink": "",
     "liveDemoLink": ""
   }, 
@@ -293,32 +295,9 @@ export const projectDetails = {
   },
 
 
-  
-"roha.dev": {
-  "title": "roha.dev v1",
-  "description": `
-      <p class="mb-4">
-        This project was the very first iteration of my personal domain, roha.dev. It was a classic static blog site built using the Jekyll framework and deployed on GitHub Pages. At the time, I was a complete beginner and relied on the "Chirpy" template to get the site up and running.
-      </p>
-      <p class="mb-4">
-        The site served its purpose for a while, but it ran into a major technical issue: something would consistently break whenever I tried to add a new blog post. As a beginner, I found the debugging process for Jekyll to be a significant time sink. Recognizing that my time was better spent on new projects, I decided to archive this version and move on to a new approach with roha.dev-v2.
-      </p>
-      <h3 class="text-2xl font-medium text-white mb-4 mt-8">Key Highlights:</h3>
-      <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>The first iteration of my personal blog site.</li>
-        <li>Built on Jekyll and deployed on GitHub Pages.</li>
-        <li>Used a pre-existing template to learn the basics of static site generation.</li>
-        <li>Demonstrates an early approach to content management and web development.</li>
-      </ul>
-      <h3 class="text-2xl font-medium text-white mb-4 mt-8">Technologies Used:</h3>
-      <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>Jekyll</li>
-      </ul>
-    `,
-  "image": "/placeholder.svg?height=200&width=300&text=Dashboard",
-  "githubLink": "https://github.com/row-huh/roha.dev",
-  "liveDemoLink": ""
-}, 
+ 
+
+
 "after-school": {
   "title": "After School",
   "description": `
