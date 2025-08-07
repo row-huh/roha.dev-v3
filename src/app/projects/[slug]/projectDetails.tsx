@@ -26,7 +26,7 @@ export const projectDetails = {
         </ul>
         <p class="mb-4">While this model isn't production-ready, the insights gained are directly applicable to working with and fine-tuning state-of-the-art LLMs.</p>
       `,
-      image: "/placeholder.svg?height=400&width=800&text=LLM+from+Scratch+Detail",
+      image: "/projects/highlight/llm-from-scratch.png",
       githubLink: "https://github.com/row-huh/llm-from-scratch",
       liveDemoLink: "#", // Placeholder for live demo
     },
@@ -119,7 +119,7 @@ export const projectDetails = {
         <li>Basic ML classification pipelines</li>
       </ul>
     `,
-    image: "/placeholder.svg?height=400&width=800&text=Bias+Detection+Project",
+    image: "/projects/projects/neutral.png",
     githubLink: "https://github.com/row-huh/bias-in-recruitment",
   }, 
     "pethia": {
@@ -178,36 +178,7 @@ export const projectDetails = {
     "githubLink": "",
     "liveDemoLink": ""
   }, 
-  "metallica-osu": {
-    "title": "Metallica OSU",
-    "description": `
-        <p class="mb-4">
-          Metallica OSU is a rhythm game inspired by OSU and Guitar Hero, exclusively featuring Metallica's music. This project was a personal challenge I undertook when I first started learning JavaScript. My goal was to build a complex rhythm game from scratch without any AI assistance, a challenge I ultimately set aside to explore other technologies.
-        </p>
-        <p class="mb-4">
-          The core technical hurdle I couldn't overcome was splitting a single song into separate instrumental tracks for the drums, rhythm, and lead guitar. While I managed to find individual drum samples online, the next challenge was associating each drum hit with a specific key at the correct time. I designed a data structure to handle this (e.g., <code>key: A, time: 0.2, sound:1.mp3</code>), but encountered two major problems: the immense amount of manual work required to split the drum samples into tiny, perfectly-timed pieces, and a significant audio delay that I was unable to fix. This painstaking process, combined with the difficulty of perfectly cutting each sample without it interfering with others, ultimately proved to be a "giant mess."
-        </p>
-        <p class="mb-4">
-          Despite the project's incomplete state, it served as a crucial stepping stone in my development journey. It led me to discover and begin exploring more modern frameworks and languages like TypeScript, React, and Next.js. Despite being an archived project, it holds a special place as a hobby, and I look forward to revisiting and continuing to work on it in the future, reinforcing that coding is not just a profession, but also a passion.
-        </p>
-        <h3 class="text-2xl font-medium text-white mb-4 mt-8">Key Highlights:</h3>
-        <ul class="list-disc list-inside text-gray-300 mb-4">
-          <li>A rhythm game concept based on Metallica's discography.</li>
-          <li>An early personal challenge that exposed me to complex audio synchronization problems.</li>
-          <li>Technical challenges included splitting audio tracks, manual sample cutting, and significant audio delay issues.</li>
-          <li>Pivoted to explore modern frameworks, but remains a passion project for the future.</li>
-        </ul>
-        <h3 class="text-2xl font-medium text-white mb-4 mt-8">Technologies Used:</h3>
-        <ul class="list-disc list-inside text-gray-300 mb-4">
-          <li>TypeScript</li>
-          <li>Next.js</li>
-          <li>React</li>
-        </ul>
-      `,
-    "image": "/placeholder.svg?height=200&width=300&text=Course+Management",
-    "githubLink": "https://github.com/row-huh/metallica-osu",
-    "liveDemoLink": ""
-  },
+
   "relic": {
   "title": "Relic",
   "description": `
@@ -238,11 +209,11 @@ export const projectDetails = {
   "liveDemoLink": ""
   },
 
-  "expense-tracker": {
-  "title": "Expense Tracker",
+  "goldfish-expense-tracker": {
+  "title": "Gold Fish",
   "description": `
       <p class="mb-4">
-        The Expense Tracker is a practical tool designed to help users manage, track, and analyze their transactional data. It provides a simple and intuitive interface for adding, updating, and viewing expenses, making it easy to stay on top of personal finances. A key feature of the application is the ability to upload receipts, helping users keep a digital record of their purchases.
+        Gold Fish is a practical tool designed to help users manage, track, and analyze their transactional data. It provides a simple and intuitive interface for adding, updating, and viewing expenses, making it easy to stay on top of personal finances. A key feature of the application is the ability to upload receipts, helping users keep a digital record of their purchases.
       </p>
       <p class="mb-4">
         This project was built to be a straightforward and functional application, demonstrating the power of a rapid development framework for creating data-driven tools. It allows users to gain a clear overview of their spending habits and manage their budget effectively.
@@ -260,7 +231,7 @@ export const projectDetails = {
         <li>External APIs</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=Database+Design",
+  "image": "/projects/projects/goldfish.png",
   "githubLink": "https://github.com/row-huh/Expense-Tracker",
   "liveDemoLink": ""
   },
@@ -288,7 +259,7 @@ export const projectDetails = {
         <li>Framer Motion</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=Portfolio",
+  "image": "/projects/projects/portfoliov3.png",
   "githubLink": "https://github.com/row-huh/roha.dev-v3",
   "liveDemoLink": "/"
   }, 
@@ -316,36 +287,13 @@ export const projectDetails = {
         <li>HTML/CSS</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=Dashboard",
+  "image": "/projects/projects/accessible-ui.png",
   "githubLink": "https://github.com/row-huh/AccessibleUI",
   "liveDemoLink": "https://youtu.be/rG930Hee7OE"
   },
-  "ad-blaster": {
-  "title": "Ad Blaster",
-  "description": `
-      <p class="mb-4">
-        Ad Blaster is a game concept where the player's objective is to "blast" advertisements, with a unique twist: these are real ads, and by interacting with them, the game's creator would generate revenue. The core idea aimed to gamify ad interaction and create an engaging, albeit unconventional, monetization model.
-      </p>
-      <p class="mb-4">
-        However, the project encountered significant technical and policy challenges that prevented its full realization. Firstly, ad providers like AdSense were not compatible with this interactive, "blastable" ad model. Secondly, even if an alternative ad provider could be found, a major hurdle was figuring out how to make the ads interactive and "blastable" within the game environment without them automatically opening in a new browser tab, which would break the game experience. These issues highlighted the complexities of integrating real-world advertising into a game in a novel way.
-      </p>
-      <h3 class="text-2xl font-medium text-white mb-4 mt-8">Key Highlights:</h3>
-      <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>Innovative game concept to "blast" real-world ads for revenue.</li>
-        <li>Faced challenges with ad provider policies (e.g., AdSense).</li>
-        <li>Technical difficulty in preventing ads from opening new tabs upon interaction.</li>
-      </ul>
-      <h3 class="text-2xl font-medium text-white mb-4 mt-8">Technologies Used:</h3>
-      <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>React</li>
-        <li>TypeScript</li>
-        <li>Next.js</li>
-      </ul>
-    `,
-  "image": "/placeholder.svg?height=200&width=300&text=Dashboard",
-  "githubLink": "",
-  "liveDemoLink": ""
-}, 
+
+
+  
 "roha.dev": {
   "title": "roha.dev v1",
   "description": `
@@ -371,33 +319,6 @@ export const projectDetails = {
   "githubLink": "https://github.com/row-huh/roha.dev",
   "liveDemoLink": ""
 }, 
-"nutritional-management-system": {
-  "title": "Nutritional Management System",
-  "description": `
-      <p class="mb-4">
-        The Nutritional Management System is a tool built for nutritionists to efficiently track and manage their patients. It allows them to store and view patient details, recommend specific diets, and access a database of foods with their detailed nutritional information, including calories, fats, and sugars. This was a foundational project, as it was the first time I attempted to integrate a database into an application.
-      </p>
-      <p class="mb-4">
-        However, the database integration, specifically with OracleDB, proved to be a giant disaster. This project's development was a series of intense challenges that ultimately pushed me to switch operating systems and gave me a healthy respect for the complexities of enterprise software. The sheer amount of troubleshooting and hustling I had to do for this project is a story in itself. For a more comprehensive view into this panic attack of a project, you can read about it <a href="/writing/oracle-db" class="text-blue-400 hover:underline">here</a>.
-      </p>
-      <h3 class="text-2xl font-medium text-white mb-4 mt-8">Key Highlights:</h3>
-      <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>A management tool for nutritionists to track patients and food data.</li>
-        <li>My first project to include a database, demonstrating foundational backend skills.</li>
-        <li>Involved a disastrous but formative experience with OracleDB integration.</li>
-        <li>Highlights the challenges of working with complex enterprise software.</li>
-      </ul>
-      <h3 class="text-2xl font-medium text-white mb-4 mt-8">Technologies Used:</h3>
-      <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>OracleSQL</li>
-        <li>Python (Flask)</li>
-        <li>JavaScript</li>
-      </ul>
-    `,
-  "image": "/placeholder.svg?height=200&width=300&text=Legacy+Blog",
-  "githubLink": "https://github.com/row-huh/Nutritional-Management-System",
-  "liveDemoLink": ""
-}, 
 "after-school": {
   "title": "After School",
   "description": `
@@ -420,7 +341,7 @@ export const projectDetails = {
         <li>Python (Flask)</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=Calculator+App",
+  "image": "/projects/projects/afterschool.png",
   "githubLink": "https://github.com/Laiba-lax/AfterSchool",
   "liveDemoLink": "https://devpost.com/software/skinai-ufobl8"
 }, 
@@ -447,34 +368,36 @@ export const projectDetails = {
         <li>Search Algorithms (Minimax, Alpha-Beta Pruning)</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=Old+Portfolio",
+  "image": "/projects/projects/tictactoeai.png",
   "githubLink": "https://github.com/row-huh/ticTacToeAI",
   "liveDemoLink": ""
 }, 
-"bonnie": {
-  "title": "Bonnie",
+
+"portfolio-v2": {
+  "title": "Portfolio v2",
   "description": `
       <p class="mb-4">
-        Bonnie is the first Discord bot I ever created and holds a special place in my learning journey. He was designed as a simple, rule-based chatbot that would respond to a series of pre-coded prompts. This was a fun and personal exploration into bot development and conversational AI, created long before the widespread use of models like GPT.
+        This was the second iteration of my personal portfolio. While it was technically functional and built with a modern stack, I ultimately decided to ditch it halfway through the development process because it felt too generic. The design, layout, and overall feel of the site lacked a personal touch—it did not reflect my unique personality, my story, or my journey as a developer.
       </p>
       <p class="mb-4">
-        The bot was inspired by Yui, another popular Discord bot at the time that had a similar conversational style but a much larger feature set. My intention was to create a friendly assistant with a distinct personality, and while the project was a humble beginning, it set the stage for more ambitious projects down the line.
+        The experience of building this site taught me a crucial lesson: a portfolio should be more than just a list of projects. It should be a storytelling tool that reflects the person behind the code. This realization prompted me to "ditch" this version and start over with the intention of creating something that was truly "roha-ish"—a site with a narrative and a distinctive character.
       </p>
       <h3 class="text-2xl font-medium text-white mb-4 mt-8">Key Highlights:</h3>
       <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>My first-ever Discord bot, a passion project for a personal assistant.</li>
-        <li>A simple, rule-based chatbot that responds to pre-coded prompts.</li>
-        <li>Inspired by the bot "Yui", created in a pre-GPT era.</li>
+        <li>A technically sound but aesthetically generic portfolio that was abandoned mid-development.</li>
+        <li>Taught the importance of personal branding and storytelling in a portfolio.</li>
+        <li>Served as a stepping stone to the more personalized Portfolio v3.</li>
       </ul>
       <h3 class="text-2xl font-medium text-white mb-4 mt-8">Technologies Used:</h3>
       <ul class="list-disc list-inside text-gray-300 mb-4">
-        <li>Python</li>
-        <li>LLM APIs</li>
+        <li>React</li>
+        <li>Nextjs</li>
+        <li>TypeScript</li>
       </ul>
     `,
-  "image": "/placeholder.svg?height=200&width=300&text=Old+Portfolio",
+  "image": "/projects/projects/portfoliov2.png",
   "githubLink": "",
   "liveDemoLink": ""
-}, 
+}
 
   }

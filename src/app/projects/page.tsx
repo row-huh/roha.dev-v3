@@ -31,7 +31,7 @@ export default function ProjectsPage() {
       title: "LLM from Scratch: Unveiling the Transformer",
       description:
         "Building a large language model from the ground up, exploring transformer architectures and attention mechanisms. This project is a deep dive into the foundational architecture of LLMs.",
-      image: "/placeholder.svg?height=400&width=800&text=LLM+Project+Featured",
+      image: "/projects/highlight/llm-from-scratch.png",
       tags: ["AI", "Deep Learning", "Transformers", "Python", "PyTorch"],
       githubLink: "https://github.com/row-huh/llm-from-scratch",
       liveDemoLink: "#",
@@ -62,7 +62,7 @@ export default function ProjectsPage() {
       slug: "neutral",
       title: "Neutral - Detecting subconscious biases",
       description: "Applying deep learning to assist in the analysis of medical images for diagnostic support.",
-      image: "/placeholder.svg?height=200&width=300&text=Medical+AI",
+      image: "/projects/projects/neutral.png",
       tags: ["AI", "ML", "Streamlit", "Flask"],
       githubLink: "https://github.com/TechEvents-BUDS/Tecna-s-Tribe_Techathon/",
       liveDemoLink: "#",
@@ -88,16 +88,7 @@ export default function ProjectsPage() {
       liveDemoLink: "#",
       type: "passion",
     },
-    {
-      slug: "metallica-osu",
-      title: "Metallica OSU",
-      description: "OSU and guitar hero type rhythm game but exclusively for metallica",
-      image: "/placeholder.svg?height=200&width=300&text=Course+Management",
-      tags: ["TypeScript", "Next.js", "React"],
-      githubLink: "https://github.com/row-huh/metallica-osu",
-      liveDemoLink: "#",
-      type: "archive",
-    },
+
     {
       slug: "relic",
       title: "Relic",
@@ -109,10 +100,10 @@ export default function ProjectsPage() {
       type: "hackathon",
     },
     {
-      slug: "expense-tracker",
-      title: "Expense Tracker",
+      slug: "goldfish-expense-tracker",
+      title: "Gold Fish",
       description: "Tool to track, manage, and store expenses",
-      image: "/placeholder.svg?height=200&width=300&text=Database+Design",
+      image: "/projects/projects/goldfish.png",
       tags: ["Streamlit", "Python"],
       githubLink: "https://github.com/row-huh/Expense-Tracker",
       liveDemoLink: "#",
@@ -123,7 +114,7 @@ export default function ProjectsPage() {
       title: "Portfolio v3",
       description:
         "The third iteration of my personal portfolio, focusing on modern UI/UX and storytelling",
-      image: "/placeholder.svg?height=200&width=300&text=Portfolio",
+      image: "/projects/projects/portfoliov3.png",
       tags: ["Next.js", "React", "Tailwind CSS", "Framer Motion"],
       githubLink: "https://github.com/row-huh/roha-portfolio",
       liveDemoLink: "/",
@@ -133,22 +124,13 @@ export default function ProjectsPage() {
       slug: "accessible-ui",
       title: "Accessible UI",
       description: "A high-performance dashboard for visualizing streaming data with interactive charts and alerts.",
-      image: "/placeholder.svg?height=200&width=300&text=Dashboard",
+      image: "/projects/projects/accessible-ui.png",
       tags: ["LangChain", "Langflow", "Python"],
       githubLink: "https://github.com/row-huh/AccessibleUI",
       liveDemoLink: "https://youtu.be/rG930Hee7OE",
       type: "archive",
     },
-    {
-      slug: "ad-blaster",
-      title: "Ad Blaster",
-      description: "A game where you're supposed to shoot down ads - except those ads are actual ads and you're making me rich.",
-      image: "/placeholder.svg?height=200&width=300&text=Dashboard",
-      tags: ["React", "Typescript", "Next.js"],
-      githubLink: "#",
-      liveDemoLink: "",
-      type: "archive",
-    },
+
     {
       slug: "roha.dev",
       title: "roha.dev v1",
@@ -160,20 +142,10 @@ export default function ProjectsPage() {
       type: "passion",
     },
     {
-      slug: "nutritional-management-system",
-      title: "Nutritional Management System",
-      description: "A system for nutritionists to manage their patients, their diets and specific details of each food",
-      image: "/placeholder.svg?height=200&width=300&text=Legacy+Blog",
-      tags: ["OracleSQL", "Python", "JavaScript"],
-      githubLink: "https://github.com/row-huh/Nutritional-Management-System",
-      liveDemoLink: "#",
-      type: "hackathon",
-    },
-    {
       slug: "after-school",
       title: "After School",
       description: "A practical guide to essential life skills rarely taught in school — from social dynamics and time management to sustainable living and mental health.",
-      image: "/placeholder.svg?height=200&width=300&text=Calculator+App",
+      image: "/projects/projects/afterschool.png",
       tags: ["Vertex AI", "React"],
       githubLink: "https://github.com/Laiba-lax/AfterSchool",
       liveDemoLink: "https://devpost.com/software/skinai-ufobl8",
@@ -183,21 +155,22 @@ export default function ProjectsPage() {
       slug: "tic-tac-toe-ai",
       title: "Tic Tac Toe AI",
       description: "An unbeatable Tic-Tac-Toe AI that uses Minimax with Alpha-Beta pruning. It thinks ahead, plays smart, and never loses — ever.",
-      image: "/placeholder.svg?height=200&width=300&text=Old+Portfolio",
+      image: "/projects/projects/tictactoeai.png",
       tags: ["Python", "Search", "Minimax"],
       githubLink: "https://github.com/row-huh/ticTacToeAI",
       liveDemoLink: "#",
       type: "hackathon",
     },
+
     {
-      slug: "bonnie",
-      title: "Bonnie",
-      description: "Wanted to create a cool assistant like jarvis with whom I can work alongside but my skills weren't keeping with my imagination",
-      image: "/placeholder.svg?height=200&width=300&text=Old+Portfolio",
-      tags: ["Python", "Search", "Minimax"],
+      slug: "portfolio-v2",
+      title: "Portfolio v2",
+      description: "Second iteration - I ditched it because it look wayy too generic",
+      image: "/projects/projects/portfoliov2.png",
+      tags: ["React", "Nextjs", "TypeScript"],
       githubLink: "",
-      liveDemoLink: "",
-      type: "archive",
+      liveDemoLink: "https://roha-dev-v2.vercel.app/",
+      type: "hackathon",
     }
   ]
 
@@ -295,7 +268,7 @@ export default function ProjectsPage() {
             >
               <Card
                 className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8 items-center cursor-pointer hover:bg-gray-800/40 transition-all duration-300"
-                onClick={() => router.push(`/projects/${featuredProject.slug}`)} // Add onClick to Card
+                onClick={() => router.push(`${featuredProject.slug}`)} // Add onClick to Card
               >
                 <div className="lg:w-1/2">
                   <Image
