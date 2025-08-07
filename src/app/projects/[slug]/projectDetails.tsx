@@ -376,7 +376,7 @@ export const projectDetails = {
     `,
   "image": "/projects/projects/portfoliov2.png",
   "githubLink": "",
-  "liveDemoLink": ""
+  "liveDemoLink": "https://roha-dev-v2.vercel.app/"
 }
 
   }
