@@ -8,8 +8,9 @@ import { usePathname } from "next/navigation"
 import Cs50Certificates from "@/components/cs50-certificates"
 import UniversityJourney from "@/components/university-journey"
 import Timeline from "@/components/timeline"
-import DeepLearningJourney from "@/components/deep-learning-journey"
 import Footer from "@/components/footer"
+import AIAssistantPreview from "@/components/ai-assistant-preview"
+import DeepLearningJourney from "@/components/deep-learning-journey"
 
 export default function AboutPage() {
   const pathname = usePathname()
@@ -95,7 +96,7 @@ export default function AboutPage() {
       <main className="relative z-10 pt-24">
         <div className="flex min-h-screen">
           {/* Fixed Sidebar */}
-          <div className="fixed left-0 top-24 bottom-0 w-80 bg-gray-900/60 backdrop-blur-xl border-r border-gray-700/50 p-8 flex flex-col">
+          <div className="fixed left-0 top-24 bottom-0 w-64 bg-gray-900/60 backdrop-blur-xl border-r border-gray-700/50 p-6 flex flex-col">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -103,28 +104,28 @@ export default function AboutPage() {
               className="flex flex-col items-center text-center"
             >
               {/* Profile Picture */}
-              <div className="relative mb-6">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-gray-700/50 backdrop-blur-sm">
+              <div className="relative mb-4">
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-gray-700/50 backdrop-blur-sm">
                   <Image
-                    src="/placeholder.svg?height=128&width=128&text=Profile"
+                    src="/miscellaneous/roha2.png"
                     alt="Roha's Profile"
-                    width={128}
-                    height={128}
+                    width={96}
+                    height={96}
                     className="w-full h-full object-cover"
                   />
                 </div>
                 {/* Status indicator */}
-                <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-gray-900 flex items-center justify-center">
-                  <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-gray-900 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                 </div>
               </div>
 
               {/* Name and Title */}
-              <h1 className="text-2xl font-semibold text-white mb-2">Roha Pathan</h1>
-              <p className="text-purple-400 text-sm font-medium mb-4">AI Engineer & Fullstack Developer</p>
+              <h1 className="text-lg font-semibold text-white mb-2">Roha Pathan</h1>
+              <p className="text-purple-400 text-xs font-medium mb-3">AI Engineer & Fullstack Developer</p>
 
               {/* Short Bio */}
-              <div className="text-sm text-gray-300 leading-relaxed space-y-3">
+              <div className="text-xs text-gray-300 leading-relaxed space-y-2">
                 <p>Final year Software Engineering student with a passion for AI and deep learning.</p>
                 <p>
                   Currently building an LLM from scratch and exploring the fascinating world of transformer
@@ -134,19 +135,19 @@ export default function AboutPage() {
               </div>
 
               {/* Quick Stats */}
-              <div className="mt-8 grid grid-cols-2 gap-4 w-full">
-                <div className="bg-gray-800/30 rounded-lg p-3 text-center">
-                  <div className="text-lg font-semibold text-white">15+</div>
+              <div className="mt-6 grid grid-cols-2 gap-3 w-full">
+                <div className="bg-gray-800/30 rounded-lg p-2 text-center">
+                  <div className="text-sm font-semibold text-white">15+</div>
                   <div className="text-xs text-gray-400">Projects</div>
                 </div>
-                <div className="bg-gray-800/30 rounded-lg p-3 text-center">
-                  <div className="text-lg font-semibold text-white">5+</div>
+                <div className="bg-gray-800/30 rounded-lg p-2 text-center">
+                  <div className="text-sm font-semibold text-white">5+</div>
                   <div className="text-xs text-gray-400">Hackathons</div>
                 </div>
               </div>
 
               {/* Contact Links */}
-              <div className="mt-6 flex gap-3">
+              <div className="mt-4 flex gap-2">
                 <Link
                   href="https://github.com/row-huh"
                   target="_blank"
@@ -185,21 +186,22 @@ export default function AboutPage() {
           </div>
 
           {/* Scrollable Content */}
-          <div className="ml-80 flex-1 overflow-y-auto">
-            <div className="px-8 py-8">
+          <div className="ml-64 flex-1 overflow-y-auto">
+            <div className="px-6 py-6 transform scale-90 origin-top">
               {/* Page Title */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="mb-16"
+                className="mb-16 text-center"
               >
                 <h1 className="text-5xl md:text-6xl font-medium text-white mb-4 leading-tight">
                   About <span className="text-purple-400 font-normal">Me</span>
                 </h1>
-                <p className="text-xl text-gray-400 max-w-3xl">
+                <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
                   A journey through code, AI, and the endless pursuit of building something meaningful.
                 </p>
+                <AIAssistantPreview />
               </motion.div>
 
               {/* How it Began */}

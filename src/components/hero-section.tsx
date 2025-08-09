@@ -25,14 +25,14 @@ export default function HeroSection() {
           </motion.div>
 
           {/* Right Side - Terminal Animation */}
-          <motion.div
+          {/* <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
             className="relative w-full h-[400px] flex items-center justify-center p-4" // Removed liquid glass styling
           >
             <TerminalAnimation />
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </section>
