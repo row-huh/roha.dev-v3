@@ -36,7 +36,7 @@ interface Testimonial {
       quote:
         "I had the chance to work with Roha during the MalamaAI hackathon, and she was an incredible team lead. She took the lead on the backend, setting up and managing the Flask API, and made sure the integration with the frontend and AI model was seamless.She also played a big role in improving the machine learning model’s accuracy. Her focus on fine-tuning and testing really helped us push the model's performance to the next level. Roha’s leadership, hands-on approach, and strong technical skills made a big difference for our team. It was great working alongside her on this project!",
       pfp: "/placeholder.svg?height=40&width=40",
-      socialLink: { type: "github", url: "https://github.com/marcusrod" },
+      socialLink: { type: "linkedin", url: "https://github.com/marcusrod" },
     },
     {
       name: "Okeoma Amaobi",
@@ -56,10 +56,10 @@ interface Testimonial {
     },
     {
       name: "Laiba Laeeq",
-      role: "CEO @Garmist",
-      quote: "Their deep understanding of LLMs from scratch is truly inspiring and impactful.",
+      role: "Software Developer",
+      quote: "I've worked with Roha on a bunch of projects and she's genuinely one of the sharpest people I've collaborated with. She's not only great at writing clean, solid code but also an incredible problem-solver with creative input and a dependable leader. Definitely someone you'd want on your team any day.",
       pfp: "/placeholder.svg?height=40&width=40",
-      socialLink: { type: "github", url: "https://github.com/emilywhite" },
+      socialLink: { type: "github", url: "https://github.com/laiba-lax" },
     },
   ]
 
@@ -113,40 +113,39 @@ function Testimonials() {
     <div className="relative">
       <div ref={carouselRef} className="flex overflow-x-auto scroll-smooth pb-4 no-scrollbar">
         {testimonials.map((testimonial, index) => (
-          <motion.div
-            key={index}
-            className="flex-none w-full md:w-1/2 lg:w-1/3 px-4 snap-center"
-            // Removed initial, whileInView, viewport, and transition for individual cards
-            // to prevent re-animation on scroll jumps.
-          >
-            <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-8 rounded-3xl h-full flex flex-col justify-between hover:bg-gray-800/40 transition-all duration-300">
-              <p className="text-sm text-gray-300 mb-6 leading-relaxed italic flex-grow">"{testimonial.quote}"</p>
-              <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center gap-4">
-                  <Image
-                    src={testimonial.pfp || "/placeholder.svg"}
-                    alt={`${testimonial.name}'s profile picture`}
-                    width={48}
-                    height={48}
-                    className="rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="font-medium text-white">{testimonial.name}</p>
-                    <p className="text-sm text-gray-400">{testimonial.role}</p>
-                  </div>
-                </div>
-                {testimonial.socialLink && (
-                  <Link href={testimonial.socialLink.url} target="_blank" rel="noopener noreferrer">
-                    <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                      {testimonial.socialLink.type === "github" && <Github className="h-5 w-5" />}
-                      {testimonial.socialLink.type === "linkedin" && <Linkedin className="h-5 w-5" />}
-                      {testimonial.socialLink.type === "x" && <X className="h-5 w-5" />}
-                    </Button>
-                  </Link>
-                )}
-              </div>
-            </Card>
-          </motion.div>
+<motion.div
+  key={index}
+  className="flex-none w-80 sm:w-96 md:w-[360px] px-3 snap-center"
+>
+  <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-5 rounded-3xl h-full flex flex-col justify-between hover:bg-gray-800/40 transition-all duration-300">
+    <p className="text-xs text-gray-300 mb-4 italic flex-grow leading-tight">"{testimonial.quote}"</p>
+    <div className="flex items-center justify-between mt-3">
+      <div className="flex items-center gap-3">
+        <Image
+          src={testimonial.pfp || "/placeholder.svg"}
+          alt={`${testimonial.name}'s profile picture`}
+          width={36}
+          height={36}
+          className="rounded-full object-cover"
+        />
+        <div>
+          <p className="font-medium text-sm text-white">{testimonial.name}</p>
+          <p className="text-xs text-gray-400">{testimonial.role}</p>
+        </div>
+      </div>
+      {testimonial.socialLink && (
+        <Link href={testimonial.socialLink.url} target="_blank" rel="noopener noreferrer">
+          <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+            {testimonial.socialLink.type === "github" && <Github className="h-4 w-4" />}
+            {testimonial.socialLink.type === "linkedin" && <Linkedin className="h-4 w-4" />}
+            {testimonial.socialLink.type === "x" && <X className="h-4 w-4" />}
+          </Button>
+        </Link>
+      )}
+    </div>
+  </Card>
+</motion.div>
+
         ))}
       </div>
 

@@ -12,17 +12,17 @@ import TestimonialsCarousel from "@/components/testimonials-carousel"
 import HeroSection from "@/components/hero-section"
 import NavBar from "@/components/nav-bar"
 import MySkills from "@/components/my-skills"
-import Cs50Certificates from "@/components/cs50-certificates"
-import UniversityJourney from "@/components/university-journey"
-import Timeline from "@/components/timeline"
-import BarricadeTape from "@/components/barricade-tape"
-import ContractorArc from "@/components/contractor"
+// import Cs50Certificates from "@/components/cs50-certificates"
+// import UniversityJourney from "@/components/university-journey"
+// import Timeline from "@/components/timeline"
+// import BarricadeTape from "@/components/barricade-tape"
+// import ContractorArc from "@/components/contractor"
 import DeepLearningJourney from "@/components/deep-learning-journey"
 import WhatImBuilding from "@/components/what-im-building"
 import BlogsCarousel from "@/components/blogs-carousel" //(redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 import WhatsPlaying from "@/components/whats-playing"
 import Footer from "@/components/footer"
-
+import { useState } from "react"
 
 function HomePageContent() {
   const { scrollYProgress } = useScroll()
@@ -43,7 +43,33 @@ function HomePageContent() {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [mouseX, mouseY])
 
+  type LatestPost = {
+    title: string
+    description: string
+    date: string
+    image: string
+    link: string
+  }
 
+  const [blogPosts, setBlogPosts] = useState<LatestPost[]>([])
+
+  useEffect(() => {
+    let cancelled = false
+    const load = async () => {
+      try {
+        const res = await fetch("/api/posts?limit=4", { cache: "no-store" })
+        if (!res.ok) return
+        const data: LatestPost[] = await res.json()
+        if (!cancelled) setBlogPosts(data)
+      } catch (e) {
+        // silently ignore for now
+      }
+    }
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
@@ -93,7 +119,24 @@ function HomePageContent() {
       < WhatsPlaying />
 
       {/* Blogs Carousel Section */}
-      < BlogsCarousel />
+      <section className="py-56 px-8 relative z-10 min-h-screen flex items-center">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-20"
+          >
+            <h2 className="text-4xl font-medium text-white mb-6">Latest Insights</h2>
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+              Dive into my thoughts on AI, development, and the future of technology.
+            </p>
+          </motion.div>
+
+          <BlogsCarousel posts={blogPosts} />
+        </div>
+      </section>
 
       {/* Final CTA */}
             {/* Final CTA */}

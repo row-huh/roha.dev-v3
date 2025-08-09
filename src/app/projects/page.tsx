@@ -141,7 +141,7 @@ export default function ProjectsPage() {
       tags: ["Vertex AI", "React"],
       githubLink: "https://github.com/Laiba-lax/AfterSchool",
       liveDemoLink: "https://devpost.com/software/skinai-ufobl8",
-      type: "hackathon",
+      type: "archive",
     },
     {
       slug: "tic-tac-toe-ai",
@@ -151,7 +151,7 @@ export default function ProjectsPage() {
       tags: ["Python", "Search", "Minimax"],
       githubLink: "https://github.com/row-huh/ticTacToeAI",
       liveDemoLink: "#",
-      type: "hackathon",
+      type: "passion",
     },
 
     {

@@ -265,30 +265,27 @@ export default function AssistantPage() {
       {/* Navigation */}
       <NavBar />
 
-      
-      // add a go back button here but it must not overlap with navbar
-    //  TODO - COPY FROM WRITING PAGE, ADD MAIN TAG THEN LINK, THEN REST OF THE CONTENT
-
-
       {!isActive ? (
         // IDLE STATE
         <main className="relative z-10">
-<a
-  href="#"
-  onClick={(e) => {
-    e.preventDefault()
-    router.back()
-  }}
-  className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
->
-  <ArrowLeft className="h-4 w-4 mr-2" /> Back
-</a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                router.back()
+              }}
+              className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" /> Back
+            </a>
 
 
 
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
             <h1 className="mb-4 text-2xl font-semibold tracking-tight text-white md:text-4xl">
-              Ask me anything about Roha
+              I'm <span className="text-purple-400 font-normal">Pethia</span>
+              <br />
+              Ask me anything about <span className="text-purple-400 font-normal">Roha</span>
             </h1>
 
             <div className="mt-2 w-full max-w-xl">
