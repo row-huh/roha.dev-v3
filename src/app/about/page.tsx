@@ -11,6 +11,9 @@ import Timeline from "@/components/timeline"
 import Footer from "@/components/footer"
 import AIAssistantPreview from "@/components/ai-assistant-preview"
 import DeepLearningJourney from "@/components/deep-learning-journey"
+import NavBar from "@/components/nav-bar"
+import ContractorArc from "@/components/contractor"
+
 
 export default function AboutPage() {
   const pathname = usePathname()
@@ -20,83 +23,12 @@ export default function AboutPage() {
       <InteractiveBackground />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
-        <div className="max-w-7xl mx-auto px-8 py-6">
-          <div className="flex justify-between items-center">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-xl font-semibold text-white">
-              roha.dev
-            </motion.div>
-
-            <div className="flex gap-1 bg-gray-800/50 rounded-full p-1 border border-gray-700/50 backdrop-blur-sm">
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Home
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/about-me"
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${pathname === "/about-me" ? "bg-gray-700/50 text-white" : "text-gray-300 hover:bg-gray-700/50 hover:text-white"}`}
-                >
-                  About
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/projects"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Work
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/writing"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Writing
-                </Link>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
-                transition={{ duration: 0.2 }}
-                className="rounded-full"
-              >
-                <Link
-                  href="/contact"
-                  className="px-4 py-2 rounded-full text-sm font-medium text-gray-300 hover:bg-gray-700/50 hover:text-white"
-                >
-                  Contact
-                </Link>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      < NavBar />
 
       <main className="relative z-10 pt-24">
         <div className="flex min-h-screen">
           {/* Fixed Sidebar */}
-          <div className="fixed left-0 top-24 bottom-0 w-64 bg-gray-900/60 backdrop-blur-xl border-r border-gray-700/50 p-6 flex flex-col">
+          <div className="fixed left-0 top-24 bottom-0 w-64 backdrop-blur-xl border-r border-gray-700/50 p-6 flex flex-col">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -187,7 +119,7 @@ export default function AboutPage() {
 
           {/* Scrollable Content */}
           <div className="ml-64 flex-1 overflow-y-auto">
-            <div className="px-6 py-6 transform scale-90 origin-top">
+            <div className="px-6 py-6 transform scale-95 origin-top">
               {/* Page Title */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -195,13 +127,13 @@ export default function AboutPage() {
                 transition={{ duration: 0.8 }}
                 className="mb-16 text-center"
               >
-                <h1 className="text-5xl md:text-6xl font-medium text-white mb-4 leading-tight">
-                  About <span className="text-purple-400 font-normal">Me</span>
+                <h1 className="text-2xl md:text-6xl font-medium text-white mb-4 leading-tight">
+                  Scroll <span className="text-purple-400 font-normal">or just ask?</span>
                 </h1>
-                <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+                <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8">
                   A journey through code, AI, and the endless pursuit of building something meaningful.
                 </p>
-                <AIAssistantPreview />
+                <AIAssistantPreview compact={true}/>
               </motion.div>
 
               {/* How it Began */}
@@ -220,38 +152,16 @@ export default function AboutPage() {
               </div>
 
               {/* Freelancer Arc - Coming Soon Section */}
-              <section className="py-56 px-0 relative z-10">
-                <div className="max-w-4xl mx-auto text-center">
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    <h2 className="text-4xl font-medium text-purple-400 mb-6">The Freelancer Arc</h2>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-                      This chapter is still being written. Currently focusing on deep learning and AI engineering, but
-                      always open to exciting freelance opportunities that push the boundaries of technology.
-                    </p>
-                    <div className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-12 rounded-3xl max-w-2xl mx-auto">
-                      <div className="text-6xl mb-4">🚀</div>
-                      <h3 className="text-2xl font-semibold text-white mb-4">Coming Soon</h3>
-                      <p className="text-gray-300">
-                        Stay tuned for updates on my freelancing journey and the projects that will define this next
-                        chapter.
-                      </p>
-                    </div>
-                  </motion.div>
-                </div>
-              </section>
+              <div className="mb-0">
+                <ContractorArc />
+              </div>
 
               {/* What I'm Up To Now */}
               <div className="mb-0">
                 <DeepLearningJourney />
               </div>
 
-              {/* Footer */}
-              <Footer />
+              
             </div>
           </div>
         </div>

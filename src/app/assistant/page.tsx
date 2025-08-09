@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useChat } from "@ai-sdk/react"
+import { ArrowLeft } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,9 @@ import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from "
 import { projectDetails } from "@/app/projects/[slug]/projectDetails"
 import InteractiveBackground from "@/components/interactive-background"
 import NavBar from "@/components/nav-bar"
+import { useRouter } from "next/navigation"
+import { userAgent } from "next/server"
+
 
 type ToolName = "home" | "work" | "writing" | "contact" | undefined
 
@@ -201,6 +205,7 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
 }
 
 export default function AssistantPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const { messages, sendMessage, stop, error, status } = useChat({
     api: "/api/chat",
@@ -268,6 +273,19 @@ export default function AssistantPage() {
       {!isActive ? (
         // IDLE STATE
         <main className="relative z-10">
+<a
+  href="#"
+  onClick={(e) => {
+    e.preventDefault()
+    router.back()
+  }}
+  className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
+>
+  <ArrowLeft className="h-4 w-4 mr-2" /> Back
+</a>
+
+
+
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
             <h1 className="mb-4 text-2xl font-semibold tracking-tight text-white md:text-4xl">
               Ask me anything about Roha

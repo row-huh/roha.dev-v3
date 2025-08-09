@@ -64,7 +64,7 @@ export default function DeepLearningJourney() {
   }
 
   return (
-    <section className="py-56 px-8 relative z-10 mt-20">
+    <section className="px-8 relative z-10 mt-20">
       <div className="max-w-6xl mx-auto text-center mb-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
