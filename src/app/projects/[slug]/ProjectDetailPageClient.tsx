@@ -8,6 +8,8 @@ import InteractiveBackground from "@/components/interactive-background"
 import Image from "next/image"
 import { projectDetails } from "./projectDetails"
 
+
+
 export default function ProjectDetailPageClient({
   slug,
 }: {

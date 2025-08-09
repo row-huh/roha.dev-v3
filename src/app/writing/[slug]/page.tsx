@@ -9,11 +9,15 @@ export async function generateStaticParams() {
   }))
 }
 
+
+type Props = {
+  params: Promise<{ slug: string }>  // params is a Promise in Next 14 async route
+}
+
 export default async function BlogDetailPage({
   params,
-}: {
-  params: { slug: string }
-}) {
-  const postData = await getPostData(params.slug)
+}: Props) {
+  const resolvedParams = await params
+  const postData = await getPostData(resolvedParams.slug)
   return <BlogDetailPageClient post={postData} />
 }

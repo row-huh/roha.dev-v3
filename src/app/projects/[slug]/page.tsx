@@ -2,17 +2,15 @@ import ProjectDetailPageClient from "./ProjectDetailPageClient"
 import { projectDetails } from "./projectDetails"
 
 
-// Function to generate static params for SSG
 export async function generateStaticParams() {
-  return Object.keys(projectDetails).map((slug) => ({
-    slug: slug,
-  }))
+  return Object.keys(projectDetails).map((slug) => ({ slug }));
 }
 
-export default async function ProjectDetailPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  return <ProjectDetailPageClient slug={params.slug} />
+type Props = {
+  params: Promise<{ slug: string }>  // params is a Promise in Next 14 async route
+}
+
+export default async function ProjectDetailPage({ params }: Props) {
+  const { slug } = await params
+  return <ProjectDetailPageClient slug={slug} />
 }
