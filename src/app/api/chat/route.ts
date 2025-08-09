@@ -1,5 +1,5 @@
 import { streamText, convertToModelMessages, UIMessage } from "ai"
-import { xai } from "@ai-sdk/xai"
+import { google } from "@ai-sdk/google"
 import { getAssistantKnowledge } from "@/lib/site-knowledge"
 
 // Allow streaming responses up to 30 seconds
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
   `.trim()
 
   const result = streamText({
-    model: xai("grok-3"),
+    model: google("gemini-2.0-flash"),
     system,
     messages: convertToModelMessages(messages),
     temperature: 0.7,

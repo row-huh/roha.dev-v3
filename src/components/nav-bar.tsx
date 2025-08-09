@@ -68,6 +68,18 @@ export default function NavBar() {
                     Contact
                   </Link>
                 </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(55, 65, 81, 0.7)" }}
+                  transition={{ duration: 0.2 }}
+                  className="rounded-full"
+                >
+                  <Link
+                    href="/assistant"
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${pathname === "/contact" ? "bg-gray-700/50 text-white" : "text-gray-300 hover:bg-gray-700/50 hover:text-white"}`}
+                  >
+                    Ask Pethia
+                  </Link>
+                </motion.div>
               </div>
             </div>
           </div>

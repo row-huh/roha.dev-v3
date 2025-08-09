@@ -21,6 +21,7 @@ import DeepLearningJourney from "@/components/deep-learning-journey"
 import WhatImBuilding from "@/components/what-im-building"
 import BlogsCarousel from "@/components/blogs-carousel" //(redesign to fetch the latest blogs from the pages or stuff, also let's make some crm or shit??)
 import WhatsPlaying from "@/components/whats-playing"
+import Footer from "@/components/footer"
 
 
 function HomePageContent() {
@@ -59,24 +60,24 @@ function HomePageContent() {
       < MySkills />
 
       {/* My Coding Journey Section (Certificates) */}
-      < Cs50Certificates />
+      {/* < Cs50Certificates /> */}
 
       {/* University Journey Section */}
-      < UniversityJourney />
+      {/* < UniversityJourney /> */}
 
 
       {/* Hackathons Timeline Section */}
-      < Timeline />
+      {/* < Timeline /> */}
 
       {/* Barricade Tape */}
-      < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY"/>
+      {/* < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY"/> */}
 
 
       {/* Contractor Section */}
-      < ContractorArc />
+      {/* < ContractorArc /> */}
 
       {/* Barricade Tape */}
-      < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY" />
+      {/* < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY" /> */}
 
       {/* Deep Learning Journey Section */}
       < DeepLearningJourney />
@@ -95,7 +96,42 @@ function HomePageContent() {
       < BlogsCarousel />
 
       {/* Final CTA */}
-
+            {/* Final CTA */}
+      <section className="py-56 px-8 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl font-medium text-white mb-6">Let's Build Something</h2>
+            <p className="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
+              Every great collaboration starts with a conversation. Let's create something that pushes boundaries.
+            </p>
+            <div className="flex gap-6 justify-center">
+              <Link href="/contact">
+                <Button
+                  size="lg"
+                  className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-medium rounded-full"
+                >
+                  Start a Conversation
+                </Button>
+              </Link>
+              <Link href="/projects">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-4 text-lg font-medium rounded-full bg-transparent"
+                >
+                  View My Work
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+      <Footer />
     </div>
   )
 }
