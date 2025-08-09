@@ -4,11 +4,12 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
 import { useChat } from "@ai-sdk/react"
 import { useSearchParams } from "next/navigation"
-import InteractiveBackground from "@/components/interactive-background"
+import AnimatedBackground from "@/components/interactive-background"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from 'lucide-react'
+import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from "lucide-react"
 import { projectDetails } from "@/app/projects/[slug]/projectDetails"
+import InteractiveBackground from "@/components/interactive-background"
 
 type ToolName = "home" | "work" | "writing" | "contact" | undefined
 
@@ -57,7 +58,7 @@ function extractToolTag(text: string): { cleanedText: string; tool: ToolName } {
  * - internal projects (/projects/slug)
  */
 function renderWithLinks(text: string) {
-  const urlRegex = /(https?:\/\/[^\s]+|\/writing\/[a-z0-9\-]+|\/projects\/[a-z0-9\-]+)/gi
+  const urlRegex = /(https?:\/\/[^\s]+|\/writing\/[a-z0-9-]+|\/projects\/[a-z0-9-]+)/gi
   const parts = text.split(urlRegex)
 
   return parts.map((part, i) => {
@@ -84,7 +85,7 @@ function renderWithLinks(text: string) {
  * Extract unique internal links from a text: /projects/{slug} and /writing/{slug}
  */
 function extractInternalLinks(text: string): Array<{ kind: "projects" | "writing"; slug: string; href: string }> {
-  const re = /(\/(projects|writing)\/([a-z0-9\-]+))/gi
+  const re = /(\/(projects|writing)\/([a-z0-9-]+))/gi
   const list: Array<{ kind: "projects" | "writing"; slug: string; href: string }> = []
   const seen = new Set<string>()
   let m: RegExpExecArray | null
@@ -157,7 +158,7 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
   // Project title from local details, else humanize slug
   const humanize = (s: string) => s.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
   const projectTitle = isProject ? (projectDetails as any)?.[slug]?.title : undefined
-  const label = isProject ? (projectTitle || humanize(slug)) : humanize(slug)
+  const label = isProject ? projectTitle || humanize(slug) : humanize(slug)
   const eyebrow = isProject ? "Project" : "Post"
 
   return (
@@ -239,7 +240,7 @@ export default function AssistantPage() {
 
   const suggestions = useMemo(
     () => ["Show me recent projects", "What’s the latest post?", "What are you working on now?"],
-    []
+    [],
   )
 
   const handleSend = (text?: string) => {
@@ -252,17 +253,29 @@ export default function AssistantPage() {
 
   return (
     <div className="relative min-h-screen text-gray-100">
-      < InteractiveBackground />
+      <InteractiveBackground />
 
       {/* Minimal nav link */}
       <header className="relative z-10">
         <div className="mx-auto max-w-5xl px-4 py-3">
           <Link
             href="/"
-            className="text-sm text-gray-200/80 hover:text-white underline underline-offset-4"
+            className="group inline-flex items-center gap-2 text-sm text-gray-200/80 hover:text-white transition-all duration-200"
             aria-label="Go back"
           >
-            Go back
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/[0.08] ring-1 ring-white/10 backdrop-blur-sm transition-all duration-200 group-hover:bg-white/[0.12] group-hover:ring-white/20">
+              <svg
+                className="w-3 h-3 transition-transform duration-200 group-hover:-translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </div>
+            <span className="underline underline-offset-4 decoration-white/30 group-hover:decoration-white/60 transition-colors duration-200">
+              Go back
+            </span>
           </Link>
         </div>
       </header>
@@ -334,9 +347,7 @@ export default function AssistantPage() {
                                           : "mr-auto ring-white/12 bg-white/[0.06] text-gray-100"
                                       }`}
                         >
-                          <div className="whitespace-pre-wrap break-words">
-                            {renderWithLinks(cleanedText)}
-                          </div>
+                          <div className="whitespace-pre-wrap break-words">{renderWithLinks(cleanedText)}</div>
                         </div>
                       </div>
 
