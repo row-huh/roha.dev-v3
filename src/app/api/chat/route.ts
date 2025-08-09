@@ -1,6 +1,8 @@
 import { streamText, convertToModelMessages, UIMessage } from "ai"
 import { google } from "@ai-sdk/google"
 import { getAssistantKnowledge } from "@/lib/site-knowledge"
+import { promises as fs } from "fs"
+import path from "path"
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30
@@ -18,7 +20,6 @@ export async function POST(req: Request) {
   try {
     const { posts, projects, currentWork, spotify } = await getAssistantKnowledge()
 
-    // Blog index (newest first)
     postsIndex =
       posts
         .map((p) => `- ${p.date} • ${p.title} • /writing/${p.slug} • ${p.category || "uncategorized"}`)
@@ -28,7 +29,6 @@ export async function POST(req: Request) {
       latestLine = `Most recent post: ${latest.title} (/writing/${latest.slug}) on ${latest.date}.`
     }
 
-    // Projects index
     projectsIndex =
       projects
         .map((p) => {
@@ -40,13 +40,11 @@ export async function POST(req: Request) {
         })
         .join("\n") || "- No projects found."
 
-    // Current work
     currentWorkIndex =
       currentWork
         .map((w) => `- ${w.title} • /projects/${w.slug}${w.summary ? ` • ${w.summary}` : ""}`)
         .join("\n") || "- No current work declared."
 
-    // Spotify section (static representation from your UI)
     spotifyLine =
       `Now Playing (UI): ${spotify.nowPlayingTitle} — ${spotify.nowPlayingArtist}. ` +
       `Spotify track: ${spotify.url}`
@@ -54,41 +52,16 @@ export async function POST(req: Request) {
     // Keep indices empty; assistant will still respond.
   }
 
-  const system = `
-  You are Pethia, a concise, friendly portfolio guide for roha.dev.
-  - Keep responses short (1–3 sentences).
-  - Use the site indices below to answer questions about posts, projects, current work, and the Spotify section.
+  // Read instructions from file (server-side)
+  let instruction = ""
+  try {
+    const instructionsPath = path.join(process.cwd(), "public", "ai", "instructions.txt")
+    instruction = await fs.readFile(instructionsPath, "utf-8")
+  } catch (err) {
+    console.error("Error reading instructions.txt:", err)
+  }
 
-  Decision policy for navigation vs. links:
-  1) General section questions (browsing intent): If the user asks broadly about "writing", "posts/blog", "projects/work" (e.g., "show me your blog", "where can I read posts?", "show your projects", "where is your work?"):
-     - Do NOT list or fetch specific items.
-     - Reply briefly and append exactly ONE tool tag to navigate:
-       • Writing/blog intent → <tool:writing>
-       • Projects/work intent → <tool:work>
-     - Do not include specific item links in this case.
-
-  2) Specific item questions (precise intent): If the user asks for a particular item or a targeted subset such as:
-     - "what’s the last/latest/first post?"
-     - "link to 'Neutral'" / "show the MalamaAI project" / "project called X"
-     - a post or project by name/slug/date
-     Then include the exact direct link(s) to the item(s), e.g. /writing/{slug} or /projects/{slug}. Do NOT append any tool tag in this case.
-
-  3) If information is not in the indices, say you’re not sure.
-
-  Blog index (newest first):
-  ${postsIndex}
-
-  ${latestLine ? latestLine + "\n" : ""}
-
-  Projects:
-  ${projectsIndex}
-
-  Current Work:
-  ${currentWorkIndex}
-
-  Spotify:
-  - ${spotifyLine}
-  `.trim()
+  const system = instruction.trim()
 
   const result = streamText({
     model: google("gemini-2.0-flash"),

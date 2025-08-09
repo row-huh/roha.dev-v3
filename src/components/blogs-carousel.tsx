@@ -47,13 +47,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
           >
             <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-6 rounded-3xl h-full flex flex-col justify-between hover:bg-gray-800/40 transition-all duration-300">
               <Link href={post.link} target="_blank" rel="noopener noreferrer" className="block">
-                <Image
-                  src={post.image || "/placeholder.svg?height=200&width=300&text=Blog+Image"}
-                  alt={post.title}
-                  width={300}
-                  height={200}
-                  className="rounded-2xl object-cover w-full h-48 mb-4"
-                />
+
                 <h4 className="text-xl font-medium text-white mb-2">{post.title}</h4>
                 <p className="text-gray-300 text-sm mb-4 line-clamp-3">{post.description}</p>
               </Link>
