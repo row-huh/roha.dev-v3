@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from "lucide-react"
 import { projectDetails } from "@/app/projects/[slug]/projectDetails"
 import InteractiveBackground from "@/components/interactive-background"
+import NavBar from "@/components/nav-bar"
 
 type ToolName = "home" | "work" | "writing" | "contact" | undefined
 
@@ -111,6 +112,8 @@ function ToolTile({ tool }: { tool: Exclude<ToolName, undefined> }) {
   const { href, eyebrow, label, Icon } = meta
 
   return (
+    // Navigation
+
     <Link
       href={href}
       className="group relative block w-[220px] md:w-[260px] overflow-hidden rounded-2xl
@@ -256,6 +259,10 @@ export default function AssistantPage() {
       <InteractiveBackground />
 
       {/* Minimal nav link */}
+      {/* Navigation */}
+      < NavBar />
+
+
       <header className="relative z-10">
         <div className="mx-auto max-w-5xl px-4 py-3">
           <Link
