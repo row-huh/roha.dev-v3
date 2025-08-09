@@ -11,9 +11,8 @@ export default function ContractorArc() {
             transition={{ duration: 0.8 }}
             className="mb-20"
           >
-            <h2 className="text-4xl font-medium text-purple-400 mb-6">Then came my freelancer arc...</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              I undertook small projects for various clients, including website development, curriculum development, and
+            <h2 className="text-2xl font-medium text-purple-400 mb-6">Then came my freelancer arc...</h2>
+            <p className="text-base text-gray-400 max-w-2xl mx-auto">              I undertook small projects for various clients, including website development, curriculum development, and
               tutoring individuals in programming topics.
             </p>
           </motion.div>

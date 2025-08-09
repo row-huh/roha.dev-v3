@@ -128,10 +128,10 @@ export default function AboutPage() {
                 className="mb-16 text-center"
               >
                 <h1 className="text-2xl md:text-6xl font-medium text-white mb-4 leading-tight">
-                  Scroll <span className="text-purple-400 font-normal">or just ask?</span>
+                  About the young <span className="text-purple-400 font-normal">padawan</span>
                 </h1>
                 <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8">
-                  A journey through code, AI, and the endless pursuit of building something meaningful.
+                  This padawan has a lot of lore which you can either scroll below to read or just ask!
                 </p>
                 <AIAssistantPreview compact={true}/>
               </motion.div>

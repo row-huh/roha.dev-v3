@@ -14,7 +14,7 @@ interface CertificateCardProps {
 function CertificateCard({ title, certificateLink }: CertificateCardProps) {
   return (
     <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-4 rounded-xl flex flex-col items-center justify-center transition-all duration-300 hover:bg-gray-800/40 max-w-sm mx-auto">
-      <Award className="h-7 w-7 text-purple-400 mb-2" />
+      <Award className="h-10 w-10 text-purple-400 mb-2" />
       <h3 className="text-lg font-semibold text-white mb-3 text-center">{title}</h3>
       <Link href={certificateLink} target="_blank" rel="noopener noreferrer">
         <Button
