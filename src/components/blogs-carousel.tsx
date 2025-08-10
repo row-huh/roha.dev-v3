@@ -1,14 +1,12 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
-import { useEffect } from "react"
 
 interface BlogPost {
   title: string
@@ -16,33 +14,27 @@ interface BlogPost {
   date: string
   image: string
   link: string
-  logos?: string[] // array of logo image URLs
+  logos?: string[] // optional array of logo image URLs
 }
 
 interface BlogsCarouselProps {
-  posts: BlogPost[]
+  posts?: BlogPost[] // make optional so the component can fetch if not passed
 }
 
 export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
-  type LatestPost = {
-    title: string
-    description: string
-    date: string
-    image: string
-    link: string
-  }
-
-  const [blogPosts, setBlogPosts] = useState<LatestPost[]>([])
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
 
   useEffect(() => {
+    if (posts && posts.length > 0) return // skip fetch if already provided
+
     let cancelled = false
     const load = async () => {
       try {
         const res = await fetch("/api/posts?limit=4", { cache: "no-store" })
         if (!res.ok) return
-        const data: LatestPost[] = await res.json()
+        const data: BlogPost[] = await res.json()
         if (!cancelled) setBlogPosts(data)
-      } catch (e) {
+      } catch {
         // silently ignore for now
       }
     }
@@ -50,7 +42,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [posts])
 
   const carouselRef = useRef<HTMLDivElement>(null)
 
@@ -63,6 +55,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       })
     }
   }
+
+  const itemsToRender = posts ?? blogPosts
 
   return (
     <section className="py-12 sm:py-16 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative z-10">
@@ -86,12 +80,12 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
           <div
             ref={carouselRef}
             className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 gap-3 sm:gap-4"
-            style={{ 
-              scrollbarWidth: 'thin', 
-              scrollbarColor: '#6b21a8 #1f2937'
+            style={{
+              scrollbarWidth: "thin",
+              scrollbarColor: "#6b21a8 #1f2937",
             }}
           >
-            {(posts || blogPosts || []).map((post, index) => (
+            {itemsToRender.map((post, index) => (
               <motion.div
                 key={index}
                 className="flex-none w-64 sm:w-72 md:w-80 snap-center"
@@ -101,23 +95,17 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <Card className="group relative overflow-hidden rounded-xl sm:rounded-2xl h-full flex flex-col border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/40">
-                  {/* Deep dark purple gradient background */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-indigo-950/90 to-gray-950/95" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-purple-950/40" />
-                  
-                  {/* Even darker purple hover gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-900/0 via-indigo-900/0 to-black/0 group-hover:from-purple-900/60 group-hover:via-indigo-900/50 group-hover:to-black/40 transition-all duration-500" />
-                  
-                  {/* Glass effect border with purple tint */}
                   <div className="absolute inset-0 rounded-xl sm:rounded-2xl border border-purple-500/30 group-hover:border-purple-400/50 transition-all duration-500" />
-                  
-                  <Link 
-                    href={post.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+
+                  <Link
+                    href={post.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="relative z-10 p-4 sm:p-5 flex flex-col h-full group-hover:transform-none"
                   >
-                    {/* Header with external link icon */}
                     <div className="flex items-start justify-between mb-3">
                       <h4 className="text-lg sm:text-xl font-semibold text-white leading-tight group-hover:text-purple-100 transition-colors duration-300 flex-1 pr-3">
                         {post.title}
@@ -125,26 +113,21 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                       <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-purple-300 transition-all duration-300 group-hover:scale-110 flex-shrink-0" />
                     </div>
 
-                    {/* Elegant divider with purple gradient */}
                     <div className="h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent mb-3 group-hover:via-purple-400/70 transition-all duration-500" />
 
-                    {/* Description */}
                     <p className="text-gray-300 group-hover:text-gray-200 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3 flex-1 transition-colors duration-300">
                       {post.description}
                     </p>
 
-                    {/* Bottom Section */}
                     <div className="mt-auto pt-3 border-t border-white/10 group-hover:border-purple-400/20 flex justify-between items-center transition-all duration-300">
                       <p className="text-xs text-gray-400 group-hover:text-purple-300 font-medium transition-colors duration-300">
                         {post.date}
                       </p>
-                      
-                      {/* Logos */}
                       {post.logos && post.logos.length > 0 && (
                         <div className="flex gap-1.5">
                           {post.logos.map((logo, i) => (
-                            <div 
-                              key={i} 
+                            <div
+                              key={i}
                               className="relative overflow-hidden rounded group-hover:scale-110 transition-transform duration-300"
                             >
                               <Image
@@ -165,7 +148,6 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
             ))}
           </div>
 
-          {/* Navigation Buttons - now visible on mobile */}
           <Button
             variant="outline"
             size="icon"
@@ -192,8 +174,6 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
-        
-        /* Custom scrollbar for mobile */
         @media (max-width: 640px) {
           div[style*="scrollbarWidth"]::-webkit-scrollbar {
             height: 4px;

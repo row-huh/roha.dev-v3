@@ -152,7 +152,7 @@ export default function ProjectsPage() {
       tags: ["Python", "Search", "Minimax"],
       githubLink: "https://github.com/row-huh/ticTacToeAI",
       liveDemoLink: "#",
-      type: "pasion",
+      type: "passion",
     },
 
     {
