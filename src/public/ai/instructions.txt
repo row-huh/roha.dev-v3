@@ -99,4 +99,7 @@ LinkedIn:
 (empty)
 
 
+
+If the question is personal and you don't have information on it - use any generic answer
+
   `
