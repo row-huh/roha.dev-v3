@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Download, ExternalLink, Mail, Phone, MapPin, Globe, Github, Linkedin } from "lucide-react"
+import Link from "next/link"
+
 
 export default function ResumeTool() {
   return (
@@ -134,9 +136,9 @@ export default function ResumeTool() {
               <h2 className="text-lg font-semibold text-white mb-2 border-b border-white/20 pb-1">Education</h2>
               <div>
                 <h3 className="text-base font-medium text-white">Bachelor of Science</h3>
-                <p className="text-sm text-white/80">Computer Science</p>
-                <p className="text-sm text-white/70">University of California</p>
-                <span className="text-xs text-white/60">2016 - 2020</span>
+                <p className="text-sm text-white/80">Software Engineering</p>
+                <p className="text-sm text-white/70">University Institute of Technology</p>
+                <span className="text-xs text-white/60">2022 - 2026</span>
               </div>
             </section>
 
@@ -201,14 +203,22 @@ export default function ResumeTool() {
             <section>
               <h2 className="text-lg font-semibold text-white mb-2 border-b border-white/20 pb-1">Certifications</h2>
               <div className="space-y-2">
+
+              <Link href={'https://cs50.harvard.edu/certificates/aeb756b8-e607-46ab-b95b-d835bd352cbd'}>
                 <div>
                   <h3 className="text-sm font-medium text-white">CS50P - Python Programming</h3>
                   <p className="text-xs text-white/70">Harvard University</p>
                 </div>
+              </Link>
+
+
+              <Link href={'https://cs50.harvard.edu/certificates/e46f231e-3be6-4b4e-8bd8-c58f82e7bf2d'}>
                 <div>
                   <h3 className="text-sm font-medium text-white">CS50AI - Artificial Intelligence</h3>
                   <p className="text-xs text-white/70">Harvard University</p>
                 </div>
+              </Link>
+
               </div>
             </section>
 
@@ -217,7 +227,7 @@ export default function ResumeTool() {
               <h2 className="text-lg font-semibold text-white mb-2 border-b border-white/20 pb-1">Links</h2>
               <div className="space-y-2">
                 <a
-                  href="https://github.com/rohatyagi"
+                  href="https://github.com/row-huh"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
@@ -227,7 +237,7 @@ export default function ResumeTool() {
                   <ExternalLink className="w-3 h-3" />
                 </a>
                 <a
-                  href="https://linkedin.com/in/roha-tyagi"
+                  href="https://www.linkedin.com/in/roha-pathan-687960272/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors"
