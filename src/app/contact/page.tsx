@@ -68,13 +68,14 @@ export default function ContactPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <form className="space-y-6">
+          <form method="POST" action="https://formspree.io/f/mdkdydnj" className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                 Your Name
               </label>
               <Input
                 id="name"
+                name="name"
                 type="text"
                 placeholder="John Doe"
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
@@ -86,6 +87,7 @@ export default function ContactPage() {
               </label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="john.doe@example.com"
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
@@ -97,6 +99,7 @@ export default function ContactPage() {
               </label>
               <Input
                 id="subject"
+                name="subject"
                 type="text"
                 placeholder="Regarding a project, collaboration, etc."
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
@@ -108,6 +111,7 @@ export default function ContactPage() {
               </label>
               <Textarea
                 id="message"
+                name="message"
                 rows={5}
                 placeholder="Type your message here..."
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
