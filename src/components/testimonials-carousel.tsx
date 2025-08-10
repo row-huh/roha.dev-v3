@@ -33,10 +33,11 @@ interface Testimonial {
     {
       name: "Hassan Mehmood",
       role: "FullStack Developer",
+      pfp: "/testimonials/hassan.png",
+
       quote:
         "I had the chance to work with Roha during the MalamaAI hackathon, and she was an incredible team lead. She took the lead on the backend, setting up and managing the Flask API, and made sure the integration with the frontend and AI model was seamless.She also played a big role in improving the machine learning model’s accuracy. Her focus on fine-tuning and testing really helped us push the model's performance to the next level. Roha’s leadership, hands-on approach, and strong technical skills made a big difference for our team. It was great working alongside her on this project!",
-      pfp: "/placeholder.svg?height=40&width=40",
-      socialLink: { type: "linkedin", url: "https://github.com/marcusrod" },
+      socialLink: { type: "linkedin", url: "https://www.linkedin.com/in/hassan-mehmood413/" },
     },
     {
       name: "Okeoma Amaobi",
