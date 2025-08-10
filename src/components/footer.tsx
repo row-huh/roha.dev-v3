@@ -1,24 +1,33 @@
 "use client"
-
 import { motion } from "framer-motion"
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-950 py-8 md:py-12 lg:py-16 relative overflow-hidden">
-      <div className="w-full px-8 text-center">
+    <footer className="bg-gray-950 pt-80 pb-16 md:pb-20 lg:pb-24 relative">
+      {/* Big background text positioned at bottom */}
+      <div className="w-full text-center overflow-hidden px-4 absolute bottom-16 left-0 right-0">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-7xl md:text-8xl lg:text-[12rem] xl:text-[15rem] font-extrabold text-gray-700/20 leading-none tracking-normal whitespace-nowrap overflow-hidden font-oswald" // Apply font-oswald
+          className="font-extrabold leading-none tracking-tight whitespace-nowrap select-none"
           style={{
-            textShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+            fontSize: "clamp(2rem, 15vw, 12rem)", // More responsive scaling
+            fontFamily: "'Bebas Neue', 'Anton', 'Oswald', 'Fjalla One', sans-serif", // Taller, condensed fonts
+            letterSpacing: "-0.02em",
+            color: "rgba(255,255,255,0.15)",
+            textShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+            fontStretch: "condensed", // Makes font appear taller
+            transform: "scaleY(1.8)", // Much more vertical stretch
+            transformOrigin: "center bottom", // Stretch from bottom
           }}
         >
           ROW-HUH-ISH
         </motion.h1>
       </div>
-      <div className="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm">
+      
+      {/* Footer text */}
+      <div className="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm px-4">
         &copy; {new Date().getFullYear()} Roha. All rights reserved.
       </div>
     </footer>
