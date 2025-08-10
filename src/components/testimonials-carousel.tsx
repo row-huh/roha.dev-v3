@@ -40,20 +40,20 @@ interface Testimonial {
       socialLink: { type: "linkedin", url: "https://www.linkedin.com/in/hassan-mehmood413/" },
     },
     {
-      name: "Okeoma Amaobi",
-      role: "AI Engineer",
-      quote:
-        "Roha is a great team leader. We worked together on a hackathon, and I was impressed by how she handled the team and delegated tasks to individuals. She’s built for speed and knows how to navigate through challenges effectively. She also makes sure communication is constant, so no one is left out",
-      pfp: "/testimonials/okeoma.png",
-      socialLink: { type: "x", url: "https://x.com/okey_amy" },
-    },
-    {
       name: "Manail Ghouri",
       role: "Web Developer",
       quote:
         "Roha is a dedicated and talented developer with a strong command of backend development and AI technologies. I had the chance to work with her on two impactful projects. In Neutral, presented at Bahria University’s Techathon, she worked with advanced models like Gemini and LLaMA to detect biases in hiring decisions. Her efforts helped our team place in the top 6 out of 57 teams. In the After School project for the Google Vertex AI Hackathon, she led the backend and integrated a RAG-based AI system using Flask and Vertex AI Agent Builder. Roha is hardworking, collaborative, and brings real value to every team she joins.",
       pfp: "/testimonials/manail.png",
       socialLink: { type: "linkedin", url: "https://www.linkedin.com/in/manail-ghouri-a28069256/" },
+    },
+    {
+      name: "Okeoma Amaobi",
+      role: "AI Engineer",
+      quote:
+        "Roha is a great team leader. We worked together on a hackathon, and I was impressed by how she handled the team and delegated tasks to individuals. She’s built for speed and knows how to navigate through challenges effectively. She also makes sure communication is constant, so no one is left out",
+      pfp: "/testimonials/okeoma.png",
+      socialLink: { type: "x", url: "https://x.com/okey_amy" },
     },
     {
       name: "Laiba Laeeq",
@@ -122,13 +122,14 @@ function Testimonials() {
     <p className="text-xs text-gray-300 mb-4 italic flex-grow leading-tight">"{testimonial.quote}"</p>
     <div className="flex items-center justify-between mt-3">
       <div className="flex items-center gap-3">
-        <Image
-          src={testimonial.pfp || "/placeholder.svg"}
-          alt={`${testimonial.name}'s profile picture`}
-          width={36}
-          height={36}
-          className="rounded-full object-cover"
-        />
+      <Image
+        src={testimonial.pfp || "/testimonials/placeholder.png"}
+        alt={`${testimonial.name}'s profile picture`}
+        width={48}
+        height={48}
+        className="rounded-full object-cover w-12 h-12"
+        style={{ aspectRatio: "1 / 1" }}
+      />
         <div>
           <p className="font-medium text-sm text-white">{testimonial.name}</p>
           <p className="text-xs text-gray-400">{testimonial.role}</p>
