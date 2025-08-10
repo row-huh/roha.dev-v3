@@ -2,21 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
-import { DefaultChatTransport } from "ai"
 import { useChat } from "@ai-sdk/react"
-import { ArrowLeft } from "lucide-react"
 import { useSearchParams } from "next/navigation"
+import InteractiveBackground from "@/components/interactive-background"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from "lucide-react"
 import { projectDetails } from "@/app/projects/[slug]/projectDetails"
-import InteractiveBackground from "@/components/interactive-background"
-import NavBar from "@/components/nav-bar"
-import { useRouter } from "next/navigation"
-import { userAgent } from "next/server"
+import ToolRenderer from "@/components/tool-renderer"
 
-
-type ToolName = "home" | "work" | "writing" | "contact" | undefined
+type ToolName = "home" | "work" | "writing" | "contact" | "resume" | "skills" | "social" | undefined
 
 function extractMessageText(m: any): string {
   if (typeof m?.content === "string") return m.content
@@ -40,6 +35,12 @@ function toolMeta(tool: Exclude<ToolName, undefined>) {
       return { href: "/writing", eyebrow: "Read", label: "Writing", Icon: PenLine }
     case "contact":
       return { href: "/contact", eyebrow: "Reach Out", label: "Contact", Icon: Mail }
+    case "resume":
+      return { href: "#", eyebrow: "View", label: "Resume", Icon: Briefcase }
+    case "skills":
+      return { href: "#", eyebrow: "View", label: "Skills", Icon: Briefcase }
+    case "social":
+      return { href: "#", eyebrow: "Connect", label: "Social", Icon: Mail }
   }
 }
 
@@ -48,12 +49,25 @@ function toolMeta(tool: Exclude<ToolName, undefined>) {
  * Returns { cleanedText, tool } where "cleanedText" has the tag removed.
  */
 function extractToolTag(text: string): { cleanedText: string; tool: ToolName } {
-  const re = /<\s*tool\s*:\s*(home|work|writing|contact)\s*>/i
+  const re = /<\s*tool\s*:\s*(home|work|writing|contact|resume|skills|social)\s*>/i
   const match = text.match(re)
   if (!match) return { cleanedText: text, tool: undefined }
   const tool = match[1].toLowerCase() as Exclude<ToolName, undefined>
   const cleanedText = text.replace(re, "").trim()
   return { cleanedText, tool }
+}
+
+/**
+ * Extract Spotify track ID from text like "<spotify:trackId>"
+ * Returns { cleanedText, spotifyTrackId } where cleanedText has the tag removed
+ */
+function extractSpotifyEmbed(text: string): { cleanedText: string; spotifyTrackId: string | null } {
+  const re = /<\s*spotify\s*:\s*([a-zA-Z0-9]+)\s*>/i
+  const match = text.match(re)
+  if (!match) return { cleanedText: text, spotifyTrackId: null }
+  const spotifyTrackId = match[1]
+  const cleanedText = text.replace(re, "").trim()
+  return { cleanedText, spotifyTrackId }
 }
 
 /**
@@ -116,8 +130,6 @@ function ToolTile({ tool }: { tool: Exclude<ToolName, undefined> }) {
   const { href, eyebrow, label, Icon } = meta
 
   return (
-    // Navigation
-
     <Link
       href={href}
       className="group relative block w-[220px] md:w-[260px] overflow-hidden rounded-2xl
@@ -205,16 +217,12 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
   )
 }
 
-const transport = new DefaultChatTransport({
-  api: "/api/chat",
-})
-
 export default function AssistantPage() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const { messages, sendMessage, stop, error, status } = useChat({
-    transport
+    api: "/api/chat",
   })
+
   const [input, setInput] = useState("")
   const [hasStartedChat, setHasStartedChat] = useState(false)
   const endRef = useRef<HTMLDivElement>(null)
@@ -250,7 +258,13 @@ export default function AssistantPage() {
   }, [messages, status])
 
   const suggestions = useMemo(
-    () => ["Show me recent projects", "What's the latest post?", "What are you working on now?"],
+    () => [
+      "Show me recent projects",
+      "What's the latest post?",
+      "What are you working on now?",
+      "What's your favorite song?",
+      "Show me your resume",
+    ],
     [],
   )
 
@@ -264,32 +278,39 @@ export default function AssistantPage() {
 
   return (
     <div className="relative min-h-screen text-gray-100">
-      <InteractiveBackground />
+      < InteractiveBackground />
 
-      {/* Navigation */}
-      <NavBar />
+      {/* Minimal nav link */}
+      <header className="relative z-10">
+        <div className="mx-auto max-w-5xl px-4 py-3">
+          <Link
+            href="/"
+            className="group inline-flex items-center gap-2 text-sm text-gray-200/80 hover:text-white transition-all duration-200"
+            aria-label="Go back"
+          >
+            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/[0.08] ring-1 ring-white/10 backdrop-blur-sm transition-all duration-200 group-hover:bg-white/[0.12] group-hover:ring-white/20">
+              <svg
+                className="w-3 h-3 transition-transform duration-200 group-hover:-translate-x-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </div>
+            <span className="underline underline-offset-4 decoration-white/30 group-hover:decoration-white/60 transition-colors duration-200">
+              Go back
+            </span>
+          </Link>
+        </div>
+      </header>
 
       {!isActive ? (
         // IDLE STATE
         <main className="relative z-10">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault()
-                router.back()
-              }}
-              className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" /> Back
-            </a>
-
-
-
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
             <h1 className="mb-4 text-2xl font-semibold tracking-tight text-white md:text-4xl">
-              I'm <span className="text-purple-400 font-normal">Pethia</span>
-              <br />
-              Ask me anything about <span className="text-purple-400 font-normal">Roha</span>
+              Ask me anything about Roha
             </h1>
 
             <div className="mt-2 w-full max-w-xl">
@@ -333,9 +354,15 @@ export default function AssistantPage() {
                 {messages.map((m) => {
                   const isUser = m.role === "user"
                   const rawText = extractMessageText(m)
-                  const { cleanedText, tool } = !isUser
+
+                  // Extract tool and Spotify embed for assistant messages
+                  const { cleanedText: toolCleaned, tool } = !isUser
                     ? extractToolTag(rawText)
                     : { cleanedText: rawText, tool: undefined }
+
+                  const { cleanedText, spotifyTrackId } = !isUser
+                    ? extractSpotifyEmbed(toolCleaned)
+                    : { cleanedText: toolCleaned, spotifyTrackId: null }
 
                   // Extract internal links for assistant messages to render link tiles
                   const internalLinks = !isUser ? extractInternalLinks(cleanedText) : []
@@ -355,6 +382,54 @@ export default function AssistantPage() {
                         </div>
                       </div>
 
+                      {/* Spotify embed */}
+                      {!isUser && spotifyTrackId && (
+                        <div className="flex w-full justify-start pl-1">
+                          <div className="max-w-[400px] w-full">
+                            <div className="rounded-xl overflow-hidden ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md p-1">
+                              <iframe
+                                style={{ borderRadius: "12px" }}
+                                src={`https://open.spotify.com/embed/track/${spotifyTrackId}?utm_source=generator&theme=0`}
+                                width="100%"
+                                height="152"
+                                frameBorder="0"
+                                allowFullScreen={true}
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"
+                                title="Spotify Player"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Resume tool */}
+                      {!isUser && tool === "resume" && (
+                        <div className="flex w-full justify-start pl-1">
+                          <div className="w-full max-w-4xl">
+                            <ToolRenderer toolName="resume" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Skills tool */}
+                      {!isUser && tool === "skills" && (
+                        <div className="flex w-full justify-start pl-1">
+                          <div className="w-full max-w-4xl">
+                            <ToolRenderer toolName="skills" />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Social tool */}
+                      {!isUser && tool === "social" && (
+                        <div className="flex w-full justify-start pl-1">
+                          <div className="w-full max-w-4xl">
+                            <ToolRenderer toolName="social" />
+                          </div>
+                        </div>
+                      )}
+
                       {/* Link tiles for specific items (e.g., /projects/slug, /writing/slug) */}
                       {!isUser && internalLinks.length > 0 && (
                         <div className="flex w-full flex-wrap gap-3 pl-1">
@@ -364,8 +439,8 @@ export default function AssistantPage() {
                         </div>
                       )}
 
-                      {/* Only show when the model suggested a general navigation */}
-                      {!isUser && tool && (
+                      {/* Only show navigation tiles for home, work, writing, contact - NOT resume, skills, or social */}
+                      {!isUser && tool && tool !== "resume" && tool !== "skills" && tool !== "social" && (
                         <div className="flex w-full justify-start pl-1">
                           <ToolTile tool={tool} />
                         </div>

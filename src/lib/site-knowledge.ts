@@ -39,21 +39,27 @@ export async function getAssistantKnowledge() {
     {
       slug: "llm-from-scratch",
       title:
-        projects.find((x) => x.slug === "llm-from-scratch")?.title ||
-        "LLM from Scratch: Unveiling the Transformer",
+        projects.find((x) => x.slug === "llm-from-scratch")?.title || "LLM from Scratch: Unveiling the Transformer",
       summary:
         "Deep dive into transformers by building an LLM from first principles; focus on attention, training loops, and PyTorch.",
     },
   ]
 
-  // Spotify section — taken from your homepage embed + NowPlaying mock
+  // Spotify section — current favorite track
   const spotify = {
-    // From the homepage iframe
+    // Current favorite track - Palm Creases by Meego
+    currentFavorite: {
+      trackId: "6zHiZppuA4gzZoaiMUu0hf",
+      title: "Palm Creases",
+      artist: "Meego",
+      url: "https://open.spotify.com/track/6zHiZppuA4gzZoaiMUu0hf?si=6901467c559542aa",
+      embedUrl: "https://open.spotify.com/embed/track/6zHiZppuA4gzZoaiMUu0hf?utm_source=generator",
+    },
+    // Legacy fields for compatibility
     trackId: "6zHiZppuA4gzZoaiMUu0hf",
     url: "https://open.spotify.com/track/6zHiZppuA4gzZoaiMUu0hf",
-    // From NowPlaying component preview
-    nowPlayingTitle: "Resonance",
-    nowPlayingArtist: "HOME",
+    nowPlayingTitle: "Palm Creases",
+    nowPlayingArtist: "Meego",
   }
 
   return { posts, projects, currentWork, spotify }

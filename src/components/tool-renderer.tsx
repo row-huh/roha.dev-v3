@@ -1,22 +1,19 @@
-import HomeTool from "./tools/home-tool"
-import WorkTool from "./tools/work-tool"
-import WritingTool from "./tools/writing-tool"
-import ContactTool from "./tools/contact-tool"
+import ResumeTool from "@/components/tools/resume-tool"
+import SkillsTool from "@/components/tools/skills-tool"
+import SocialTool from "@/components/tools/social-tool"
 
 interface ToolRendererProps {
-  toolName: string
+  toolName: "resume" | "skills" | "social"
 }
 
 export default function ToolRenderer({ toolName }: ToolRendererProps) {
   switch (toolName) {
-    case "home":
-      return <HomeTool />
-    case "work":
-      return <WorkTool />
-    case "writing":
-      return <WritingTool />
-    case "contact":
-      return <ContactTool />
+    case "resume":
+      return <ResumeTool />
+    case "skills":
+      return <SkillsTool />
+    case "social":
+      return <SocialTool />
     default:
       return null
   }
