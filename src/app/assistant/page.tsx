@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import Link from "next/link"
+import { DefaultChatTransport } from "ai"
 import { useChat } from "@ai-sdk/react"
 import { ArrowLeft } from "lucide-react"
 import { useSearchParams } from "next/navigation"
@@ -204,13 +205,16 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
   )
 }
 
+const transport = new DefaultChatTransport({
+  api: "/api/chat",
+})
+
 export default function AssistantPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { messages, sendMessage, stop, error, status } = useChat({
-    api: "/api/chat",
+    transport
   })
-
   const [input, setInput] = useState("")
   const [hasStartedChat, setHasStartedChat] = useState(false)
   const endRef = useRef<HTMLDivElement>(null)
