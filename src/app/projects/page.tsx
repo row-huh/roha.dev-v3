@@ -44,7 +44,7 @@ export default function ProjectsPage() {
       slug: "malama-ai",
       title: "MalamaAI- Skin Disease Detection",
       description: "MalamaAI detects skin diseases using ml model based off of dinov2 deployed on a webapp built with Next.js and Flask, it also uses Llama 3.370b model for accurate analysis. ",
-      image: "/placeholder.svg?height=200&width=300&text=Chatbot+Platform",
+      image: "/projects/projects/malama.png",
       tags: ["ML", "Next.js", "Flask", "Llama", "DinoV2"],
       githubLink: "https://github.com/row-huh/MalamaAI",
       liveDemoLink: "#",
@@ -151,7 +151,7 @@ export default function ProjectsPage() {
       tags: ["Python", "Search", "Minimax"],
       githubLink: "https://github.com/row-huh/ticTacToeAI",
       liveDemoLink: "#",
-      type: "hackathon",
+      type: "passion",
     },
 
     {
