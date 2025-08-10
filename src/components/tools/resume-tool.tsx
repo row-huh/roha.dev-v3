@@ -11,22 +11,22 @@ export default function ResumeTool() {
       <CardContent className="p-4">
         {/* Header */}
         <div className="text-center mb-4">
-          <h1 className="text-2xl font-bold text-white mb-1">Roha Tyagi</h1>
-          <p className="text-base text-white/80 mb-2">Software Engineer & AI/ML Enthusiast</p>
+          <h1 className="text-2xl font-bold text-white mb-1">Roha Pathan</h1>
+          <p className="text-base text-white/80 mb-2">FullStack & AI/ML Engineer</p>
 
           {/* Contact Info */}
           <div className="flex flex-wrap justify-center gap-3 text-xs text-white/70">
             <div className="flex items-center gap-1">
               <Mail className="w-3 h-3" />
-              <span>roha.tyagi@example.com</span>
+              <span>roha.pathan125@gmail.com</span>
             </div>
             <div className="flex items-center gap-1">
               <Phone className="w-3 h-3" />
-              <span>+1 (555) 123-4567</span>
+              <span>+92 (325) 7007071</span>
             </div>
             <div className="flex items-center gap-1">
               <MapPin className="w-3 h-3" />
-              <span>San Francisco, CA</span>
+              <span>Karachi, PK</span>
             </div>
             <div className="flex items-center gap-1">
               <Globe className="w-3 h-3" />
