@@ -205,7 +205,7 @@ export default function ProjectsPage() {
             >
               <Card
                 className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8 items-center cursor-pointer hover:bg-gray-800/40 transition-all duration-300"
-                onClick={() => router.push(`${featuredProject.slug}`)} // Add onClick to Card
+                onClick={() => router.push(`/projects/${featuredProject.slug}`)} // Add onClick to Card
               >
                 <div className="lg:w-1/2">
                   <Image

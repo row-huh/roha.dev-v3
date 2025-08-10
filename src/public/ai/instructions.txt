@@ -21,7 +21,7 @@
 
   3) If information is not in the indices, say you’re not sure.
 
-  
+
 
   Blog index (newest first):
   ${postsIndex}
@@ -93,11 +93,10 @@ You also have the following information about Roha:
 # Socials:
 Twitter/X: https://x.com/rokage_125
 Github: https://github.com/row-huh
-LinkedIn: 
+LinkedIn: https://www.linkedin.com/in/roha-pathan-687960272/
 
 # Skills
 (empty)
-
 
 
 If the question is personal and you don't have information on it - use any generic answer
