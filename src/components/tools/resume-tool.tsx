@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Download, ExternalLink, Mail, Phone, MapPin, Globe, Github, Linkedin } from "lucide-react"
 import Link from "next/link"
+import { hover } from "framer-motion"
 
 
 export default function ResumeTool() {
@@ -20,7 +21,12 @@ export default function ResumeTool() {
           <div className="flex flex-wrap justify-center gap-3 text-xs text-white/70">
             <div className="flex items-center gap-1">
               <Mail className="w-3 h-3" />
-              <span>roha.pathan125@gmail.com</span>
+              <Link href={'mailto:roha.pathan125@gmail.com'}
+                className="transition-colors duration-200 hover:text-purple-400"
+              >
+                <span>roha.pathan125@gmail.com</span>
+              </Link>
+              
             </div>
             <div className="flex items-center gap-1">
               <Phone className="w-3 h-3" />
@@ -32,7 +38,11 @@ export default function ResumeTool() {
             </div>
             <div className="flex items-center gap-1">
               <Globe className="w-3 h-3" />
+              <Link href={'mailto:roha.pathan125@gmail.com'}
+                className="transition-colors duration-200 hover:text-purple-400">
               <span>roha.dev</span>
+
+              </Link>
             </div>
           </div>
         </div>
@@ -204,20 +214,24 @@ export default function ResumeTool() {
               <h2 className="text-lg font-semibold text-white mb-2 border-b border-white/20 pb-1">Certifications</h2>
               <div className="space-y-2">
 
-              <Link href={'https://cs50.harvard.edu/certificates/aeb756b8-e607-46ab-b95b-d835bd352cbd'}>
                 <div>
                   <h3 className="text-sm font-medium text-white">CS50P - Python Programming</h3>
                   <p className="text-xs text-white/70">Harvard University</p>
-                </div>
-              </Link>
+                  <a 
+                  href="https://cs50.harvard.edu/certificates/aeb756b8-e607-46ab-b95b-d835bd352cbd"
+                  className="text-xs text-purple-400 hover:text-gray-400"
+                  >View Certificate</a>                
+                  </div>
 
 
-              <Link href={'https://cs50.harvard.edu/certificates/e46f231e-3be6-4b4e-8bd8-c58f82e7bf2d'}>
                 <div>
                   <h3 className="text-sm font-medium text-white">CS50AI - Artificial Intelligence</h3>
                   <p className="text-xs text-white/70">Harvard University</p>
+                  <a 
+                  href="https://cs50.harvard.edu/certificates/e46f231e-3be6-4b4e-8bd8-c58f82e7bf2d"
+                  className="text-xs text-purple-400 hover:text-gray-400"
+                  >View Certificate</a>
                 </div>
-              </Link>
 
               </div>
             </section>
