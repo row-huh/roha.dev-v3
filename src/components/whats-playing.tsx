@@ -17,7 +17,7 @@ export default function WhatsPlaying() {
               The soundtrack to late-night coding sessions and breakthrough moments.
             </p>
 
-            <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-4 rounded-3xl max-w-2xl mx-auto">
+            <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
               <iframe
                 style={{ borderRadius: "12px" }}
                 src="https://open.spotify.com/embed/track/6zHiZppuA4gzZoaiMUu0hf?utm_source=generator"

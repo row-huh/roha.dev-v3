@@ -65,19 +65,19 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   }
 
   return (
-    <section className="py-16 sm:py-24 md:py-32 lg:py-56 px-4 sm:px-6 lg:px-8 relative z-10 min-h-screen flex items-center">
-      <div className="max-w-5xl mx-auto w-4/5">
+    <section className="py-12 sm:py-16 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-4xl mx-auto w-4/5">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
+          className="text-center mb-8 sm:mb-12 md:mb-16"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white mb-4 sm:mb-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-white mb-3 sm:mb-4">
             Latest Insights
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Dive into my thoughts on AI, development, and the future of technology.
           </p>
         </motion.div>
@@ -85,7 +85,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
         <div className="relative">
           <div
             ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 gap-4 sm:gap-6"
+            className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 gap-3 sm:gap-4"
             style={{ 
               scrollbarWidth: 'thin', 
               scrollbarColor: '#6b21a8 #1f2937'
@@ -94,13 +94,13 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
             {(posts || blogPosts || []).map((post, index) => (
               <motion.div
                 key={index}
-                className="flex-none w-80 sm:w-80 md:w-96 snap-center"
+                className="flex-none w-64 sm:w-72 md:w-80 snap-center"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
-                <Card className="group relative overflow-hidden rounded-2xl sm:rounded-3xl h-full flex flex-col border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-2xl hover:shadow-purple-900/40">
+                <Card className="group relative overflow-hidden rounded-xl sm:rounded-2xl h-full flex flex-col border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/40">
                   {/* Deep dark purple gradient background */}
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-indigo-950/90 to-gray-950/95" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-purple-950/40" />
@@ -109,50 +109,50 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-900/0 via-indigo-900/0 to-black/0 group-hover:from-purple-900/60 group-hover:via-indigo-900/50 group-hover:to-black/40 transition-all duration-500" />
                   
                   {/* Glass effect border with purple tint */}
-                  <div className="absolute inset-0 rounded-2xl sm:rounded-3xl border border-purple-500/30 group-hover:border-purple-400/50 transition-all duration-500" />
+                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl border border-purple-500/30 group-hover:border-purple-400/50 transition-all duration-500" />
                   
                   <Link 
                     href={post.link} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="relative z-10 p-6 sm:p-8 flex flex-col h-full group-hover:transform-none"
+                    className="relative z-10 p-4 sm:p-5 flex flex-col h-full group-hover:transform-none"
                   >
                     {/* Header with external link icon */}
-                    <div className="flex items-start justify-between mb-4">
-                      <h4 className="text-xl sm:text-2xl font-semibold text-white leading-tight group-hover:text-purple-100 transition-colors duration-300 flex-1 pr-4">
+                    <div className="flex items-start justify-between mb-3">
+                      <h4 className="text-lg sm:text-xl font-semibold text-white leading-tight group-hover:text-purple-100 transition-colors duration-300 flex-1 pr-3">
                         {post.title}
                       </h4>
-                      <ExternalLink className="h-5 w-5 text-gray-400 group-hover:text-purple-300 transition-all duration-300 group-hover:scale-110 flex-shrink-0" />
+                      <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-purple-300 transition-all duration-300 group-hover:scale-110 flex-shrink-0" />
                     </div>
 
                     {/* Elegant divider with purple gradient */}
-                    <div className="h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent mb-4 group-hover:via-purple-400/70 transition-all duration-500" />
+                    <div className="h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent mb-3 group-hover:via-purple-400/70 transition-all duration-500" />
 
                     {/* Description */}
-                    <p className="text-gray-300 group-hover:text-gray-200 text-sm sm:text-base leading-relaxed mb-6 line-clamp-4 flex-1 transition-colors duration-300">
+                    <p className="text-gray-300 group-hover:text-gray-200 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3 flex-1 transition-colors duration-300">
                       {post.description}
                     </p>
 
                     {/* Bottom Section */}
-                    <div className="mt-auto pt-4 border-t border-white/10 group-hover:border-purple-400/20 flex justify-between items-center transition-all duration-300">
-                      <p className="text-xs sm:text-sm text-gray-400 group-hover:text-purple-300 font-medium transition-colors duration-300">
+                    <div className="mt-auto pt-3 border-t border-white/10 group-hover:border-purple-400/20 flex justify-between items-center transition-all duration-300">
+                      <p className="text-xs text-gray-400 group-hover:text-purple-300 font-medium transition-colors duration-300">
                         {post.date}
                       </p>
                       
                       {/* Logos */}
                       {post.logos && post.logos.length > 0 && (
-                        <div className="flex gap-2">
+                        <div className="flex gap-1.5">
                           {post.logos.map((logo, i) => (
                             <div 
                               key={i} 
-                              className="relative overflow-hidden rounded-lg group-hover:scale-110 transition-transform duration-300"
+                              className="relative overflow-hidden rounded group-hover:scale-110 transition-transform duration-300"
                             >
                               <Image
                                 src={logo}
                                 alt="logo"
-                                width={24}
-                                height={24}
-                                className="rounded-lg border border-white/20 group-hover:border-purple-400/30 transition-all duration-300"
+                                width={20}
+                                height={20}
+                                className="rounded border border-white/20 group-hover:border-purple-400/30 transition-all duration-300"
                               />
                             </div>
                           ))}
@@ -186,9 +186,9 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       </div>
 
       <style jsx>{`
-        .line-clamp-4 {
+        .line-clamp-3 {
           display: -webkit-box;
-          -webkit-line-clamp: 4;
+          -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
         }

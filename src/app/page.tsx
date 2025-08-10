@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useScroll, useMotionValue, useSpring } from "framer-motion"
+import { useScroll, useMotionValue, useSpring } from "framer-motion"
 import { useEffect } from "react"
 import { usePathname } from "next/navigation"
 import InteractiveBackground from "@/components/interactive-background"

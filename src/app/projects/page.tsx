@@ -40,16 +40,7 @@ export default function ProjectsPage() {
       type: "featured",
       isCurrentlyWorking: true,
     },
-    {
-      slug: "malama-ai",
-      title: "MalamaAI- Skin Disease Detection",
-      description: "MalamaAI detects skin diseases using ml model based off of dinov2 deployed on a webapp built with Next.js and Flask, it also uses Llama 3.370b model for accurate analysis. ",
-      image: "/placeholder.svg?height=200&width=300&text=Chatbot+Platform",
-      tags: ["ML", "Next.js", "Flask", "Llama", "DinoV2"],
-      githubLink: "https://github.com/row-huh/MalamaAI",
-      liveDemoLink: "#",
-      type: "hackathon",
-    },
+
     {
       slug: "time-venturers",
       title: "Time Venturers - Text Based RPG",
@@ -123,6 +114,16 @@ export default function ProjectsPage() {
       type: "hackathon",
     },
     {
+      slug: "malama-ai",
+      title: "MalamaAI- Skin Disease Detection",
+      description: "MalamaAI detects skin diseases using ml model based off of dinov2 deployed on a webapp built with Next.js and Flask, it also uses Llama 3.370b model for accurate analysis. ",
+      image: "/projects/projects/malama.png",
+      tags: ["ML", "Next.js", "Flask", "Llama", "DinoV2"],
+      githubLink: "https://github.com/row-huh/MalamaAI",
+      liveDemoLink: "#",
+      type: "hackathon",
+    },
+    {
       slug: "accessible-ui",
       title: "Accessible UI",
       description: "A high-performance dashboard for visualizing streaming data with interactive charts and alerts.",
@@ -151,7 +152,7 @@ export default function ProjectsPage() {
       tags: ["Python", "Search", "Minimax"],
       githubLink: "https://github.com/row-huh/ticTacToeAI",
       liveDemoLink: "#",
-      type: "hackathon",
+      type: "pasion",
     },
 
     {
