@@ -14,6 +14,7 @@ interface BlogPost {
   date: string
   image: string
   link: string
+  logos?: string[] // array of logo image URLs
 }
 
 interface BlogsCarouselProps {
@@ -25,7 +26,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
   const scroll = (direction: "left" | "right") => {
     if (carouselRef.current) {
-      const scrollAmount = carouselRef.current.offsetWidth / 2 // Scroll half the width of the carousel
+      const scrollAmount = carouselRef.current.offsetWidth / 2
       carouselRef.current.scrollBy({
         left: direction === "right" ? scrollAmount : -scrollAmount,
         behavior: "smooth",
@@ -35,7 +36,10 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
   return (
     <div className="relative">
-      <div ref={carouselRef} className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 no-scrollbar">
+      <div
+        ref={carouselRef}
+        className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 no-scrollbar"
+      >
         {posts.map((post, index) => (
           <motion.div
             key={index}
@@ -45,13 +49,37 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-6 rounded-3xl h-full flex flex-col justify-between hover:bg-gray-800/40 transition-all duration-300">
+            <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-6 rounded-3xl h-full flex flex-col hover:bg-gray-800/40 transition-all duration-300">
               <Link href={post.link} target="_blank" rel="noopener noreferrer" className="block">
-
-                <h4 className="text-xl font-medium text-white mb-2">{post.title}</h4>
-                <p className="text-gray-300 text-sm mb-4 line-clamp-3">{post.description}</p>
+                {/* Heading */}
+                <h4 className="text-2xl font-semibold text-white">{post.title}</h4>
+                {/* Divider */}
+                <div className="border-t border-gray-600 my-3"></div>
+                {/* Description */}
+                <p className="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-4">
+                  {post.description}
+                </p>
               </Link>
-              <p className="text-xs text-gray-400 mt-auto">{post.date}</p>
+
+              {/* Bottom Section */}
+              <div className="mt-auto pt-4 border-t border-gray-700 flex justify-between items-center">
+                <p className="text-xs text-gray-400">{post.date}</p>
+                {/* Logos */}
+                {post.logos && post.logos.length > 0 && (
+                  <div className="flex gap-2">
+                    {post.logos.map((logo, i) => (
+                      <Image
+                        key={i}
+                        src={logo}
+                        alt="logo"
+                        width={20}
+                        height={20}
+                        className="rounded"
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </Card>
           </motion.div>
         ))}

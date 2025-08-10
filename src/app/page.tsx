@@ -106,7 +106,7 @@ function HomePageContent() {
       {/* < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY" /> */}
 
       {/* Deep Learning Journey Section */}
-      < DeepLearningJourney />
+      {/* < DeepLearningJourney /> */}
 
       {/* What I'm Building Section */}
       < WhatImBuilding />

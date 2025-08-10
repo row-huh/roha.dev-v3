@@ -10,6 +10,10 @@ import { Button } from "@/components/ui/button"
 import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from "lucide-react"
 import { projectDetails } from "@/app/projects/[slug]/projectDetails"
 import ToolRenderer from "@/components/tool-renderer"
+import NavBar from "@/components/nav-bar"
+import { useRouter } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
+
 
 type ToolName = "home" | "work" | "writing" | "contact" | "resume" | "skills" | "social" | undefined
 
@@ -218,6 +222,7 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
 }
 
 export default function AssistantPage() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const { messages, sendMessage, stop, error, status } = useChat({
     api: "/api/chat",
@@ -280,29 +285,23 @@ export default function AssistantPage() {
     <div className="relative min-h-screen text-gray-100">
       < InteractiveBackground />
 
+      <header>
+      < NavBar />
+
+      </header>
+
       {/* Minimal nav link */}
       <header className="relative z-10">
-        <div className="mx-auto max-w-5xl px-4 py-3">
-          <Link
-            href="/"
-            className="group inline-flex items-center gap-2 text-sm text-gray-200/80 hover:text-white transition-all duration-200"
-            aria-label="Go back"
-          >
-            <div className="flex items-center justify-center w-6 h-6 rounded-full bg-white/[0.08] ring-1 ring-white/10 backdrop-blur-sm transition-all duration-200 group-hover:bg-white/[0.12] group-hover:ring-white/20">
-              <svg
-                className="w-3 h-3 transition-transform duration-200 group-hover:-translate-x-0.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </div>
-            <span className="underline underline-offset-4 decoration-white/30 group-hover:decoration-white/60 transition-colors duration-200">
-              Go back
-            </span>
-          </Link>
-        </div>
+            <a
+            href="#"
+            onClick={(e) => {
+            e.preventDefault()
+              router.back()
+              }}
+              className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
+            >
+              <ArrowLeft className="h-4 w-4 mr-2" /> Back
+            </a>
       </header>
 
       {!isActive ? (
