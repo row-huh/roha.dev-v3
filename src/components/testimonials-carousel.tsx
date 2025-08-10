@@ -27,8 +27,8 @@ interface Testimonial {
       role: "Country Lead @SKOOL21",
       quote:
         "I had the pleasure of working with this brilliant young woman in the software space. She built a digital platform that sparks curiosity in young minds about coding. What stood out most was her quiet dedication—focused, sincere, and refreshingly free of unnecessary noise. I genuinely look forward to working with her again and seeing where her creativity takes her next.",
-      pfp: "/placeholder.svg?height=40&width=40",
-      socialLink: { type: "linkedin", url: "https://linkedin.com/in/sarahchen" },
+      pfp: "/testimonials/komal.png",
+      socialLink: { type: "linkedin", url: "https://www.linkedin.com/in/komal-kamal-khan-ba2417366/" },
     },
     {
       name: "Hassan Mehmood",
@@ -44,8 +44,8 @@ interface Testimonial {
       role: "AI Engineer",
       quote:
         "Roha is a great team leader. We worked together on a hackathon, and I was impressed by how she handled the team and delegated tasks to individuals. She’s built for speed and knows how to navigate through challenges effectively. She also makes sure communication is constant, so no one is left out",
-      pfp: "/placeholder.svg?height=40&width=40",
-      socialLink: { type: "x", url: "https://x.com/aishapatel_ai" },
+      pfp: "/testimonials/okeoma.png",
+      socialLink: { type: "x", url: "https://x.com/okey_amy" },
     },
     {
       name: "Manail Ghouri",
@@ -59,7 +59,7 @@ interface Testimonial {
       name: "Laiba Laeeq",
       role: "Software Developer",
       quote: "I've worked with Roha on a bunch of projects and she's genuinely one of the sharpest people I've collaborated with. She's not only great at writing clean, solid code but also an incredible problem-solver with creative input and a dependable leader. Definitely someone you'd want on your team any day.",
-      pfp: "/placeholder.svg?height=40&width=40",
+      pfp: "/testimonials/placeholder.png",
       socialLink: { type: "github", url: "https://github.com/laiba-lax" },
     },
   ]
