@@ -52,8 +52,8 @@ interface Testimonial {
       role: "Web Developer",
       quote:
         "Roha is a dedicated and talented developer with a strong command of backend development and AI technologies. I had the chance to work with her on two impactful projects. In Neutral, presented at Bahria University’s Techathon, she worked with advanced models like Gemini and LLaMA to detect biases in hiring decisions. Her efforts helped our team place in the top 6 out of 57 teams. In the After School project for the Google Vertex AI Hackathon, she led the backend and integrated a RAG-based AI system using Flask and Vertex AI Agent Builder. Roha is hardworking, collaborative, and brings real value to every team she joins.",
-      pfp: "/placeholder.svg?height=40&width=40",
-      socialLink: { type: "linkedin", url: "https://linkedin.com/in/davidlee" },
+      pfp: "/testimonials/manail.png",
+      socialLink: { type: "linkedin", url: "https://www.linkedin.com/in/manail-ghouri-a28069256/" },
     },
     {
       name: "Laiba Laeeq",
