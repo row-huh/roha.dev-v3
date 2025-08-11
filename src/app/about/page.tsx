@@ -26,9 +26,11 @@ export default function AboutPage() {
       < NavBar />
 
       <main className="relative z-10 pt-24">
-        <div className="flex min-h-screen">
-          {/* Fixed Sidebar */}
-          <div className="fixed left-6 top-24 bottom-0 w-64 backdrop-blur-xl border-r border-gray-700/50 p-6 flex flex-col">
+<div className="flex flex-col md:flex-row min-h-screen">
+  {/* Sidebar */}
+  <div className="md:fixed md:left-6 md:right-auto md:top-24 md:bottom-0 md:w-64 
+                  w-full md:border-r border-gray-700/50 p-6 
+                  flex flex-col md:backdrop-blur-xl">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -118,8 +120,8 @@ export default function AboutPage() {
           </div>
 
           {/* Scrollable Content */}
-          <div className="ml-64 flex-1 overflow-y-auto">
-            <div className="px-6 py-6 transform scale-95 origin-top">
+          <div className="md:ml-64 flex-1 overflow-y-auto">
+            <div className="pt-15 px-4 sm:px-6 py-6 transform scale-100 md:scale-95 origin-top">
               {/* Page Title */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
