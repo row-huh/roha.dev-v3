@@ -53,7 +53,7 @@ export default function ContactPage() {
                   <Github className="h-6 w-6" />
                 </Button>
               </Link>
-              <Link href="https://linkedin.com/in/roha-pathan" target="_blank" rel="noopener noreferrer">
+              <Link href="https://www.linkedin.com/in/roha-pathan-687960272/" target="_blank" rel="noopener noreferrer">
                 <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
                   <Linkedin className="h-6 w-6" />
                 </Button>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                 id="name"
                 name="name"
                 type="text"
-                placeholder="John Doe"
+                placeholder="Your Name"
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
@@ -89,7 +89,7 @@ export default function ContactPage() {
                 id="email"
                 name="email"
                 type="email"
-                placeholder="john.doe@example.com"
+                placeholder="Your Email"
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
@@ -101,7 +101,7 @@ export default function ContactPage() {
                 id="subject"
                 name="subject"
                 type="text"
-                placeholder="Regarding a project, collaboration, etc."
+                placeholder="The TL;DR of your message"
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>
@@ -113,7 +113,7 @@ export default function ContactPage() {
                 id="message"
                 name="message"
                 rows={5}
-                placeholder="Type your message here..."
+                placeholder="Deploy your thoughts here..."
                 className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 focus:ring-purple-500 focus:border-purple-500"
               />
             </div>

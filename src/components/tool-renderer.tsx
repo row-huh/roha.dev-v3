@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ExternalLink, Download, Github, Linkedin, Twitter, MessageCircle } from "lucide-react"
+import { ExternalLink, Download, Github, Linkedin, Twitter, MessageCircle, Mail, PhoneCall } from "lucide-react"
+import ResumeTool from "./tools/resume-tool"
 
 interface ToolRendererProps {
   toolName: "resume" | "skills" | "social"
@@ -9,53 +10,7 @@ interface ToolRendererProps {
 export default function ToolRenderer({ toolName }: ToolRendererProps) {
   if (toolName === "resume") {
     return (
-      <Card className="ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md border-white/10">
-        <CardContent className="p-6">
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Resume Preview */}
-            <div className="flex-1">
-              <div className="aspect-[8.5/11] bg-white rounded-lg shadow-lg overflow-hidden">
-                <iframe src="/resume/resume.pdf" className="w-full h-full" title="Resume Preview" />
-              </div>
-            </div>
-
-            {/* Resume Actions */}
-            <div className="lg:w-64 space-y-4">
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Resume</h3>
-                <p className="text-gray-300 text-sm mb-4">
-                  View my professional background, experience, and qualifications.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <Button asChild className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                  <a
-                    href="/resume/resume.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    View Full Resume
-                  </a>
-                </Button>
-
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full ring-1 ring-white/15 bg-white/[0.06] text-white hover:bg-white/[0.08]"
-                >
-                  <a href="/resume/resume.pdf" download="Roha_Tyagi_Resume.pdf" className="flex items-center gap-2">
-                    <Download className="w-4 h-4" />
-                    Download PDF
-                  </a>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <ResumeTool/>
     )
   }
 
@@ -119,41 +74,56 @@ export default function ToolRenderer({ toolName }: ToolRendererProps) {
 
   if (toolName === "social") {
     const socialLinks = [
-      {
-        name: "Twitter/X",
-        handle: "@rohatyagi",
-        url: "https://twitter.com/rohatyagi",
-        icon: Twitter,
-        color: "hover:bg-blue-500/20",
-      },
-      {
-        name: "LinkedIn",
-        handle: "roha-tyagi",
-        url: "https://linkedin.com/in/roha-tyagi",
-        icon: Linkedin,
-        color: "hover:bg-blue-600/20",
-      },
-      {
-        name: "GitHub",
-        handle: "rohatyagi",
-        url: "https://github.com/rohatyagi",
-        icon: Github,
-        color: "hover:bg-gray-500/20",
-      },
-      {
-        name: "Discord",
-        handle: "@bababooey9753",
-        url: "#",
-        icon: MessageCircle,
-        color: "hover:bg-indigo-500/20",
-      },
-      {
-        name: "Medium",
-        handle: "@roha-pathan125",
-        url: "https://medium.com/@roha-pathan125",
-        icon: ExternalLink,
-        color: "hover:bg-green-500/20",
-      },
+{
+  name: "Twitter/X",
+  handle: "@rokage_125",
+  url: "https://twitter.com/rokage_125",
+  icon: Twitter,
+  color: "hover:bg-gradient-to-r hover:from-purple-700 hover:to-indigo-800/40",
+},
+{
+  name: "LinkedIn",
+  handle: "roha-pathan",
+  url: "https://www.linkedin.com/in/roha-pathan-687960272/",
+  icon: Linkedin,
+  color: "hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-900/40",
+},
+{
+  name: "GitHub",
+  handle: "row-huh",
+  url: "https://github.com/row-huh",
+  icon: Github,
+  color: "hover:bg-gradient-to-r hover:from-violet-800 hover:to-purple-900/40",
+},
+{
+  name: "Discord",
+  handle: "@bababooey9753",
+  url: "https://discord.com/users/bababooey9753",
+  icon: MessageCircle,
+  color: "hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-900/40",
+},
+{
+  name: "Medium",
+  handle: "@roha-pathan125",
+  url: "https://medium.com/@roha-pathan125",
+  icon: ExternalLink,
+  color: "hover:bg-gradient-to-r hover:from-fuchsia-800 hover:to-purple-900/40",
+},
+{
+  name: "Mail",
+  handle: "roha.pathan125@gmail.com",
+  url: "mailto:roha.pathan125@gmail.com",
+  icon: Mail,
+  color: "hover:bg-gradient-to-r hover:from-purple-900 hover:to-indigo-900/40",
+},
+{
+  name: "Phone",
+  handle: "+92 325 7007071",
+  url: "#",
+  icon: PhoneCall,
+  color: "hover:bg-gradient-to-r hover:from-indigo-800 hover:to-purple-900/40",
+},
+
     ]
 
     return (

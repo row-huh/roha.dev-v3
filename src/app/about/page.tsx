@@ -127,13 +127,17 @@ export default function AboutPage() {
                 transition={{ duration: 0.8 }}
                 className="mb-16 text-center"
               >
-                <h1 className="text-2xl md:text-6xl font-medium text-white mb-4 leading-tight">
+                <h1 className="text-2xl md:text-6xl font-medium text-white mb-4 leading-tight text-center">
                   About the young <span className="text-purple-400 font-normal">padawan</span>
                 </h1>
-                <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8">
+                <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8 text-center">
                   This padawan has a lot of lore which you can either scroll below to read or just ask!
                 </p>
-                <AIAssistantPreview/>
+
+                <div className="flex justify-center">
+                  <AIAssistantPreview />
+                </div>
+
               </motion.div>
 
               {/* How it Began */}
@@ -160,8 +164,6 @@ export default function AboutPage() {
               <div className="mb-0">
                 <DeepLearningJourney />
               </div>
-
-              <Footer/>
               
             </div>
           </div>

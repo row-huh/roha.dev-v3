@@ -289,10 +289,11 @@ useEffect(() => {
   const suggestions = useMemo(
     () => [
       "Show me recent projects",
-      "What's the latest post?",
-      "What are you working on now?",
-      "What's your favorite song?",
-      "Show me your resume",
+      "Show me her resume",
+      "What tools does Roha use?",
+      "How can I contact Roha?",
+      "What's her favorite song?",
+
     ],
     [],
   )
@@ -339,7 +340,9 @@ useEffect(() => {
         <main className="relative z-10">
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
             <h1 className="mb-4 text-2xl font-semibold tracking-tight text-white md:text-4xl">
-              Ask me anything about Roha
+              Hi, I'm <span className="text-purple-400 font-normal">Pethia</span> 
+              <br />
+              Ask me anything about <span className="text-purple-400 font-normal">Roha</span>
             </h1>
 
             <div className="mt-2 w-full max-w-xl">
