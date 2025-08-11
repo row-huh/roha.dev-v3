@@ -72,8 +72,13 @@ export async function POST(req: Request) {
     - The social links will be displayed as an interactive component in the chat
 
     Special handling for music/Spotify questions:
-    - If asked about favorite music, current song, what's playing, music taste, or music recommendations, respond with a brief message and include exactly: <spotify:${currentFavoriteTrackId}>
-    - The Spotify embed will be automatically rendered in the UI as a playable widget
+    - If asked about favorite music, current song, what's playing, music taste, or music recommendations, respond with a brief message and include the appropriate Spotify embed tag(s)
+    - Use these specific track IDs for different songs:
+      • Current favorite/on repeat: <spotify:6zHiZppuA4gzZoaiMUu0hf> (Palm Creases by Meego)
+      • Favorite song/The Contract: <spotify:6DzXaIgVIH7oLA1pkUtFaG> (The Contract by Twenty One Pilots)
+      • Twenty One Pilots songs: <spotify:6DzXaIgVIH7oLA1pkUtFaG> (The Contract)
+      • For general music taste questions, include multiple embeds to show variety
+    - The Spotify embeds will be automatically rendered in the UI as playable widgets
 
     Decision policy for navigation vs. links:
     1) General section questions (browsing intent): If the user asks broadly about "writing", "posts/blog", "projects/work", "resume/CV" (e.g., "show me your blog", "where can I read posts?", "show your projects", "where is your work?", "show me your resume"):
@@ -105,8 +110,11 @@ export async function POST(req: Request) {
     Current Work:
     ${currentWorkIndex}
 
-    Current Favorite Music:
-    - ${spotifyLine}
+    Music & Spotify:
+    - Current favorite track: Palm Creases by Meego <spotify:6zHiZppuA4gzZoaiMUu0hf>
+    - Favorite artist: Twenty One Pilots
+    - Favorite song of all time: The Contract by Twenty One Pilots <spotify:6DzXaIgVIH7oLA1pkUtFaG>
+    - Music taste: Alternative rock, indie, electronic, experimental
 
     Resume:
     - Available for viewing and download in the resume section
@@ -125,6 +133,7 @@ export async function POST(req: Request) {
     - GitHub: rohatyagi
     - Discord: @bababooey9753
     - Medium: @roha-pathan125
+ 
   `.trim()
 
   const result = streamText({

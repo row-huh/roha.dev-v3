@@ -58,16 +58,20 @@ function extractToolTag(text: string): { cleanedText: string; tool: ToolName } {
 }
 
 /**
- * Extract Spotify track ID from text like "<spotify:trackId>"
- * Returns { cleanedText, spotifyTrackId } where cleanedText has the tag removed
+ * Extract all Spotify track IDs from text like "<spotify:trackId>"
+ * Returns { cleanedText, spotifyTrackIds } where cleanedText has all tags removed
  */
-function extractSpotifyEmbed(text: string): { cleanedText: string; spotifyTrackId: string | null } {
-  const re = /<\s*spotify\s*:\s*([a-zA-Z0-9]+)\s*>/i
-  const match = text.match(re)
-  if (!match) return { cleanedText: text, spotifyTrackId: null }
-  const spotifyTrackId = match[1]
+function extractSpotifyEmbeds(text: string): { cleanedText: string; spotifyTrackIds: string[] } {
+  const re = /<\s*spotify\s*:\s*([a-zA-Z0-9]+)\s*>/gi
+  const spotifyTrackIds: string[] = []
+  let match: RegExpExecArray | null
+
+  while ((match = re.exec(text)) !== null) {
+    spotifyTrackIds.push(match[1])
+  }
+
   const cleanedText = text.replace(re, "").trim()
-  return { cleanedText, spotifyTrackId }
+  return { cleanedText, spotifyTrackIds }
 }
 
 /**
@@ -217,6 +221,29 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
   )
 }
 
+/**
+ * Spotify embed component
+ */
+function SpotifyEmbed({ trackId }: { trackId: string }) {
+  return (
+    <div className="max-w-[400px] w-full">
+      <div className="rounded-xl overflow-hidden ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md p-1">
+        <iframe
+          style={{ borderRadius: "12px" }}
+          src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`}
+          width="100%"
+          height="152"
+          frameBorder="0"
+          allowFullScreen={true}
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          title="Spotify Player"
+        />
+      </div>
+    </div>
+  )
+}
+
 export default function AssistantPage() {
   const searchParams = useSearchParams()
   const { messages, sendMessage, stop, error, status } = useChat({
@@ -229,8 +256,9 @@ export default function AssistantPage() {
 
   const isActive = hasStartedChat || messages.length > 0
   const isStreaming = status === "submitted" || status === "streaming"
-const hasSentRef = useRef(false)
 
+  const hasSentRef = useRef(false)
+  // Prefill from sessionStorage or URL on first load, optionally auto-send
 useEffect(() => {
   const stored = (typeof window !== "undefined" && sessionStorage.getItem("pethia:initial")) || ""
   const urlQ = searchParams?.get("q") || ""
@@ -252,7 +280,6 @@ useEffect(() => {
     }, 0)
   }
 }, [])
-
 
 
   useEffect(() => {
@@ -357,14 +384,14 @@ useEffect(() => {
                   const isUser = m.role === "user"
                   const rawText = extractMessageText(m)
 
-                  // Extract tool and Spotify embed for assistant messages
+                  // Extract tool and Spotify embeds for assistant messages
                   const { cleanedText: toolCleaned, tool } = !isUser
                     ? extractToolTag(rawText)
                     : { cleanedText: rawText, tool: undefined }
 
-                  const { cleanedText, spotifyTrackId } = !isUser
-                    ? extractSpotifyEmbed(toolCleaned)
-                    : { cleanedText: toolCleaned, spotifyTrackId: null }
+                  const { cleanedText, spotifyTrackIds } = !isUser
+                    ? extractSpotifyEmbeds(toolCleaned)
+                    : { cleanedText: toolCleaned, spotifyTrackIds: [] }
 
                   // Extract internal links for assistant messages to render link tiles
                   const internalLinks = !isUser ? extractInternalLinks(cleanedText) : []
@@ -384,23 +411,13 @@ useEffect(() => {
                         </div>
                       </div>
 
-                      {/* Spotify embed */}
-                      {!isUser && spotifyTrackId && (
+                      {/* Spotify embeds - can be multiple */}
+                      {!isUser && spotifyTrackIds.length > 0 && (
                         <div className="flex w-full justify-start pl-1">
-                          <div className="max-w-[400px] w-full">
-                            <div className="rounded-xl overflow-hidden ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md p-1">
-                              <iframe
-                                style={{ borderRadius: "12px" }}
-                                src={`https://open.spotify.com/embed/track/${spotifyTrackId}?utm_source=generator&theme=0`}
-                                width="100%"
-                                height="152"
-                                frameBorder="0"
-                                allowFullScreen={true}
-                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                                loading="lazy"
-                                title="Spotify Player"
-                              />
-                            </div>
+                          <div className="flex flex-col gap-3 w-full">
+                            {spotifyTrackIds.map((trackId, index) => (
+                              <SpotifyEmbed key={`${trackId}-${index}`} trackId={trackId} />
+                            ))}
                           </div>
                         </div>
                       )}
