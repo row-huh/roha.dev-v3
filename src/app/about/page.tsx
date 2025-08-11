@@ -28,7 +28,7 @@ export default function AboutPage() {
       <main className="relative z-10 pt-24">
         <div className="flex min-h-screen">
           {/* Fixed Sidebar */}
-          <div className="fixed left-0 top-24 bottom-0 w-64 backdrop-blur-xl border-r border-gray-700/50 p-6 flex flex-col">
+          <div className="fixed left-6 top-24 bottom-0 w-64 backdrop-blur-xl border-r border-gray-700/50 p-6 flex flex-col">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
