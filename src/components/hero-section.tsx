@@ -4,6 +4,9 @@ import { motion } from "framer-motion"
 import TerminalAnimation from "./terminal-animation" // Import TerminalAnimation
 import AIAssistantPreview from "./ai-assistant-preview" // Import AIAssistantPreview component
 
+
+
+
 export default function HeroSection() {
   return (
     <section className="pt-24 pb-20 px-8 relative z-10 min-h-screen flex items-center">

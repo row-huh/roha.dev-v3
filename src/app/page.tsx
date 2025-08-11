@@ -36,6 +36,7 @@ function HomePageContent() {
 
 
 
+
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
       {/* Interactive Background with Marble */}
