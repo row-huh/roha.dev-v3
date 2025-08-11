@@ -24,7 +24,7 @@ export default function HeroSection() {
             <p className="text-xl text-gray-400 mb-8 leading-relaxed font-light">
               Fullstack developer exploring AI engineering and building intelligent applications.
             </p>
-            <AIAssistantPreview compact={true} />
+            <AIAssistantPreview />
           </motion.div>
 
           {/* Right Side - Terminal Animation */}

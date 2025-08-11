@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import { Send, StopCircle, Home, Briefcase, PenLine, Mail, ChevronRight } from "lucide-react"
 import { projectDetails } from "@/app/projects/[slug]/projectDetails"
 import ToolRenderer from "@/components/tool-renderer"
+import { DefaultChatTransport } from "ai"
+
 
 type ToolName = "home" | "work" | "writing" | "contact" | "resume" | "skills" | "social" | undefined
 
@@ -244,10 +246,15 @@ function SpotifyEmbed({ trackId }: { trackId: string }) {
   )
 }
 
+const transport = new DefaultChatTransport({
+  api: "/api/chat",
+})
+
+
 export default function AssistantPage() {
   const searchParams = useSearchParams()
   const { messages, sendMessage, stop, error, status } = useChat({
-    api: "/api/chat",
+    transport
   })
 
   const [input, setInput] = useState("")
