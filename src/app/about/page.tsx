@@ -133,7 +133,7 @@ export default function AboutPage() {
                 <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8">
                   This padawan has a lot of lore which you can either scroll below to read or just ask!
                 </p>
-                <AIAssistantPreview compact={true}/>
+                <AIAssistantPreview/>
               </motion.div>
 
               {/* How it Began */}
@@ -161,6 +161,7 @@ export default function AboutPage() {
                 <DeepLearningJourney />
               </div>
 
+              <Footer/>
               
             </div>
           </div>
