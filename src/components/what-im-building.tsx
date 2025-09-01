@@ -31,7 +31,7 @@ export default function WhatImBuilding() {
                     View Code
                   </Button>
                 </Link>
-                <Link href="/writing/llms-demystified">
+                <Link href="/writing/llms-from-scratch">
                   {" "}
                   {/* Updated href */}
                   <Button

@@ -62,7 +62,7 @@ To convert into token ids;
 - use enumerate to assign a number to each and create a dict object - call it `vocab`
 - now we'll use this `vocab` to convert all the tokens into token ids. You have a map, now you transform everything according to that map. 
   
-![Figure 2.7](md-assets/llm-from-scratch/image.png)  
+![Figure 2.7](/md-assets/llm-from-scratch/image.png)  
   
 
 At this point, you have a list of token_ids adjacent to each token so you can convert your original list of tokens into token_ids. 
@@ -146,7 +146,7 @@ Just to recap, so far:
 ## 2.6 Data Sampling wih a sliding window
 LLms are pretrained by predicting the next word in a text;  
   
-![alt text](md-assets/llm-from-scratch/image2.png)
+![alt text](/md-assets/llm-from-scratch/image2.png)
 
 Next step is to create input-target pairs.  
 You accept a list of inputs then the model predicts the most likely next word for that list of inputs. 
@@ -173,7 +173,7 @@ Here, `context_size` is how many tokens would be included in the input. `context
 #### Data Loader and Dataset classes
 One last step before turning tokens into embeddings: implementing an efficient data loader that iterates over the input dataset and returns the inputs and targets as PyTorch tensors, which can be thought of as multidimensional arrays
   
-![alt text](md-assets/llm-from-scratch/image3.png)  
+![alt text](/md-assets/llm-from-scratch/image3.png)  
   
 Creating this class to create input/target pairs in tensors with each tensor created by a skipping-token-amount of `stride` (if that makes sense):  
 Each row consists of a number of tokenIDs (based on `max_length`)
@@ -430,7 +430,7 @@ print(attn_scores)
 
 ```
 
-![alt text](md-assets/llm-from-scratch/image4.png)
+![alt text](/md-assets/llm-from-scratch/image4.png)
 
 The resulting attention scores look a lil like this:
 ```
