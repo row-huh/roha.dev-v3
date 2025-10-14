@@ -1,6 +1,7 @@
 ---
 title: "Meaning Is Just a Story We All Agreed On"
-description: "This is what happens when you watch too much exurb1a, read mark manson and sapiens"
+description: "TWe — as a species have a tendency to cooperate among a group with up to 150 people. If we go over that, conflicts begin to rise leading to splitting off of groups. I want you to just think about that for a second, If such is true then how come there are thousands of people gathering to fight for a country, for a religion, for a cause?
+"
 date: "Oct 14, 2025"
 image: ""
 category: "side-notes"
