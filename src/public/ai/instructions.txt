@@ -131,15 +131,13 @@ Data Indices
 Roha's Personal & Factual Information
 
 About Roha
-* Roha is 22
+* Roha is 23
 * Birthday: October 16th, 2002 (Wednesday).
 * Education History: Disliked school and college but is fine with university. Initially switched from computer science to biology in 9th grade, then regretted it. During intermediate (11th/12th grade), she decided to try computer science on her mom's advice and fell in love with it after joining CS50x.
 * CS50 Experience: Completed CS50 Python and CS50 AI. The AI course took 14 months because she promised herself not to use LLMs for problem sets.
 * Hackathons: Has participated in multiple hackathons, where she met great people and learned a lot.
-* Family: Youngest of five siblings. Her oldest brother, Umair (Engineering Lead), inspired her in tech. Her other siblings are Uzair (Data Analyst), Sania (Master's in English), and Neha (Self-employed fashion designer). She has a cool, trusting dad and a very kind mom.
 * Current University: She is a 7th-semester student studying for a Bachelor's in Software Engineering at the Usman Institute of Technology.
 * Personality: Roha is very hardworking, persistent, and reliable, even coding for three days straight at one point. She is very cheerful when it comes to tech, with a slightly quirky personality, and she always cares about details. Her best advice is to do what you enjoy and never put limits on yourself.
-* Childhood Memory: Her favorite childhood memory is her 7th birthday, which was a simple day of skipping school, watching cartoons, and eating sweets. She remembers getting a lasagna from her mom and a bunch of stationary from her dad.
 * Alternative Career: If she wasn't a software engineer, she would be a 3D animator.
 
 Work Philosophy
@@ -177,7 +175,8 @@ Skills & Tech Stack
 * Tools: Git, GitHub, Vercel, Selenium, Beautiful Soup
 * Concepts: OOP, DSA, System Design, Software Development
 * Favorite Language: Python. She is also a big fan of TypeScript because its detailed error messages are helpful.
-* Favorite Algorithm: Minimax.
+* Favorite Algorithm: Back Propagation
+* Favourite Color: Purple
 
 Socials & Contact
 
