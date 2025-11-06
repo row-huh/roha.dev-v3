@@ -13,6 +13,7 @@ import WhatsPlaying from "@/components/whats-playing"
 import Footer from "@/components/footer"
 import CTA from "@/components/cta"
 import BlogsCarousel from "@/components/blogs-carousel"
+import ScrollProgress from "@/components/scroll-progress"
 
 
 function HomePageContent() {
@@ -39,6 +40,9 @@ function HomePageContent() {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+      {/* Scroll Progress Indicator */}
+      <ScrollProgress />
+      
       {/* Interactive Background with Marble */}
       <InteractiveBackground />
 
@@ -46,10 +50,14 @@ function HomePageContent() {
       < NavBar />
 
       {/* Hero Section */}
-      < HeroSection />
+      <div id="hero">
+        < HeroSection />
+      </div>
 
       {/* My Skills Section */}
-      < MySkills />
+      <div id="skills">
+        < MySkills />
+      </div>
 
       {/* My Coding Journey Section (Certificates) */}
       {/* < Cs50Certificates /> */}
@@ -75,20 +83,30 @@ function HomePageContent() {
       {/* < DeepLearningJourney /> */}
 
       {/* What I'm Building Section */}
-      < WhatImBuilding />
+      <div id="building">
+        < WhatImBuilding />
+      </div>
 
       {/* Collaborations */}
-      <TestimonialsCarousel/>
+      <div id="testimonials">
+        <TestimonialsCarousel/>
+      </div>
 
 
       {/* What's Playing */}
-      < WhatsPlaying />
+      <div id="playing">
+        < WhatsPlaying />
+      </div>
 
       {/* Blogs Carousel Section */}
-      < BlogsCarousel/>
+      <div id="blogs">
+        < BlogsCarousel/>
+      </div>
 
       {/* Final CTA */}
-      < CTA />
+      <div id="cta">
+        < CTA />
+      </div>
 
       {/* Footer */}
       <Footer />

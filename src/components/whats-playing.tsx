@@ -20,13 +20,12 @@ export default function WhatsPlaying() {
             <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
               <iframe
                 style={{ borderRadius: "12px" }}
-                src="https://open.spotify.com/embed/track/1PxWdVaPyl0nekE1C5sylV?utm_source=generator"
+                src="https://open.spotify.com/embed/track/67JO1LQ0eoieflPKLtu9A2?utm_source=generator"
                 width="100%"
                 height="352"
                 frameBorder="0"
                 allowFullScreen={true}
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
                 title="Spotify Embed"
               ></iframe>
             </Card>
