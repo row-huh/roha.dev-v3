@@ -52,6 +52,8 @@ export async function generateMetadata(
       title: post.title,
       description: post.description,
       images: [ogImage],
+      site: "@rokage_125",
+      creator: "@rokage_125",
     },
   }
 }
