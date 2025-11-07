@@ -46,7 +46,7 @@ export default function AIAssistantPreview() {
           <Input
             value={value}
             onChange={(e) => handleChange(e.target.value)}
-            placeholder="I'm Pethia, Ask me anything or just say hi"
+            placeholder="Ask my AI anything or just say hi!"
             className="h-12 flex-1 rounded-xl border-white/10 bg-white/[0.06] text-gray-100 placeholder:text-gray-300/70
                        focus-visible:ring-purple-500/60"
             onKeyDown={(e) => {

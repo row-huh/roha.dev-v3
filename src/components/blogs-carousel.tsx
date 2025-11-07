@@ -49,9 +49,27 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   const rafRef = useRef<number | null>(null)
   const targetScrollRef = useRef(0)
   const currentScrollRef = useRef(0)
+  const isPinnedRef = useRef(false)
+  const touchStartYRef = useRef<number | null>(null)
+  
+  // Tunables: reduce this to make the right column scroll more slowly
+  // 0.20 = fast catch-up, 0.12 = default, 0.06 = slower
+  const CATCH_UP_FACTOR = 0.06
+  // Sticky offset in px for lg:top-24 (6rem)
+  const STICKY_TOP_OFFSET = 96
+  // Multiplier to control how much the right list moves per wheel/touch delta
+  const SCROLL_MULTIPLIER = 0.6
 
   useEffect(() => {
     const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+
+    const computePinned = () => {
+      if (!sectionRef.current) return false
+      const rect = sectionRef.current.getBoundingClientRect()
+      const viewportHeight = window.innerHeight
+      // Pinned when section top reaches sticky offset and bottom still below viewport
+      return rect.top <= STICKY_TOP_OFFSET && rect.bottom >= viewportHeight
+    }
 
     const startAnimationLoop = () => {
       if (rafRef.current != null) return
@@ -71,8 +89,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
           rafRef.current = null
           return
         }
-        // Smoothly approach target (tunable 0.12 -> slower, 0.2 -> faster)
-        currentScrollRef.current = current + delta * 0.12
+        // Smoothly approach target; smaller factor = slower perceived speed
+        currentScrollRef.current = current + delta * CATCH_UP_FACTOR
         el.scrollTop = currentScrollRef.current
         rafRef.current = requestAnimationFrame(tick)
       }
@@ -90,8 +108,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       const sectionHeight = sectionRef.current.offsetHeight
       const viewportHeight = window.innerHeight
 
-      // Match sticky offset (lg:top-24 ~= 6rem = 96px)
-      const topOffset = 96
+  // Match sticky offset (lg:top-24 ~= 6rem = 96px)
+  const topOffset = STICKY_TOP_OFFSET
 
       // Range where the left is effectively pinned
       const pinStart = sectionTop - topOffset
@@ -106,7 +124,12 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
       const el = rightRef.current
       const maxScroll = el.scrollHeight - el.clientHeight
-      if (maxScroll > 0) {
+
+      // Update pinned state for wheel/touch handling
+      isPinnedRef.current = computePinned()
+
+      // While pinned, do NOT drive the right list from page scroll
+      if (!isPinnedRef.current && maxScroll > 0) {
         targetScrollRef.current = t * maxScroll
         // Start the rAF loop if not running
         startAnimationLoop()
@@ -119,8 +142,77 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       onScroll()
     }
 
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
+
+    const scrollRightBy = (deltaY: number) => {
+      const el = rightRef.current
+      if (!el) return
+      const maxScroll = el.scrollHeight - el.clientHeight
+      if (maxScroll <= 0) return
+      const next = clamp((targetScrollRef.current || el.scrollTop) + deltaY * SCROLL_MULTIPLIER, 0, maxScroll)
+      targetScrollRef.current = next
+      // Start or continue the rAF smoothing loop
+      if (rafRef.current == null) startAnimationLoop()
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      if (window.innerWidth < 1024) return // don't hijack on small screens
+      const pinned = computePinned()
+      isPinnedRef.current = pinned
+      if (!pinned) return
+
+      const el = rightRef.current
+      if (!el) return
+      const maxScroll = el.scrollHeight - el.clientHeight
+      if (maxScroll <= 0) return
+
+      const dy = e.deltaY
+      const atTop = el.scrollTop <= 0
+      const atBottom = el.scrollTop >= maxScroll - 1
+
+      // Allow page to move only when user tries to scroll past edges
+      if ((atTop && dy < 0) || (atBottom && dy > 0)) {
+        return
+      }
+
+      e.preventDefault()
+      scrollRightBy(dy)
+    }
+
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartYRef.current = e.touches[0]?.clientY ?? null
+    }
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (window.innerWidth < 1024) return
+      const pinned = computePinned()
+      isPinnedRef.current = pinned
+      if (!pinned) return
+
+      const startY = touchStartYRef.current
+      if (startY == null) return
+      const y = e.touches[0]?.clientY ?? startY
+  const dy = startY - y
+
+      const el = rightRef.current
+      if (!el) return
+      const maxScroll = el.scrollHeight - el.clientHeight
+      if (maxScroll <= 0) return
+
+      const atTop = el.scrollTop <= 0
+      const atBottom = el.scrollTop >= maxScroll - 1
+      if ((atTop && dy < 0) || (atBottom && dy > 0)) {
+        return
+      }
+      e.preventDefault()
+      scrollRightBy(dy)
+    }
+
     window.addEventListener("scroll", onScroll, { passive: true })
     window.addEventListener("resize", onResize)
+    window.addEventListener("wheel", onWheel, { passive: false })
+    window.addEventListener("touchstart", onTouchStart, { passive: true })
+    window.addEventListener("touchmove", onTouchMove, { passive: false })
 
     // Initialize state
     currentScrollRef.current = rightRef.current?.scrollTop ?? 0
@@ -129,6 +221,9 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
     return () => {
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("resize", onResize)
+      window.removeEventListener("wheel", onWheel)
+      window.removeEventListener("touchstart", onTouchStart)
+      window.removeEventListener("touchmove", onTouchMove)
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
       rafRef.current = null
     }
