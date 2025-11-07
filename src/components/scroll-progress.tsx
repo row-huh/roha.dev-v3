@@ -3,13 +3,14 @@
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
 
+// Order must match vertical order in app/page.tsx
 const sections = [
   { id: "hero", label: "Home" },
   { id: "skills", label: "Skills" },
+  { id: "blogs", label: "Writing" },
   { id: "building", label: "Projects" },
   { id: "testimonials", label: "Testimonials" },
   { id: "playing", label: "Music" },
-  { id: "blogs", label: "Writing" },
   { id: "cta", label: "Contact" },
 ]
 
@@ -17,28 +18,39 @@ export default function ScrollProgress() {
   const [activeSection, setActiveSection] = useState("hero")
 
   useEffect(() => {
+    const getOffset = () => {
+      const nav = document.querySelector("nav") as HTMLElement | null
+      // Add a small breathing room below the navbar
+      return (nav?.offsetHeight ?? 0) + 8
+    }
+
     const handleScroll = () => {
+      const offset = getOffset()
       const scrollPosition = window.scrollY + window.innerHeight / 3
 
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i].id)
-        if (section && section.offsetTop <= scrollPosition) {
+        const el = document.getElementById(sections[i].id)
+        if (!el) continue
+        const top = el.getBoundingClientRect().top + window.scrollY - offset
+        if (top <= scrollPosition) {
           setActiveSection(sections[i].id)
           break
         }
       }
     }
 
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
+    if (!element) return
+    const nav = document.querySelector("nav") as HTMLElement | null
+    const offset = (nav?.offsetHeight ?? 0) + 8
+    const top = element.getBoundingClientRect().top + window.scrollY - offset
+    window.scrollTo({ top, behavior: "smooth" })
   }
 
   return (
