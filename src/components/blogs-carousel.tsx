@@ -1,10 +1,6 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -14,19 +10,22 @@ interface BlogPost {
   date: string
   image: string
   link: string
-  logos?: string[] // optional array of logo image URLs
+  logos?: string[]
 }
 
 interface BlogsCarouselProps {
-  posts?: BlogPost[] // make optional so the component can fetch if not passed
+  posts?: BlogPost[]
 }
 
+// Contract
+// - Inputs: up to 4 BlogPost items (fetched if not provided)
+// - Output: responsive grid with sticky featured left, scrollable list right
+// - Behavior: hover zoom on images, full-card link overlay, smooth sticky top
 export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
 
   useEffect(() => {
-    if (posts && posts.length > 0) return // skip fetch if already provided
-
+    if (posts && posts.length) return
     let cancelled = false
     const load = async () => {
       try {
@@ -35,7 +34,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
         const data: BlogPost[] = await res.json()
         if (!cancelled) setBlogPosts(data)
       } catch {
-        // silently ignore for now
+        // ignore
       }
     }
     load()
@@ -44,154 +43,228 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
     }
   }, [posts])
 
-  const carouselRef = useRef<HTMLDivElement>(null)
+  // Refs for programmatic scroll sync (must be before any early returns to keep hook order stable)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const rightRef = useRef<HTMLDivElement | null>(null)
+  const rafRef = useRef<number | null>(null)
+  const targetScrollRef = useRef(0)
+  const currentScrollRef = useRef(0)
 
-  const scroll = (direction: "left" | "right") => {
-    if (carouselRef.current) {
-      const scrollAmount = carouselRef.current.offsetWidth / 2
-      carouselRef.current.scrollBy({
-        left: direction === "right" ? scrollAmount : -scrollAmount,
-        behavior: "smooth",
-      })
+  useEffect(() => {
+    const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+
+    const startAnimationLoop = () => {
+      if (rafRef.current != null) return
+      const tick = () => {
+        const el = rightRef.current
+        if (!el) {
+          rafRef.current = null
+          return
+        }
+        const current = currentScrollRef.current
+        const target = targetScrollRef.current
+        const delta = target - current
+        // Small threshold to stop animating
+        if (Math.abs(delta) < 0.5) {
+          currentScrollRef.current = target
+          el.scrollTop = target
+          rafRef.current = null
+          return
+        }
+        // Smoothly approach target (tunable 0.12 -> slower, 0.2 -> faster)
+        currentScrollRef.current = current + delta * 0.12
+        el.scrollTop = currentScrollRef.current
+        rafRef.current = requestAnimationFrame(tick)
+      }
+      rafRef.current = requestAnimationFrame(tick)
     }
-  }
 
-  const itemsToRender = posts ?? blogPosts
+    const onScroll = () => {
+      if (!sectionRef.current || !rightRef.current) return
+
+      // Only sync on large screens where the left is sticky (approx >= 1024px)
+      if (window.innerWidth < 1024) return
+
+      const rect = sectionRef.current.getBoundingClientRect()
+      const sectionTop = window.scrollY + rect.top
+      const sectionHeight = sectionRef.current.offsetHeight
+      const viewportHeight = window.innerHeight
+
+      // Match sticky offset (lg:top-24 ~= 6rem = 96px)
+      const topOffset = 96
+
+      // Range where the left is effectively pinned
+      const pinStart = sectionTop - topOffset
+      const pinEnd = sectionTop + sectionHeight - viewportHeight
+      const pinRange = Math.max(pinEnd - pinStart, 1)
+
+      const y = window.scrollY
+      // Progress of the pin phase [0..1]
+      const tRaw = Math.min(Math.max((y - pinStart) / pinRange, 0), 1)
+      // Apply smooth easing (feels slower and smoother)
+      const t = easeInOutCubic(tRaw)
+
+      const el = rightRef.current
+      const maxScroll = el.scrollHeight - el.clientHeight
+      if (maxScroll > 0) {
+        targetScrollRef.current = t * maxScroll
+        // Start the rAF loop if not running
+        startAnimationLoop()
+      }
+    }
+
+    const onResize = () => {
+      // Keep currentScroll in bounds and re-evaluate target
+      currentScrollRef.current = rightRef.current?.scrollTop ?? 0
+      onScroll()
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onResize)
+
+    // Initialize state
+    currentScrollRef.current = rightRef.current?.scrollTop ?? 0
+    onScroll()
+
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onResize)
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
+      rafRef.current = null
+    }
+  }, [])
+
+  const items = posts ?? blogPosts
+  if (!items || items.length === 0) return null
+
+  const featured = items[0]
+  const secondary = items.slice(1, 4)
 
   return (
-    <section className="py-12 sm:py-16 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 relative z-10">
-      <div className="max-w-4xl mx-auto w-4/5">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-8 sm:mb-12 md:mb-16"
-        >
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-white mb-3 sm:mb-4">
-            Latest Insights
-          </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Dive into my thoughts on AI, development, and the future of technology.
-          </p>
-        </motion.div>
+    <section ref={sectionRef} className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
+      <div className="mx-auto max-w-7xl">
+        {/* Grid Setup: 4 cols on lg, single on small; responsive gap */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
+          {/* Left: Featured (spans 3) - Sticky + smooth top transition */}
+          <div className="lg:col-span-3 lg:sticky lg:top-24 lg:self-start transition-[top] duration-300">
+            <article className="group relative">
+              <div className="relative overflow-hidden rounded-md shadow-md">
+                {/* Mobile ratio */}
+                <div className="relative block md:hidden aspect-4/5">
+                  <Image
+                    src={featured.image}
+                    alt={featured.title}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 75vw, 100vw"
+                    className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.025]"
+                  />
+                </div>
+                {/* Desktop ratio */}
+                <div className="relative hidden md:block aspect-video">
+                  <Image
+                    src={featured.image}
+                    alt={featured.title}
+                    fill
+                    priority
+                    sizes="(min-width: 1280px) 900px, (min-width: 1024px) 75vw, 100vw"
+                    className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.025]"
+                  />
+                </div>
+                {/* Featured overlays: color wash + dark gradient + ring */}
+                <div className="pointer-events-none absolute inset-0">
+                  <div className="absolute inset-0 bg-linear-to-tr from-purple-500/25 via-indigo-500/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
+                  <div className="absolute inset-0 rounded-md ring-1 ring-white/10 group-hover:ring-white/20 transition-colors duration-300" />
+                </div>
+              </div>
 
-        <div className="relative">
-          <div
-            ref={carouselRef}
-            className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 gap-3 sm:gap-4"
-            style={{
-              scrollbarWidth: "thin",
-              scrollbarColor: "#6b21a8 #1f2937",
-            }}
-          >
-            {itemsToRender.map((post, index) => (
-              <motion.div
-                key={index}
-                className="flex-none w-64 sm:w-72 md:w-80 snap-center"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="group relative overflow-hidden rounded-xl sm:rounded-2xl h-full flex flex-col border-0 backdrop-blur-sm transition-all duration-500 hover:shadow-xl hover:shadow-purple-900/40">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-950/80 via-indigo-950/90 to-gray-950/95" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-purple-950/40" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-900/0 via-indigo-900/0 to-black/0 group-hover:from-purple-900/60 group-hover:via-indigo-900/50 group-hover:to-black/40 transition-all duration-500" />
-                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl border border-purple-500/30 group-hover:border-purple-400/50 transition-all duration-500" />
-
+              <div className="mt-4 space-y-3">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
                   <Link
-                    href={post.link}
+                    href={featured.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative z-10 p-4 sm:p-5 flex flex-col h-full group-hover:transform-none"
+                    className="relative inline-block after:content-[''] after:absolute after:inset-0"
+                    aria-label={featured.title}
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className="text-lg sm:text-xl font-semibold text-white leading-tight group-hover:text-purple-100 transition-colors duration-300 flex-1 pr-3">
-                        {post.title}
-                      </h4>
-                      <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-purple-300 transition-all duration-300 group-hover:scale-110 flex-shrink-0" />
-                    </div>
-
-                    <div className="h-px bg-gradient-to-r from-transparent via-purple-500/40 to-transparent mb-3 group-hover:via-purple-400/70 transition-all duration-500" />
-
-                    <p className="text-gray-300 group-hover:text-gray-200 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-3 flex-1 transition-colors duration-300">
-                      {post.description}
-                    </p>
-
-                    <div className="mt-auto pt-3 border-t border-white/10 group-hover:border-purple-400/20 flex justify-between items-center transition-all duration-300">
-                      <p className="text-xs text-gray-400 group-hover:text-purple-300 font-medium transition-colors duration-300">
-                        {post.date}
-                      </p>
-                      {post.logos && post.logos.length > 0 && (
-                        <div className="flex gap-1.5">
-                          {post.logos.map((logo, i) => (
-                            <div
-                              key={i}
-                              className="relative overflow-hidden rounded group-hover:scale-110 transition-transform duration-300"
-                            >
-                              <Image
-                                src={logo}
-                                alt="logo"
-                                width={20}
-                                height={20}
-                                className="rounded border border-white/20 group-hover:border-purple-400/30 transition-all duration-300"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
+                    {featured.title}
                   </Link>
-                </Card>
-              </motion.div>
-            ))}
+                </h3>
+                <p className="text-sm text-muted-foreground">{featured.date}</p>
+                <p className="text-base text-foreground/80">{featured.description}</p>
+              </div>
+            </article>
           </div>
 
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-900/90 border-purple-400/30 backdrop-blur-md text-purple-300 hover:bg-purple-900/60 hover:text-white hover:border-purple-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
-            onClick={() => scroll("left")}
+          {/* Right: Secondary cards (scroll beside sticky) */}
+          {/* Right programmatic scroller: disable native wheel scroll so it follows page scroll */}
+          <div
+            ref={rightRef}
+            className="lg:col-span-1 flex flex-col gap-8 lg:h-[600px] lg:overflow-hidden lg:pr-2"
+            style={{ scrollBehavior: "auto" }}
           >
-            <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-900/90 border-purple-400/30 backdrop-blur-md text-purple-300 hover:bg-purple-900/60 hover:text-white hover:border-purple-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
-            onClick={() => scroll("right")}
-          >
-            <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
-          </Button>
+            {secondary.map((post, i) => {
+              const overlays = [
+                "bg-linear-to-br from-amber-400/25 via-orange-500/20 to-transparent",
+                "bg-linear-to-br from-cyan-400/25 via-blue-500/20 to-transparent",
+                "bg-linear-to-br from-pink-500/25 via-violet-500/20 to-transparent",
+              ]
+              const colorOverlay = overlays[i % overlays.length]
+              return (
+              <article key={i} className="group relative">
+                <Link
+                  href={post.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="relative block"
+                  aria-label={post.title}
+                >
+                  <div className="relative overflow-hidden rounded-md shadow-sm">
+                    {/* Mobile square */}
+                    <div className="relative block md:hidden aspect-square">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, 100vw"
+                        className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.0125]"
+                      />
+                    </div>
+                    {/* Desktop fixed height to ensure scroll length */}
+                    <div className="relative hidden md:block h-[480px]">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(min-width: 1280px) 320px, (min-width: 1024px) 25vw, 100vw"
+                        className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.02]"
+                      />
+                    </div>
+                    {/* Card overlays: per-card color + dark + ring */}
+                    <div className="pointer-events-none absolute inset-0">
+                      <div className={`absolute inset-0 ${colorOverlay} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/25 to-transparent" />
+                      <div className="absolute inset-0 rounded-md ring-1 ring-white/10 group-hover:ring-white/20 transition-colors duration-300" />
+                    </div>
+                  </div>
+
+                  <div className="mt-3 space-y-1">
+                    <h4 className="text-lg sm:text-xl font-medium leading-snug">
+                      {post.title}
+                    </h4>
+                    <p className="text-xs text-muted-foreground">{post.date}</p>
+                    <p className="text-sm text-foreground/80">{post.description}</p>
+                  </div>
+
+                  {/* Full clickable overlay */}
+                  <span className="pointer-events-none absolute inset-0 after:content-[''] after:absolute after:inset-0" />
+                </Link>
+              </article>
+            )})}
+          </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        @media (max-width: 640px) {
-          div[style*="scrollbarWidth"]::-webkit-scrollbar {
-            height: 4px;
-            display: block;
-          }
-          div[style*="scrollbarWidth"]::-webkit-scrollbar-track {
-            background: #1f2937;
-            border-radius: 10px;
-          }
-          div[style*="scrollbarWidth"]::-webkit-scrollbar-thumb {
-            background: #6b21a8;
-            border-radius: 10px;
-          }
-          div[style*="scrollbarWidth"]::-webkit-scrollbar-thumb:hover {
-            background: #7c3aed;
-          }
-        }
-      `}</style>
     </section>
   )
 }
