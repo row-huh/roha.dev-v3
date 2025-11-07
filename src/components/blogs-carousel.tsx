@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useId } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -8,7 +8,7 @@ interface BlogPost {
   title: string
   description: string
   date: string
-  image: string
+  image?: string
   link: string
   logos?: string[]
 }
@@ -26,23 +26,27 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
   // Decorative SVG overlay used on cards
   const PatternOverlay = ({ variant }: { variant: "stars" | "lines" | "grid" | "dots" }) => {
+    // Ensure unique IDs per instance to avoid collisions in <defs>
+    const rawId = useId()
+    // Strip potential ':' characters (React may include them) for URL fragment safety
+    const uid = rawId.replace(/:/g, "")
     if (variant === "stars") {
       return (
         <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-20 mix-blend-screen" viewBox="0 0 200 200">
           <defs>
-            <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
+            <radialGradient id={`starGrad-${uid}`} cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#fff" stopOpacity="0.9" />
               <stop offset="100%" stopColor="#fff" stopOpacity="0" />
             </radialGradient>
-            <pattern id="starsPattern" width="50" height="50" patternUnits="userSpaceOnUse">
-              <circle cx="8" cy="10" r="0.8" fill="url(#starGrad)" />
-              <circle cx="22" cy="28" r="1.2" fill="url(#starGrad)" />
-              <circle cx="40" cy="14" r="0.6" fill="url(#starGrad)" />
-              <circle cx="12" cy="38" r="0.7" fill="url(#starGrad)" />
-              <circle cx="34" cy="42" r="0.9" fill="url(#starGrad)" />
+            <pattern id={`starsPattern-${uid}`} width="50" height="50" patternUnits="userSpaceOnUse">
+              <circle cx="8" cy="10" r="0.8" fill={`url(#starGrad-${uid})`} />
+              <circle cx="22" cy="28" r="1.2" fill={`url(#starGrad-${uid})`} />
+              <circle cx="40" cy="14" r="0.6" fill={`url(#starGrad-${uid})`} />
+              <circle cx="12" cy="38" r="0.7" fill={`url(#starGrad-${uid})`} />
+              <circle cx="34" cy="42" r="0.9" fill={`url(#starGrad-${uid})`} />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#starsPattern)" />
+          <rect width="100%" height="100%" fill={`url(#starsPattern-${uid})`} />
         </svg>
       )
     }
@@ -50,11 +54,11 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       return (
         <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-15 mix-blend-overlay" viewBox="0 0 100 100">
           <defs>
-            <pattern id="diagLines" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+            <pattern id={`diagLines-${uid}`} width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
               <line x1="0" y1="0" x2="0" y2="20" stroke="white" strokeOpacity="0.35" strokeWidth="0.6" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#diagLines)" />
+          <rect width="100%" height="100%" fill={`url(#diagLines-${uid})`} />
         </svg>
       )
     }
@@ -62,11 +66,11 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       return (
         <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-15 mix-blend-overlay" viewBox="0 0 100 100">
           <defs>
-            <pattern id="gridPattern" width="24" height="24" patternUnits="userSpaceOnUse">
+            <pattern id={`gridPattern-${uid}`} width="24" height="24" patternUnits="userSpaceOnUse">
               <path d="M 24 0 L 0 0 0 24" fill="none" stroke="white" strokeOpacity="0.25" strokeWidth="0.5" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#gridPattern)" />
+          <rect width="100%" height="100%" fill={`url(#gridPattern-${uid})`} />
         </svg>
       )
     }
@@ -74,11 +78,11 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
     return (
       <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-20 mix-blend-overlay" viewBox="0 0 100 100">
         <defs>
-          <pattern id="dotPattern" width="10" height="10" patternUnits="userSpaceOnUse">
+          <pattern id={`dotPattern-${uid}`} width="10" height="10" patternUnits="userSpaceOnUse">
             <circle cx="1" cy="1" r="0.8" fill="white" fillOpacity="0.35" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#dotPattern)" />
+        <rect width="100%" height="100%" fill={`url(#dotPattern-${uid})`} />
       </svg>
     )
   }
@@ -110,24 +114,49 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   const currentScrollRef = useRef(0)
   const isPinnedRef = useRef(false)
   const touchStartYRef = useRef<number | null>(null)
+  // Track last scroll position and direction for hysteresis logic
+  const lastScrollYRef = useRef(0)
+  const scrollDirRef = useRef<"up" | "down" | "none">("none")
+  const lastPinnedRef = useRef(false)
+  // Hold the max progress reached while pinned to avoid premature rewind
+  const maxPinnedProgressRef = useRef(0)
   
   // Tunables: reduce this to make the right column scroll more slowly
   // 0.20 = fast catch-up, 0.12 = default, 0.06 = slower
-  const CATCH_UP_FACTOR = 0.06
+  const CATCH_UP_FACTOR = 0.14
   // Sticky offset in px for lg:top-24 (6rem)
   const STICKY_TOP_OFFSET = 96
+  // Bottom offset in px to symmetrically end the pin near the bottom of viewport
+  // Use the same as top by default for symmetric behavior
+  const BOTTOM_OFFSET = -96
   // Multiplier to control how much the right list moves per wheel/touch delta
-  const SCROLL_MULTIPLIER = 0.6
+  const SCROLL_MULTIPLIER = 2
+  // Small hysteresis in px to avoid rapid pin/unpin toggling near threshold
+  const TOP_HYSTERESIS = 12
 
   useEffect(() => {
     const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
 
-    const computePinned = () => {
+    const computePinnedDirectional = (prevPinned: boolean, dir: "up" | "down" | "none") => {
       if (!sectionRef.current) return false
       const rect = sectionRef.current.getBoundingClientRect()
       const viewportHeight = window.innerHeight
-      // Pinned when section top reaches sticky offset and bottom still below viewport
-      return rect.top <= STICKY_TOP_OFFSET && rect.bottom >= viewportHeight
+      const top = rect.top
+      const bottomOk = rect.bottom >= (viewportHeight - BOTTOM_OFFSET)
+
+      // If previously pinned, keep it pinned until we clearly leave the zone
+      if (prevPinned) {
+        // Unpin when we reach the bottom boundary regardless of direction
+        if (!bottomOk) return false
+        // When scrolling up, only unpin after moving above sticky top + hysteresis
+        if (dir === "up" && top > STICKY_TOP_OFFSET + TOP_HYSTERESIS) return false
+        // Otherwise remain pinned
+        return true
+      }
+
+      // Not previously pinned: only enter pin when we clearly pass below sticky top - hysteresis
+      if (bottomOk && top <= STICKY_TOP_OFFSET - TOP_HYSTERESIS) return true
+      return false
     }
 
     const startAnimationLoop = () => {
@@ -170,13 +199,19 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   // Match sticky offset (lg:top-24 ~= 6rem = 96px)
   const topOffset = STICKY_TOP_OFFSET
 
-      // Range where the left is effectively pinned
-      const pinStart = sectionTop - topOffset
-      const pinEnd = sectionTop + sectionHeight - viewportHeight
+  // Only start scrolling right column AFTER the featured card is stuck at topOffset
+  // pinStart: when section top reaches sticky position (96px from viewport top)
+  const pinStart = sectionTop - topOffset
+  // pinEnd: when section bottom reaches (viewport bottom - BOTTOM_OFFSET)
+  const pinEnd = sectionTop + sectionHeight - viewportHeight + BOTTOM_OFFSET
       const pinRange = Math.max(pinEnd - pinStart, 1)
 
       const y = window.scrollY
-      // Progress of the pin phase [0..1]
+      const lastY = lastScrollYRef.current
+      const dir: "up" | "down" | "none" = y > lastY ? "down" : y < lastY ? "up" : scrollDirRef.current
+      scrollDirRef.current = dir
+      lastScrollYRef.current = y
+      // Progress of the pin phase [0..1] - only counts after card is stuck
       const tRaw = Math.min(Math.max((y - pinStart) / pinRange, 0), 1)
       // Apply smooth easing (feels slower and smoother)
       const t = easeInOutCubic(tRaw)
@@ -184,12 +219,25 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       const el = rightRef.current
       const maxScroll = el.scrollHeight - el.clientHeight
 
-      // Update pinned state for wheel/touch handling
-      isPinnedRef.current = computePinned()
+      // Update pinned state with hysteresis for wheel/touch handling
+      const prevPinned = lastPinnedRef.current
+      const nowPinned = computePinnedDirectional(prevPinned, dir)
+      isPinnedRef.current = nowPinned
+      lastPinnedRef.current = nowPinned
 
-      // While pinned, do NOT drive the right list from page scroll
+      // Maintain max progress while pinned to prevent rewind until truly unpinned
+      if (nowPinned) {
+        maxPinnedProgressRef.current = Math.max(maxPinnedProgressRef.current, t)
+      } else {
+        // Reset the held progress once we exit pinned
+        maxPinnedProgressRef.current = t
+      }
+
+      // Only scroll right column when NOT actively hijacking wheel/touch
       if (!isPinnedRef.current && maxScroll > 0) {
-        targetScrollRef.current = t * maxScroll
+        // While recently pinned, avoid decreasing progress due to tiny threshold jitters
+        const tStable = scrollDirRef.current === "up" && prevPinned ? Math.max(t, maxPinnedProgressRef.current) : t
+        targetScrollRef.current = tStable * maxScroll
         // Start the rAF loop if not running
         startAnimationLoop()
       }
@@ -208,16 +256,19 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       if (!el) return
       const maxScroll = el.scrollHeight - el.clientHeight
       if (maxScroll <= 0) return
-      const next = clamp((targetScrollRef.current || el.scrollTop) + deltaY * SCROLL_MULTIPLIER, 0, maxScroll)
+      const next = clamp(el.scrollTop + deltaY * SCROLL_MULTIPLIER, 0, maxScroll)
+      // Direct instant scroll - no animation lag
+      el.scrollTop = next
       targetScrollRef.current = next
-      // Start or continue the rAF smoothing loop
-      if (rafRef.current == null) startAnimationLoop()
+      currentScrollRef.current = next
     }
 
     const onWheel = (e: WheelEvent) => {
       if (window.innerWidth < 1024) return // don't hijack on small screens
-      const pinned = computePinned()
+      const dir: "up" | "down" = e.deltaY > 0 ? "down" : "up"
+      const pinned = computePinnedDirectional(lastPinnedRef.current, dir)
       isPinnedRef.current = pinned
+      lastPinnedRef.current = pinned
       if (!pinned) return
 
       const el = rightRef.current
@@ -227,7 +278,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
       const dy = e.deltaY
       const atTop = el.scrollTop <= 0
-      const atBottom = el.scrollTop >= maxScroll - 1
+      const atBottom = el.scrollTop >= maxScroll
 
       // Allow page to move only when user tries to scroll past edges
       if ((atTop && dy < 0) || (atBottom && dy > 0)) {
@@ -244,14 +295,19 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
     const onTouchMove = (e: TouchEvent) => {
       if (window.innerWidth < 1024) return
-      const pinned = computePinned()
+      const startY = touchStartYRef.current
+      const yNow = e.touches[0]?.clientY ?? startY ?? 0
+      const dyForDir = (startY ?? yNow) - yNow
+      const dir: "up" | "down" = dyForDir > 0 ? "down" : "up"
+      const pinned = computePinnedDirectional(lastPinnedRef.current, dir)
       isPinnedRef.current = pinned
+      lastPinnedRef.current = pinned
       if (!pinned) return
 
-      const startY = touchStartYRef.current
-      if (startY == null) return
-      const y = e.touches[0]?.clientY ?? startY
-  const dy = startY - y
+      const startY2 = touchStartYRef.current
+      if (startY2 == null) return
+      const y = e.touches[0]?.clientY ?? startY2
+      const dy = startY2 - y
 
       const el = rightRef.current
       if (!el) return
@@ -259,7 +315,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       if (maxScroll <= 0) return
 
       const atTop = el.scrollTop <= 0
-      const atBottom = el.scrollTop >= maxScroll - 1
+      const atBottom = el.scrollTop >= maxScroll
       if ((atTop && dy < 0) || (atBottom && dy > 0)) {
         return
       }
@@ -301,59 +357,53 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   return (
     <section ref={sectionRef} className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl">
+            <h2 className="text-4xl font-medium text-white mb-6">Latest Insights</h2>
+            <p className="text-lg text-gray-400 mb-12">
+              Catch up on my recently published blogs
+            </p>
         {/* Grid Setup: 4 cols on lg, single on small; responsive gap */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Left: Featured (spans 3) - Sticky + smooth top transition */}
           <div className="lg:col-span-3 lg:sticky lg:top-24 lg:self-start transition-[top] duration-300">
             <article className="group relative">
-              <div className="relative overflow-hidden rounded-md shadow-md isolate">
+                <div
+                  className="relative overflow-hidden rounded-md shadow-md isolate cursor-pointer"
+                  role="link"
+                  aria-label={featured.title}
+                  tabIndex={0}
+                  onClick={() => window.open(featured.link, "_blank", "noopener,noreferrer")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault()
+                      window.open(featured.link, "_blank", "noopener,noreferrer")
+                    }
+                  }}
+                >
                 {/* Mobile ratio */}
                 <div className="relative block md:hidden aspect-4/5">
                   <Image
-                    src={featured.image}
+                    src="/overlays/overlay-big.jpg"
                     alt={featured.title}
                     fill
                     priority
                     sizes="(min-width: 1024px) 75vw, 100vw"
                     className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.025]"
                   />
-                  {/* Decorative pattern */}
-                  <PatternOverlay variant="stars" />
-                  {/* Custom big overlay image */}
-                  <Image
-                    src="/overlays/overlay-big.jpg"
-                    alt=""
-                    fill
-                    priority
-                    aria-hidden
-                    className="pointer-events-none select-none object-cover opacity-55 mix-blend-screen"
-                  />
                 </div>
                 {/* Desktop ratio */}
                 <div className="relative hidden md:block aspect-video">
                   <Image
-                    src={featured.image}
+                    src="/overlays/overlay-big.jpg"
                     alt={featured.title}
                     fill
                     priority
                     sizes="(min-width: 1280px) 900px, (min-width: 1024px) 75vw, 100vw"
                     className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.025]"
                   />
-                  {/* Decorative pattern */}
-                  <PatternOverlay variant="stars" />
-                  {/* Custom big overlay image */}
-                  <Image
-                    src="/overlays/overlay-big.jpg"
-                    alt=""
-                    fill
-                    priority
-                    aria-hidden
-                    className="pointer-events-none select-none object-cover opacity-55 mix-blend-screen"
-                  />
                 </div>
                 {/* Featured overlays: color wash + dark gradient + ring */}
                 {/* Removed gradient/ring overlays per request: only base image + pattern + overlay image remain */}
-              </div>
+                </div>
 
               <div className="mt-4 space-y-3">
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
@@ -390,49 +440,41 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
               const overlayImage = `/overlays/overlay-${(i % 3) + 1}.jpg`
               return (
               <article key={i} className="group relative">
-                <div className="relative overflow-hidden rounded-md shadow-sm isolate">
+                  <div
+                    className="relative overflow-hidden rounded-md isolate cursor-pointer"
+                    role="link"
+                    aria-label={post.title}
+                    tabIndex={0}
+                    onClick={() => window.open(post.link, "_blank", "noopener,noreferrer")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault()
+                        window.open(post.link, "_blank", "noopener,noreferrer")
+                      }
+                    }}
+                  >
                   {/* Mobile square */}
                   <div className="relative block md:hidden aspect-square">
                     <Image
-                      src={post.image}
+                      src={overlayImage}
                       alt=""
                       fill
                       sizes="(min-width: 1024px) 25vw, 100vw"
                       className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.0125]"
                     />
-                    {/* Decorative pattern */}
-                    <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
-                    {/* Small overlay image */}
-                    <Image
-                      src={overlayImage}
-                      alt=""
-                      fill
-                      aria-hidden
-                      className="pointer-events-none select-none object-cover opacity-50 mix-blend-screen"
-                    />
                   </div>
                   {/* Desktop: make card a bit more square */}
-                  <div className="relative hidden md:block aspect-4/5">
+                    <div className="relative hidden md:block aspect-square">
                     <Image
-                      src={post.image}
+                      src={overlayImage}
                       alt=""
                       fill
                       sizes="(min-width: 1280px) 320px, (min-width: 1024px) 25vw, 100vw"
                       className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.02]"
                     />
-                    {/* Decorative pattern */}
-                    <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
-                    {/* Small overlay image */}
-                    <Image
-                      src={overlayImage}
-                      alt=""
-                      fill
-                      aria-hidden
-                      className="pointer-events-none select-none object-cover opacity-50 mix-blend-screen"
-                    />
                   </div>
                   {/* Removed colored/dark/ring overlays per request */}
-                </div>
+                  </div>
 
                 <div className="mt-3 space-y-1">
                   <h4 className="text-lg sm:text-xl font-medium leading-snug">

@@ -11,7 +11,11 @@ import { Send } from 'lucide-react'
  * - Stores the draft in sessionStorage under "pethia:initial"
  * - On Enter or Send, sets "pethia:auto" and routes to /assistant
  */
-export default function AIAssistantPreview() {
+type AIAssistantPreviewProps = {
+  align?: "left" | "center"
+}
+
+export default function AIAssistantPreview({ align = "center" }: AIAssistantPreviewProps) {
   const router = useRouter()
   const [value, setValue] = useState<string>("")
 
@@ -40,14 +44,14 @@ export default function AIAssistantPreview() {
   }
 
   return (
-    <div className="w-full max-w-xl mx-auto">
-      <div className="rounded-2xl ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-xl px-3 py-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.35)]">
+    <div className={`w-full max-w-xl ${align === "center" ? "mx-auto" : "mx-0"}`}>
+      <div className="rounded-2xl ring-1 ring-white/15 bg-white/6 backdrop-blur-xl px-3 py-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.35)]">
         <div className="flex items-center gap-2">
           <Input
             value={value}
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Ask my AI anything or just say hi!"
-            className="h-12 flex-1 rounded-xl border-white/10 bg-white/[0.06] text-gray-100 placeholder:text-gray-300/70
+            className="h-12 flex-1 rounded-xl border-white/10 bg-white/6 text-gray-100 placeholder:text-gray-300/70
                        focus-visible:ring-purple-500/60"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -66,12 +70,12 @@ export default function AIAssistantPreview() {
           </Button>
         </div>
 
-        <div className="mt-2 flex flex-wrap justify-center gap-2">
+        <div className={`mt-2 flex flex-wrap ${align === "center" ? "justify-center" : "justify-start"} gap-2`}>
           {suggestions.map((s) => (
             <button
               key={s}
               onClick={() => goAsk(s, true)}
-              className="rounded-full px-3 py-1 text-xs text-gray-100 ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md hover:bg-white/[0.08] transition-colors"
+              className="rounded-full px-3 py-1 text-xs text-gray-100 ring-1 ring-white/15 bg-white/6 backdrop-blur-md hover:bg-white/8 transition-colors"
             >
               {s}
             </button>
