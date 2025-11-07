@@ -24,6 +24,65 @@ interface BlogsCarouselProps {
 export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
 
+  // Decorative SVG overlay used on cards
+  const PatternOverlay = ({ variant }: { variant: "stars" | "lines" | "grid" | "dots" }) => {
+    if (variant === "stars") {
+      return (
+        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-20 mix-blend-screen" viewBox="0 0 200 200">
+          <defs>
+            <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fff" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+            </radialGradient>
+            <pattern id="starsPattern" width="50" height="50" patternUnits="userSpaceOnUse">
+              <circle cx="8" cy="10" r="0.8" fill="url(#starGrad)" />
+              <circle cx="22" cy="28" r="1.2" fill="url(#starGrad)" />
+              <circle cx="40" cy="14" r="0.6" fill="url(#starGrad)" />
+              <circle cx="12" cy="38" r="0.7" fill="url(#starGrad)" />
+              <circle cx="34" cy="42" r="0.9" fill="url(#starGrad)" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#starsPattern)" />
+        </svg>
+      )
+    }
+    if (variant === "lines") {
+      return (
+        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-15 mix-blend-overlay" viewBox="0 0 100 100">
+          <defs>
+            <pattern id="diagLines" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+              <line x1="0" y1="0" x2="0" y2="20" stroke="white" strokeOpacity="0.35" strokeWidth="0.6" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#diagLines)" />
+        </svg>
+      )
+    }
+    if (variant === "grid") {
+      return (
+        <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-15 mix-blend-overlay" viewBox="0 0 100 100">
+          <defs>
+            <pattern id="gridPattern" width="24" height="24" patternUnits="userSpaceOnUse">
+              <path d="M 24 0 L 0 0 0 24" fill="none" stroke="white" strokeOpacity="0.25" strokeWidth="0.5" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#gridPattern)" />
+        </svg>
+      )
+    }
+    // dots
+    return (
+      <svg aria-hidden="true" className="pointer-events-none absolute inset-0 h-full w-full opacity-20 mix-blend-overlay" viewBox="0 0 100 100">
+        <defs>
+          <pattern id="dotPattern" width="10" height="10" patternUnits="userSpaceOnUse">
+            <circle cx="1" cy="1" r="0.8" fill="white" fillOpacity="0.35" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dotPattern)" />
+      </svg>
+    )
+  }
+
   useEffect(() => {
     if (posts && posts.length) return
     let cancelled = false
@@ -254,6 +313,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                     sizes="(min-width: 1024px) 75vw, 100vw"
                     className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.025]"
                   />
+                  {/* Decorative pattern */}
+                  <PatternOverlay variant="stars" />
                 </div>
                 {/* Desktop ratio */}
                 <div className="relative hidden md:block aspect-video">
@@ -265,6 +326,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                     sizes="(min-width: 1280px) 900px, (min-width: 1024px) 75vw, 100vw"
                     className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.025]"
                   />
+                  {/* Decorative pattern */}
+                  <PatternOverlay variant="stars" />
                 </div>
                 {/* Featured overlays: color wash + dark gradient + ring */}
                 <div className="pointer-events-none absolute inset-0">
@@ -325,9 +388,11 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                         sizes="(min-width: 1024px) 25vw, 100vw"
                         className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.0125]"
                       />
+                      {/* Decorative pattern */}
+                      <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
                     </div>
-                    {/* Desktop fixed height to ensure scroll length */}
-                    <div className="relative hidden md:block h-[480px]">
+                    {/* Desktop: make card a bit more square */}
+                    <div className="relative hidden md:block aspect-4/5">
                       <Image
                         src={post.image}
                         alt={post.title}
@@ -335,6 +400,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                         sizes="(min-width: 1280px) 320px, (min-width: 1024px) 25vw, 100vw"
                         className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.02]"
                       />
+                      {/* Decorative pattern */}
+                      <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
                     </div>
                     {/* Card overlays: per-card color + dark + ring */}
                     <div className="pointer-events-none absolute inset-0">

@@ -194,3 +194,19 @@ html {
 .prose blockquote {
   @apply border-l-4 border-gray-600 pl-4 italic text-gray-400;
 }
+
+/* Custom animation keyframes for card flair */
+@keyframes slow-float {
+  0%,100% { transform: translate3d(0,0,0); }
+  50% { transform: translate3d(6px,-6px,0); }
+}
+@keyframes sheen-swipe {
+  0% { transform: translateX(-120%); opacity: 0; }
+  15% { opacity: 0.35; }
+  50% { transform: translateX(60%); opacity: 0.5; }
+  85% { opacity: 0.15; }
+  100% { transform: translateX(140%); opacity: 0; }
+}
+/* Utility classes (tailwind arbitrary animate replacement) */
+.animate-slow-float { animation: slow-float 11s ease-in-out infinite; }
+.group:hover .group-hover\:animate-sheen-swipe { animation: sheen-swipe 1.2s ease-in-out; }
