@@ -293,6 +293,10 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
   const featured = items[0]
   const secondary = items.slice(1, 4)
+  // Overlay assets expected in /public/overlays
+  // big: /public/overlays/overlay-big.jpg (for featured)
+  // small variants: overlay-1.jpg, overlay-2.jpg, overlay-3.jpg for secondary cards
+  // If these files are missing, overlays simply won't render.
 
   return (
     <section ref={sectionRef} className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
@@ -302,7 +306,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
           {/* Left: Featured (spans 3) - Sticky + smooth top transition */}
           <div className="lg:col-span-3 lg:sticky lg:top-24 lg:self-start transition-[top] duration-300">
             <article className="group relative">
-              <div className="relative overflow-hidden rounded-md shadow-md">
+              <div className="relative overflow-hidden rounded-md shadow-md isolate">
                 {/* Mobile ratio */}
                 <div className="relative block md:hidden aspect-4/5">
                   <Image
@@ -315,6 +319,15 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                   />
                   {/* Decorative pattern */}
                   <PatternOverlay variant="stars" />
+                  {/* Custom big overlay image */}
+                  <Image
+                    src="/overlays/overlay-big.jpg"
+                    alt=""
+                    fill
+                    priority
+                    aria-hidden
+                    className="pointer-events-none select-none object-cover opacity-55 mix-blend-screen"
+                  />
                 </div>
                 {/* Desktop ratio */}
                 <div className="relative hidden md:block aspect-video">
@@ -328,13 +341,18 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                   />
                   {/* Decorative pattern */}
                   <PatternOverlay variant="stars" />
+                  {/* Custom big overlay image */}
+                  <Image
+                    src="/overlays/overlay-big.jpg"
+                    alt=""
+                    fill
+                    priority
+                    aria-hidden
+                    className="pointer-events-none select-none object-cover opacity-55 mix-blend-screen"
+                  />
                 </div>
                 {/* Featured overlays: color wash + dark gradient + ring */}
-                <div className="pointer-events-none absolute inset-0">
-                  <div className="absolute inset-0 bg-linear-to-tr from-purple-500/25 via-indigo-500/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
-                  <div className="absolute inset-0 rounded-md ring-1 ring-white/10 group-hover:ring-white/20 transition-colors duration-300" />
-                </div>
+                {/* Removed gradient/ring overlays per request: only base image + pattern + overlay image remain */}
               </div>
 
               <div className="mt-4 space-y-3">
@@ -369,59 +387,68 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 "bg-linear-to-br from-pink-500/25 via-violet-500/20 to-transparent",
               ]
               const colorOverlay = overlays[i % overlays.length]
+              const overlayImage = `/overlays/overlay-${(i % 3) + 1}.jpg`
               return (
               <article key={i} className="group relative">
-                <Link
-                  href={post.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="relative block"
-                  aria-label={post.title}
-                >
-                  <div className="relative overflow-hidden rounded-md shadow-sm">
-                    {/* Mobile square */}
-                    <div className="relative block md:hidden aspect-square">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        sizes="(min-width: 1024px) 25vw, 100vw"
-                        className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.0125]"
-                      />
-                      {/* Decorative pattern */}
-                      <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
-                    </div>
-                    {/* Desktop: make card a bit more square */}
-                    <div className="relative hidden md:block aspect-4/5">
-                      <Image
-                        src={post.image}
-                        alt={post.title}
-                        fill
-                        sizes="(min-width: 1280px) 320px, (min-width: 1024px) 25vw, 100vw"
-                        className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.02]"
-                      />
-                      {/* Decorative pattern */}
-                      <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
-                    </div>
-                    {/* Card overlays: per-card color + dark + ring */}
-                    <div className="pointer-events-none absolute inset-0">
-                      <div className={`absolute inset-0 ${colorOverlay} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
-                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/25 to-transparent" />
-                      <div className="absolute inset-0 rounded-md ring-1 ring-white/10 group-hover:ring-white/20 transition-colors duration-300" />
-                    </div>
+                <div className="relative overflow-hidden rounded-md shadow-sm isolate">
+                  {/* Mobile square */}
+                  <div className="relative block md:hidden aspect-square">
+                    <Image
+                      src={post.image}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 25vw, 100vw"
+                      className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.0125]"
+                    />
+                    {/* Decorative pattern */}
+                    <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
+                    {/* Small overlay image */}
+                    <Image
+                      src={overlayImage}
+                      alt=""
+                      fill
+                      aria-hidden
+                      className="pointer-events-none select-none object-cover opacity-50 mix-blend-screen"
+                    />
                   </div>
+                  {/* Desktop: make card a bit more square */}
+                  <div className="relative hidden md:block aspect-4/5">
+                    <Image
+                      src={post.image}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1280px) 320px, (min-width: 1024px) 25vw, 100vw"
+                      className="object-cover transition-transform duration-300 ease-out transform-gpu group-hover:scale-[1.02]"
+                    />
+                    {/* Decorative pattern */}
+                    <PatternOverlay variant={i % 3 === 0 ? "lines" : i % 3 === 1 ? "grid" : "dots"} />
+                    {/* Small overlay image */}
+                    <Image
+                      src={overlayImage}
+                      alt=""
+                      fill
+                      aria-hidden
+                      className="pointer-events-none select-none object-cover opacity-50 mix-blend-screen"
+                    />
+                  </div>
+                  {/* Removed colored/dark/ring overlays per request */}
+                </div>
 
-                  <div className="mt-3 space-y-1">
-                    <h4 className="text-lg sm:text-xl font-medium leading-snug">
+                <div className="mt-3 space-y-1">
+                  <h4 className="text-lg sm:text-xl font-medium leading-snug">
+                    <Link
+                      href={post.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative inline-block after:content-[''] after:absolute after:inset-0"
+                      aria-label={post.title}
+                    >
                       {post.title}
-                    </h4>
-                    <p className="text-xs text-muted-foreground">{post.date}</p>
-                    <p className="text-sm text-foreground/80">{post.description}</p>
-                  </div>
-
-                  {/* Full clickable overlay */}
-                  <span className="pointer-events-none absolute inset-0 after:content-[''] after:absolute after:inset-0" />
-                </Link>
+                    </Link>
+                  </h4>
+                  <p className="text-xs text-muted-foreground">{post.date}</p>
+                  <p className="text-sm text-foreground/80">{post.description}</p>
+                </div>
               </article>
             )})}
           </div>
