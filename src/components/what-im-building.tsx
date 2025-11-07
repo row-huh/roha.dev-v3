@@ -46,7 +46,14 @@ export default function WhatImBuilding() {
               </div>
             </div>
 
-            <div className="flex items-center justify-center bg-gray-800/30 border-gray-700/50 backdrop-blur-sm px-8 py-11 rounded-3xl transition-all duration-300 hover:bg-gray-700/50 hover:border-purple-500/50">
+            <div className="relative flex items-center justify-center bg-gray-800/30 border-gray-700/50 backdrop-blur-sm px-8 py-11 rounded-3xl transition-all duration-300 hover:bg-gray-700/50 hover:border-purple-500/50 overflow-hidden">
+              {/* Background placeholder image; replace 'overlay-github' later */}
+              <img
+                src="/overlays/overlay-github"
+                alt="GitHub background"
+                className="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none select-none"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-transparent to-black/60 pointer-events-none" />
               <Link
                 href="https://github.com/row-huh/llm-from-scratch"
                 target="_blank"

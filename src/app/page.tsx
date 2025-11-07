@@ -59,6 +59,15 @@ function HomePageContent() {
         < MySkills />
       </div>
 
+
+      {/* Blogs Carousel Section */}
+      <div id="blogs">
+        < BlogsCarousel/>
+      </div>
+
+
+
+
       {/* My Coding Journey Section (Certificates) */}
       {/* < Cs50Certificates /> */}
 
@@ -87,6 +96,7 @@ function HomePageContent() {
         < WhatImBuilding />
       </div>
 
+
       {/* Collaborations */}
       <div id="testimonials">
         <TestimonialsCarousel/>
@@ -98,10 +108,7 @@ function HomePageContent() {
         < WhatsPlaying />
       </div>
 
-      {/* Blogs Carousel Section */}
-      <div id="blogs">
-        < BlogsCarousel/>
-      </div>
+
 
       {/* Final CTA */}
       <div id="cta">

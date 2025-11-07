@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import TerminalAnimation from "./terminal-animation" // Import TerminalAnimation
 import AIAssistantPreview from "./ai-assistant-preview" // Import AIAssistantPreview component
 
 
@@ -44,7 +43,8 @@ export default function HeroSection() {
                 alt="Overlay visual"
                 fill
                 priority
-                sizes="(max-width: 768px) 20rem, (max-width: 1024px) 24rem, 420px"
+                quality={95}
+                sizes="(min-width: 1024px) 420px, (min-width: 640px) 20rem, 18rem"
                 className="object-cover"
               />
             </div>
