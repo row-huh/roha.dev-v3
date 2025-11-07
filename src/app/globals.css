@@ -129,6 +129,7 @@
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+  overscroll-behavior-y: none; /* prevent scrolling past top/bottom */
 }
 
 /* Custom scrollbar for light theme */

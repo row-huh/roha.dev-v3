@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-950 pt-80 pb-16 md:pb-20 lg:pb-24 relative">
+  <footer className="bg-black pt-80 pb-16 md:pb-20 lg:pb-24 relative overflow-hidden">
       {/* Big background text positioned at bottom */}
       <div className="w-full text-center overflow-hidden px-4 absolute bottom-16 left-0 right-0">
         <motion.h1
@@ -30,6 +30,8 @@ export default function Footer() {
       <div className="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm px-4">
         &copy; {new Date().getFullYear()} Roha. All rights reserved.
       </div>
+      {/* Prevent overscroll glow / iOS bounce dark reveal */}
+      <div className="absolute -bottom-10 left-0 right-0 h-10 bg-black pointer-events-none" aria-hidden="true" />
     </footer>
   )
 }

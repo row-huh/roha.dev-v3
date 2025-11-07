@@ -39,7 +39,7 @@ function HomePageContent() {
 
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
+  <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
       
@@ -54,9 +54,9 @@ function HomePageContent() {
         < HeroSection />
       </div>
 
-      {/* My Skills Section */}
-      <div id="skills">
-        < MySkills />
+      {/* What's Playing */}
+      <div id="playing">
+        < WhatsPlaying />
       </div>
 
 
@@ -66,7 +66,10 @@ function HomePageContent() {
       </div>
 
 
-
+      {/* My Skills Section */}
+      <div id="skills">
+        < MySkills />
+      </div>
 
       {/* My Coding Journey Section (Certificates) */}
       {/* < Cs50Certificates /> */}
@@ -103,10 +106,7 @@ function HomePageContent() {
       </div>
 
 
-      {/* What's Playing */}
-      <div id="playing">
-        < WhatsPlaying />
-      </div>
+
 
 
 
@@ -115,7 +115,7 @@ function HomePageContent() {
         < CTA />
       </div>
 
-      {/* Footer */}
+      {/* Footer - no extra space below */}
       <Footer />
     </div>
   )
