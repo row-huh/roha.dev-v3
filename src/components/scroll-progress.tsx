@@ -6,11 +6,11 @@ import { useEffect, useState } from "react"
 // Order must match vertical order in app/page.tsx
 const sections = [
   { id: "hero", label: "Home" },
-  { id: "skills", label: "Skills" },
+  { id: "playing", label: "Music" },
   { id: "blogs", label: "Writing" },
+  { id: "skills", label: "Skills" },
   { id: "building", label: "Projects" },
   { id: "testimonials", label: "Testimonials" },
-  { id: "playing", label: "Music" },
   { id: "cta", label: "Contact" },
 ]
 
