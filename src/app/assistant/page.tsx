@@ -141,27 +141,27 @@ function ToolTile({ tool }: { tool: Exclude<ToolName, undefined> }) {
   return (
     <Link
       href={href}
-      className="group relative block w-[220px] md:w-[260px] overflow-hidden rounded-2xl
+      className="group relative block w-[180px] md:w-[200px] overflow-hidden rounded-2xl
                  ring-1 ring-white/15
                  bg-gradient-to-b from-white/[0.10] via-white/[0.06] to-white/[0.03]
                  [background-image:radial-gradient(120%_80%_at_50%_0%,rgba(168,85,247,0.35),rgba(236,72,153,0.20)_40%,rgba(6,182,212,0.15)_70%,rgba(0,0,0,0)_100%)]
                  backdrop-blur-xl"
       aria-label={label}
     >
-      <div className="flex h-44 flex-col justify-between p-4 md:h-52">
+      <div className="flex h-36 flex-col justify-between p-3 md:h-40">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-white/75">{eyebrow}</p>
-          <div className="mt-1 flex items-center gap-2">
-            <Icon className="h-4 w-4 text-white" />
-            <h3 className="text-lg font-semibold text-white">{label}</h3>
+          <p className="text-[10px] uppercase tracking-wide text-white/75">{eyebrow}</p>
+          <div className="mt-1 flex items-center gap-1.5">
+            <Icon className="h-3.5 w-3.5 text-white" />
+            <h3 className="text-base font-semibold text-white">{label}</h3>
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.10] ring-1 ring-white/15 backdrop-blur-md">
-            <Icon className="h-4 w-4 text-white" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.10] ring-1 ring-white/15 backdrop-blur-md">
+            <Icon className="h-3.5 w-3.5 text-white" />
           </div>
           <ChevronRight
-            className="h-4 w-4 text-white/80 transition-transform duration-200 group-hover:translate-x-0.5"
+            className="h-3.5 w-3.5 text-white/80 transition-transform duration-200 group-hover:translate-x-0.5"
             aria-hidden="true"
           />
         </div>
@@ -192,27 +192,27 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
   return (
     <Link
       href={href}
-      className="group relative block w-[220px] md:w-[260px] overflow-hidden rounded-2xl
+      className="group relative block w-[180px] md:w-[200px] overflow-hidden rounded-2xl
                  ring-1 ring-white/15
                  bg-gradient-to-b from-white/[0.10] via-white/[0.06] to-white/[0.03]
                  [background-image:radial-gradient(120%_80%_at_50%_0%,rgba(168,85,247,0.35),rgba(236,72,153,0.20)_40%,rgba(6,182,212,0.15)_70%,rgba(0,0,0,0)_100%)]
                  backdrop-blur-xl"
       aria-label={label}
     >
-      <div className="flex h-44 flex-col justify-between p-4 md:h-52">
+      <div className="flex h-36 flex-col justify-between p-3 md:h-40">
         <div>
-          <p className="text-[11px] uppercase tracking-wide text-white/75">{eyebrow}</p>
-          <div className="mt-1 flex items-center gap-2">
-            <Icon className="h-4 w-4 text-white" />
-            <h3 className="text-lg font-semibold text-white line-clamp-2">{label}</h3>
+          <p className="text-[10px] uppercase tracking-wide text-white/75">{eyebrow}</p>
+          <div className="mt-1 flex items-center gap-1.5">
+            <Icon className="h-3.5 w-3.5 text-white" />
+            <h3 className="text-base font-semibold text-white line-clamp-2">{label}</h3>
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/[0.10] ring-1 ring-white/15 backdrop-blur-md">
-            <Icon className="h-4 w-4 text-white" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.10] ring-1 ring-white/15 backdrop-blur-md">
+            <Icon className="h-3.5 w-3.5 text-white" />
           </div>
           <ChevronRight
-            className="h-4 w-4 text-white/80 transition-transform duration-200 group-hover:translate-x-0.5"
+            className="h-3.5 w-3.5 text-white/80 transition-transform duration-200 group-hover:translate-x-0.5"
             aria-hidden="true"
           />
         </div>
@@ -264,6 +264,7 @@ export default function AssistantPage() {
   const [input, setInput] = useState("")
   const [hasStartedChat, setHasStartedChat] = useState(false)
   const endRef = useRef<HTMLDivElement>(null)
+  const toolRefs = useRef<Map<string, HTMLDivElement>>(new Map())
 
   const isActive = hasStartedChat || messages.length > 0
   const isStreaming = status === "submitted" || status === "streaming"
@@ -297,6 +298,26 @@ useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [messages, status])
 
+  // Scroll to tools when they appear
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1]
+      if (lastMessage.role === "assistant") {
+        const rawText = extractMessageText(lastMessage)
+        const { tool } = extractToolTag(rawText)
+        if (tool && (tool === "resume" || tool === "skills" || tool === "social")) {
+          // Small delay to ensure DOM has updated
+          setTimeout(() => {
+            const toolElement = toolRefs.current.get(`${lastMessage.id}-${tool}`)
+            if (toolElement) {
+              toolElement.scrollIntoView({ behavior: "smooth", block: "nearest" })
+            }
+          }, 100)
+        }
+      }
+    }
+  }, [messages])
+
   const suggestions = useMemo(
     () => [
       "Show me recent projects",
@@ -318,7 +339,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="relative min-h-screen text-gray-100">
+    <div className="relative min-h-screen bg-gray-950 text-gray-100">
       <AnimatedBackground />
 
       <header>
@@ -348,7 +369,7 @@ useEffect(() => {
         <main className="relative z-10">
 
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
-            <h1 className="mb-4 text-2xl font-semibold tracking-tight text-white md:text-4xl">
+            <h1 className="mb-3 text-xl font-semibold tracking-tight text-white md:text-3xl">
               Hi, I'm <span className="text-purple-400 font-normal">Pethia</span> 
               <br />
               Ask me anything about <span className="text-purple-400 font-normal">Roha</span>
@@ -360,7 +381,7 @@ useEffect(() => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about projects, latest post, Spotify…"
-                  className="h-12 rounded-xl border-white/10 bg-white/[0.06] text-gray-100 placeholder:text-gray-300/70
+                  className="h-10 rounded-xl border-white/10 bg-white/[0.06] text-sm text-gray-100 placeholder:text-gray-300/70
                              focus-visible:ring-purple-500/60"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -370,12 +391,12 @@ useEffect(() => {
                   }}
                 />
               </div>
-              <div className="mt-3 flex flex-wrap justify-center gap-2">
+              <div className="mt-2 flex flex-wrap justify-center gap-1.5">
                 {suggestions.map((s) => (
                   <button
                     key={s}
                     onClick={() => handleSend(s)}
-                    className="rounded-full px-3 py-1 text-xs text-gray-100
+                    className="rounded-full px-2.5 py-1 text-xs text-gray-100
                                ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md
                                hover:bg-white/[0.08] transition-colors"
                   >
@@ -389,9 +410,9 @@ useEffect(() => {
       ) : (
         // ACTIVE STATE
         <main className="relative z-10">
-          <div className="mx-auto flex min-h-[calc(100vh-52px)] max-w-3xl flex-col px-4">
-            <div className="flex-1 overflow-y-auto py-6">
-              <div className="space-y-6">
+          <div className="mx-auto flex min-h-[calc(100vh-52px)] max-w-4xl flex-col px-4 py-4">
+            <div className="flex-1 overflow-y-auto pb-4">
+              <div className="space-y-4">
                 {messages.map((m) => {
                   const isUser = m.role === "user"
                   const rawText = extractMessageText(m)
@@ -409,10 +430,10 @@ useEffect(() => {
                   const internalLinks = !isUser ? extractInternalLinks(cleanedText) : []
 
                   return (
-                    <div key={m.id} className="space-y-3">
+                    <div key={m.id} className="space-y-2.5">
                       <div className={`flex w-full ${isUser ? "justify-end" : "justify-start"}`}>
                         <div
-                          className={`max-w-[85%] rounded-xl px-3 py-2 text-[15px] leading-relaxed
+                          className={`max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed
                                       ring-1 backdrop-blur-md ${
                                         isUser
                                           ? "ml-auto ring-white/15 bg-white/[0.10] text-white"
@@ -436,7 +457,12 @@ useEffect(() => {
 
                       {/* Resume tool */}
                       {!isUser && tool === "resume" && (
-                        <div className="flex w-full justify-start pl-1">
+                        <div 
+                          ref={(el) => {
+                            if (el) toolRefs.current.set(`${m.id}-resume`, el)
+                          }}
+                          className="flex w-full justify-start pl-1"
+                        >
                           <div className="w-full max-w-4xl">
                             <ToolRenderer toolName="resume" />
                           </div>
@@ -445,7 +471,12 @@ useEffect(() => {
 
                       {/* Skills tool */}
                       {!isUser && tool === "skills" && (
-                        <div className="flex w-full justify-start pl-1">
+                        <div 
+                          ref={(el) => {
+                            if (el) toolRefs.current.set(`${m.id}-skills`, el)
+                          }}
+                          className="flex w-full justify-start pl-1"
+                        >
                           <div className="w-full max-w-4xl">
                             <ToolRenderer toolName="skills" />
                           </div>
@@ -454,7 +485,12 @@ useEffect(() => {
 
                       {/* Social tool */}
                       {!isUser && tool === "social" && (
-                        <div className="flex w-full justify-start pl-1">
+                        <div 
+                          ref={(el) => {
+                            if (el) toolRefs.current.set(`${m.id}-social`, el)
+                          }}
+                          className="flex w-full justify-start pl-1"
+                        >
                           <div className="w-full max-w-4xl">
                             <ToolRenderer toolName="social" />
                           </div>
@@ -482,7 +518,7 @@ useEffect(() => {
 
                 {status !== "ready" && (
                   <div className="flex items-start">
-                    <div className="mr-auto max-w-[85%] rounded-xl px-3 py-2 text-[15px] text-gray-100 ring-1 ring-white/12 bg-white/[0.06] backdrop-blur-md">
+                    <div className="mr-auto max-w-[85%] rounded-xl px-3 py-2 text-sm text-gray-100 ring-1 ring-white/12 bg-white/[0.06] backdrop-blur-md">
                       <span className="inline-flex items-center gap-2">
                         <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300" />
                         <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300 [animation-delay:150ms]" />
@@ -503,14 +539,14 @@ useEffect(() => {
             </div>
 
             {/* Bottom composer */}
-            <div className="sticky bottom-0 pb-4">
-              <div className="rounded-2xl ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-xl px-3 py-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.35)]">
+            <div className="sticky bottom-0 pb-3">
+              <div className="rounded-2xl ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-xl px-2.5 py-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.35)]">
                 <div className="flex items-center gap-2">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Write your message…"
-                    className="h-11 flex-1 rounded-xl border-white/10 bg-white/[0.06] text-gray-100 placeholder:text-gray-300/70
+                    className="h-9 flex-1 rounded-xl border-white/10 bg-white/[0.06] text-sm text-gray-100 placeholder:text-gray-300/70
                                focus-visible:ring-purple-500/60"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
@@ -524,7 +560,7 @@ useEffect(() => {
                       type="button"
                       variant="outline"
                       onClick={() => stop()}
-                      className="h-11 rounded-xl ring-1 ring-white/15 bg-white/[0.06] text-white hover:bg-white/[0.08]"
+                      className="h-9 rounded-xl ring-1 ring-white/15 bg-white/[0.06] text-white hover:bg-white/[0.08]"
                       aria-label="Stop streaming"
                     >
                       <StopCircle className="h-4 w-4" />
@@ -534,21 +570,21 @@ useEffect(() => {
                       type="button"
                       onClick={() => handleSend()}
                       disabled={!input.trim()}
-                      className="h-11 rounded-xl bg-purple-600 px-4 text-white hover:bg-purple-500 disabled:opacity-50"
+                      className="h-9 rounded-xl bg-purple-600 px-3 text-sm text-white hover:bg-purple-500 disabled:opacity-50"
                       aria-label="Send"
                     >
-                      <Send className="mr-2 h-4 w-4" />
+                      <Send className="mr-1.5 h-3.5 w-3.5" />
                       Send
                     </Button>
                   )}
                 </div>
 
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
                   {suggestions.map((s) => (
                     <button
                       key={s}
                       onClick={() => handleSend(s)}
-                      className="rounded-full px-3 py-1 text-xs text-gray-100 ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md hover:bg-white/[0.08] transition-colors"
+                      className="rounded-full px-2.5 py-0.5 text-xs text-gray-100 ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md hover:bg-white/[0.08] transition-colors"
                     >
                       {s}
                     </button>
