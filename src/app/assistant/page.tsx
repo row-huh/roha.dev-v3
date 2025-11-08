@@ -297,8 +297,8 @@ useEffect(() => {
   useEffect(() => {
     // Use a longer delay to ensure tool content is fully rendered
     const timeoutId = setTimeout(() => {
-      endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
-    }, 200)
+      endRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, 300)
     
     return () => clearTimeout(timeoutId)
   }, [messages, status])
@@ -321,6 +321,11 @@ useEffect(() => {
     sendMessage({ text: payload })
     setInput("")
     setHasStartedChat(true)
+    
+    // Scroll to bottom immediately when user sends a message
+    setTimeout(() => {
+      endRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, 100)
   }
 
   return (
