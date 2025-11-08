@@ -49,7 +49,11 @@ export default function RootLayout({
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Roha - AI Engineer & Fullstack Developer" />
         <meta property="og:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />
-        <meta property="og:image" content="https://roha.dev/overlays/overlay-big.jpg" />
+        <meta property="og:image" content="https://roha.dev/overlays/overlay-og.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="675" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:alt" content="Roha - AI Engineer & Fullstack Developer" />
         <meta property="og:url" content="https://roha.dev" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Roha.dev" />
@@ -58,7 +62,8 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Roha - AI Engineer & Fullstack Developer" />
         <meta name="twitter:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />
-        <meta name="twitter:image" content="https://roha.dev/overlays/overlay-big.jpg" />
+        <meta name="twitter:image" content="https://roha.dev/overlays/overlay-og.jpg" />
+        <meta name="twitter:image:alt" content="Roha - AI Engineer & Fullstack Developer" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
