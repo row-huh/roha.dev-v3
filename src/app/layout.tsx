@@ -45,6 +45,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
+      <head>
+        {/* Open Graph Meta Tags */}
+        <meta property="og:title" content="Roha - AI Engineer & Fullstack Developer" />
+        <meta property="og:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />
+        <meta property="og:image" content="https://roha.dev/overlays/overlay-big.jpg" />
+        <meta property="og:url" content="https://roha.dev" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Roha.dev" />
+        
+        {/* Twitter Card Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Roha - AI Engineer & Fullstack Developer" />
+        <meta name="twitter:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />
+        <meta name="twitter:image" content="https://roha.dev/overlays/overlay-big.jpg" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
