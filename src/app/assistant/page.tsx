@@ -264,7 +264,6 @@ export default function AssistantPage() {
   const [input, setInput] = useState("")
   const [hasStartedChat, setHasStartedChat] = useState(false)
   const endRef = useRef<HTMLDivElement>(null)
-  const toolRefs = useRef<Map<string, HTMLDivElement>>(new Map())
 
   const isActive = hasStartedChat || messages.length > 0
   const isStreaming = status === "submitted" || status === "streaming"
@@ -294,29 +293,15 @@ useEffect(() => {
 }, [])
 
 
+  // Auto-scroll to bottom whenever messages or status changes
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+    // Use a longer delay to ensure tool content is fully rendered
+    const timeoutId = setTimeout(() => {
+      endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
+    }, 200)
+    
+    return () => clearTimeout(timeoutId)
   }, [messages, status])
-
-  // Scroll to tools when they appear
-  useEffect(() => {
-    if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1]
-      if (lastMessage.role === "assistant") {
-        const rawText = extractMessageText(lastMessage)
-        const { tool } = extractToolTag(rawText)
-        if (tool && (tool === "resume" || tool === "skills" || tool === "social")) {
-          // Small delay to ensure DOM has updated
-          setTimeout(() => {
-            const toolElement = toolRefs.current.get(`${lastMessage.id}-${tool}`)
-            if (toolElement) {
-              toolElement.scrollIntoView({ behavior: "smooth", block: "nearest" })
-            }
-          }, 100)
-        }
-      }
-    }
-  }, [messages])
 
   const suggestions = useMemo(
     () => [
@@ -411,8 +396,8 @@ useEffect(() => {
         // ACTIVE STATE
         <main className="relative z-10">
           <div className="mx-auto flex min-h-[calc(100vh-52px)] max-w-4xl flex-col px-4 py-4">
-            <div className="flex-1 overflow-y-auto pb-4">
-              <div className="space-y-4">
+            <div className="flex-1 overflow-y-auto pb-6">
+              <div className="space-y-4 pb-8">{/* Extra bottom padding for breathing room */}
                 {messages.map((m) => {
                   const isUser = m.role === "user"
                   const rawText = extractMessageText(m)
@@ -457,12 +442,7 @@ useEffect(() => {
 
                       {/* Resume tool */}
                       {!isUser && tool === "resume" && (
-                        <div 
-                          ref={(el) => {
-                            if (el) toolRefs.current.set(`${m.id}-resume`, el)
-                          }}
-                          className="flex w-full justify-start pl-1"
-                        >
+                        <div className="flex w-full justify-start pl-1">
                           <div className="w-full max-w-4xl">
                             <ToolRenderer toolName="resume" />
                           </div>
@@ -471,12 +451,7 @@ useEffect(() => {
 
                       {/* Skills tool */}
                       {!isUser && tool === "skills" && (
-                        <div 
-                          ref={(el) => {
-                            if (el) toolRefs.current.set(`${m.id}-skills`, el)
-                          }}
-                          className="flex w-full justify-start pl-1"
-                        >
+                        <div className="flex w-full justify-start pl-1">
                           <div className="w-full max-w-4xl">
                             <ToolRenderer toolName="skills" />
                           </div>
@@ -485,12 +460,7 @@ useEffect(() => {
 
                       {/* Social tool */}
                       {!isUser && tool === "social" && (
-                        <div 
-                          ref={(el) => {
-                            if (el) toolRefs.current.set(`${m.id}-social`, el)
-                          }}
-                          className="flex w-full justify-start pl-1"
-                        >
+                        <div className="flex w-full justify-start pl-1">
                           <div className="w-full max-w-4xl">
                             <ToolRenderer toolName="social" />
                           </div>
@@ -534,7 +504,8 @@ useEffect(() => {
                   </div>
                 )}
 
-                <div ref={endRef} />
+                {/* Scroll anchor with extra height for better visibility */}
+                <div ref={endRef} className="h-4" />
               </div>
             </div>
 
