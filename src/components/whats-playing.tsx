@@ -20,7 +20,7 @@ export default function WhatsPlaying() {
             <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
               <iframe
                 style={{ borderRadius: "12px" }}
-                src="https://open.spotify.com/embed/track/67JO1LQ0eoieflPKLtu9A2?utm_source=generator&theme=0"
+                src="https://open.spotify.com/embed/track/0H7Wdgn1C7vFy4z0o2kBUZ?utm_source=generator&theme=0"
                 width="100%"
                 height="352"
                 frameBorder="0"
