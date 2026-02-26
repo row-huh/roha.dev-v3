@@ -8,7 +8,8 @@ import path from "path"
 export const maxDuration = 30
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json()
+  try {
+    const { messages }: { messages: UIMessage[] } = await req.json()
 
   // Load site knowledge for every request (fast local reads). If any part fails, keep going.
   let postsIndex = ""
@@ -361,4 +362,8 @@ Name Origin: The name "roha.dev" is a combination of her name, Roha, and her pro
   })
 
   return result.toUIMessageStreamResponse()
+  } catch (err) {
+    console.error("Error in chat POST handler:", err)
+    return new Response("Something went wrong", { status: 500 })
+  }
 }

@@ -505,7 +505,7 @@ useEffect(() => {
 
                 {error && (
                   <div className="rounded-md ring-1 ring-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
-                    {String(error)}
+                    Something went wrong
                   </div>
                 )}
 

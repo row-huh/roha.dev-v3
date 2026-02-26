@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import AIAssistantPreview from "./ai-assistant-preview" // Import AIAssistantPreview component
+import AIAssistantPreview from "./ai-assistant-preview" 
 
 
 
@@ -23,11 +23,9 @@ export default function HeroSection() {
               Hey, I'm <span className="text-purple-400 font-normal">Roha</span>
             </h1>
             <p className="text-xl text-gray-400 mb-8 leading-relaxed font-light">
-              Fullstack developer exploring AI engineering and building intelligent applications.
+              Goofing around with Tech &gt;_&lt;
             </p>
-            <div className="mt-2">
-              <AIAssistantPreview align="left" />
-            </div>
+
           </motion.div>
 
           {/* Right: Rounded square image */}
