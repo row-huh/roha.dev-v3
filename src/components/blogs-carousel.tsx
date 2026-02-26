@@ -359,7 +359,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
       <div className="mx-auto max-w-7xl">
             <h2 className="text-4xl font-medium text-white mb-6">Latest Insights</h2>
             <p className="text-lg text-gray-400 mb-12">
-              Catch up on my recently published blogs
+              I write a lot but only a fraction makes it online. 
+              Catch up on the latest updates;
             </p>
         {/* Grid Setup: 4 cols on lg, single on small; responsive gap */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
