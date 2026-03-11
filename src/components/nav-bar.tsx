@@ -22,7 +22,7 @@ export default function NavBar() {
     { href: "/projects", label: "Work" },
     { href: "/writing", label: "Writing" },
     { href: "/contact", label: "Contact" },
-    { href: "/assistant", label: "Ask Pethia" }
+    //{ href: "/assistant", label: "Ask Pethia" }
   ];
 
   return (

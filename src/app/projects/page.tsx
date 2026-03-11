@@ -248,7 +248,7 @@ export default function ProjectsPage() {
                         </Button>
                       </Link>
                     )}
-                    {featuredProject.liveDemoLink && (
+                    {featuredProject.liveDemoLink && featuredProject.liveDemoLink !== "#" && featuredProject.liveDemoLink !== "" && (
                       <Link
                         href={featuredProject.liveDemoLink}
                         target="_blank"

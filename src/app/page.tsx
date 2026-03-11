@@ -89,7 +89,7 @@ function HomePageContent() {
       {/* < ContractorArc /> */}
 
       {/* Barricade Tape */}
-      {/* < BarricadeTape text="CODE FOR FUN - NOT FOR MONEY" /> */}
+      {/* < BarricadeTape text="CODE COFFEE REPEAT" /> */}
 
       {/* Deep Learning Journey Section */}
       {/* < DeepLearningJourney /> */}

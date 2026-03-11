@@ -79,7 +79,7 @@ export default function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
                     </Button>
                   </Link>
                 )}
-                {project.liveDemoLink && (
+                {project.liveDemoLink && project.liveDemoLink !== "#" && project.liveDemoLink !== "" && (
                   <Link href={project.liveDemoLink} target="_blank" rel="noopener noreferrer">
                     <Button
                       variant="outline"
