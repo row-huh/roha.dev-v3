@@ -7,7 +7,7 @@ import InteractiveBackground from "@/components/interactive-background"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Github, ExternalLink } from "lucide-react"
-import ProjectsCarousel from "@/components/projects-carousel"
+import ProjectsGallery from "@/components/projects-gallery"
 import NavBar from "@/components/nav-bar"
 import { projects, type Project } from "@/lib/projects-data"
 
@@ -130,7 +130,7 @@ export default function ProjectsPage() {
                   Innovative solutions built under pressure and collaboration.
                 </p>
               </motion.div>
-              <ProjectsCarousel projects={hackathonProjects} />
+              <ProjectsGallery projects={hackathonProjects} />
             </section>
           )}
 
@@ -151,7 +151,7 @@ export default function ProjectsPage() {
                   Personal explorations and creative ventures outside of formal requirements.
                 </p>
               </motion.div>
-              <ProjectsCarousel projects={passionProjects} />
+              <ProjectsGallery projects={passionProjects} />
             </section>
           )}
 
@@ -172,7 +172,7 @@ export default function ProjectsPage() {
                   A collection of older projects and experiments.
                 </p>
               </motion.div>
-              <ProjectsCarousel projects={archiveProjects} />
+              <ProjectsGallery projects={archiveProjects} />
             </section>
           )}
         </div>

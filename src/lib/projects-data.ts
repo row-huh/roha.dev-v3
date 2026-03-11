@@ -6,6 +6,7 @@ export interface Project {
   tags: string[]
   githubLink?: string
   liveDemoLink?: string
+  youtubeLink?: string
   type: "featured" | "hackathon" | "passion" | "archive"
   isCurrentlyWorking?: boolean
 }
@@ -30,7 +31,7 @@ export const projects: Project[] = [
     image: "/projects/projects/time-venturers.png",
     tags: ["Python"],
     githubLink: "https://github.com/row-huh/time-ventures",
-    liveDemoLink: "https://www.youtube.com/watch?v=2ck6IDWG4Kc&t=15s&pp=ygUKcm9oYXRoZWRldg%3D%3D",
+    youtubeLink: "https://www.youtube.com/watch?v=2ck6IDWG4Kc",
     type: "passion"
   },
   {
@@ -111,7 +112,7 @@ export const projects: Project[] = [
     image: "/projects/projects/accessible-ui.png",
     tags: ["LangChain", "Langflow", "Python"],
     githubLink: "https://github.com/row-huh/AccessibleUI",
-    liveDemoLink: "https://youtu.be/rG930Hee7OE",
+    youtubeLink: "https://youtu.be/rG930Hee7OE",
     type: "archive",
   },
   {
