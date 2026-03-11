@@ -1,5 +1,5 @@
 import { getSortedPostsData } from "@/lib/blog"
-import { projectDetails } from "@/app/projects/[slug]/projectDetails"
+import { projectDetails } from "@/lib/projects-data"
 
 type ProjectIndexItem = {
   slug: string

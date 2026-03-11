@@ -49,7 +49,7 @@ export default function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-6 rounded-3xl h-full flex flex-col justify-between hover:bg-gray-800/40 transition-all duration-300">
-              <Link href={`/projects/${project.slug}`} className="block">
+              <div className="block">
                 <Image
                   src={project.image || "/placeholder.svg?height=200&width=300&text=Project+Image"}
                   alt={project.title}
@@ -59,7 +59,7 @@ export default function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
                 />
                 <h4 className="text-xl font-medium text-white mb-2">{project.title}</h4>
                 <p className="text-gray-300 text-sm mb-4 line-clamp-3">{project.description}</p>
-              </Link>
+              </div>
               <div className="flex flex-wrap gap-2 mt-auto">
                 {project.tags.map((tag, tagIndex) => (
                   <span key={tagIndex} className="bg-purple-600/20 text-purple-300 text-xs px-3 py-1 rounded-full">
