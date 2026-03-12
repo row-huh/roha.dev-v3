@@ -1,5 +1,5 @@
 # Roha.Dev-v3 - Overview
-This Repo is my 3rd at building a portfolio site
+This Repo is my 3rd attempt at building a portfolio site
 
 You can checkout my Version 2 here:  
 [Roha.Dev](roha-dev-v2.vercel.app)    

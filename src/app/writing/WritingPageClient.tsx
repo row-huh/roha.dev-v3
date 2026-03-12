@@ -5,7 +5,6 @@ import Link from "next/link"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ExternalLink, Sparkles } from "lucide-react"
-import InteractiveBackground from "@/components/interactive-background"
 import Image from "next/image"
 import { usePathname } from "next/navigation" // Keep usePathname for navigation styling
 // New Client Component to handle filtering and UI interactions
@@ -38,9 +37,7 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
   }, [selectedCategory, initialPosts])
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
-      <InteractiveBackground />
-
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Navigation */}
         < NavBar />
 

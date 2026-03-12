@@ -3,7 +3,6 @@
 import { useScroll, useMotionValue, useSpring } from "framer-motion"
 import { useEffect } from "react"
 import { usePathname } from "next/navigation"
-import InteractiveBackground from "@/components/interactive-background"
 import TestimonialsCarousel from "@/components/testimonials-carousel"
 import HeroSection from "@/components/hero-section"
 import NavBar from "@/components/nav-bar"
@@ -43,9 +42,6 @@ function HomePageContent() {
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
       
-      {/* Interactive Background with Marble */}
-      <InteractiveBackground />
-
       {/* Navigation */}
       < NavBar />
 

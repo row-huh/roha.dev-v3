@@ -1,16 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
-import InteractiveBackground from "@/components/interactive-background"
 import ProjectsGallery from "@/components/projects-gallery"
 import NavBar from "@/components/nav-bar"
 import { projects } from "@/lib/projects-data"
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
-      <InteractiveBackground />
-
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Navigation */}
       < NavBar />
 

@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react"
-import InteractiveBackground from "@/components/interactive-background"
 import { usePathname } from "next/navigation"
 import NavBar from "@/components/nav-bar"
 
@@ -14,9 +13,7 @@ export default function ContactPage() {
   const pathname = usePathname()
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden flex flex-col">
-      <InteractiveBackground />
-
+    <div className="min-h-screen bg-black text-white relative overflow-hidden flex flex-col">
       {/* Navigation */}
       <NavBar />
 

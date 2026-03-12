@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
-import InteractiveBackground from "@/components/interactive-background"
 import Image from "next/image"
 import type { BlogPostContent } from "@/lib/blog" // Import the type
 import NavBar from "@/components/nav-bar"
@@ -29,8 +28,7 @@ export default function BlogDetailPageClient({
     // This case should ideally be handled by generateStaticParams and getPostData
     // but kept for robust client-side error handling if direct navigation occurs.
     return (
-      <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden flex items-center justify-center">
-        <InteractiveBackground />
+      <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center">
         <div className="relative z-10 text-center">
           <h1 className="text-4xl font-bold mb-4">Blog Post Not Found</h1>
           <p className="text-lg text-gray-400 mb-8">The blog post you are looking for does not exist.</p>
@@ -58,8 +56,6 @@ export default function BlogDetailPageClient({
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <InteractiveBackground />
-
       {/* Navigation */}
       <NavBar />
 

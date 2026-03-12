@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import InteractiveBackground from "@/components/interactive-background"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import Cs50Certificates from "@/components/cs50-certificates"
@@ -19,9 +18,7 @@ export default function AboutPage() {
   const pathname = usePathname()
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
-      <InteractiveBackground />
-
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Navigation */}
       < NavBar />
 

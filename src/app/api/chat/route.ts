@@ -1,8 +1,11 @@
-import { streamText, convertToModelMessages, type UIMessage } from "ai"
-import { google } from "@ai-sdk/google"
+import type { UIMessage } from "ai"
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference"
+import { AzureKeyCredential } from "@azure/core-auth"
+import { createSseStream } from "@azure/core-sse"
 import { getAssistantKnowledge } from "@/lib/site-knowledge"
-import fs from "fs"
-import path from "path"
+
+const endpoint = "https://models.github.ai/inference"
+const modelName = "deepseek/DeepSeek-R1"
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30
@@ -354,14 +357,69 @@ Learning Goals: She wants to understand and work with every type of tech, but he
 
 Name Origin: The name "roha.dev" is a combination of her name, Roha, and her profession, a developer.
 `.trim()
-  const result = streamText({
-    model: google("gemini-2.0-flash"),
-    system,
-    messages: convertToModelMessages(messages),
-    temperature: 0.7,
-  })
 
-  return result.toUIMessageStreamResponse()
+    const token = process.env.GITHUB_TOKEN
+    if (!token) {
+      return new Response("GITHUB_TOKEN not configured", { status: 500 })
+    }
+
+    const client = ModelClient(
+      endpoint,
+      new AzureKeyCredential(token),
+    )
+
+    const chatMessages = messages.map((msg: any) => ({
+      role: msg.role === "assistant" ? "assistant" : "user",
+      content: typeof msg.content === "string" ? msg.content : "",
+    }))
+
+    const response = await client.path("/chat/completions").post({
+      body: {
+        messages: [
+          { role: "system", content: system },
+          ...chatMessages,
+        ],
+        model: modelName,
+        stream: true,
+      } as any,
+    }).asNodeStream() as any
+
+    if (isUnexpected(response)) {
+      console.error("Azure API error:", response.status)
+      throw new Error(`Azure API error: status ${response.status}`)
+    }
+
+    if (!response.body) {
+      throw new Error("The response is undefined")
+    }
+
+    const sseStream = createSseStream(response.body)
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        for await (const event of sseStream) {
+          if (event.data === "[DONE]") {
+            controller.close()
+            break
+          }
+          const parsedData = JSON.parse(event.data)
+          for (const choice of parsedData.choices) {
+            const content = choice.delta?.content
+            if (content) {
+              controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({ content })}\n\n`))
+            }
+          }
+        }
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    })
   } catch (err) {
     console.error("Error in chat POST handler:", err)
     return new Response("Something went wrong", { status: 500 })
