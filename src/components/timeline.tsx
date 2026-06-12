@@ -81,8 +81,8 @@ export default function Timeline() {
           transition={{ duration: 0.8 }}
           className="mb-20"
         >
-          <h2 className="text-2xl font-medium text-purple-400 mb-4">I Began to Join Hackathons...</h2>
-          <p className="text-base text-gray-400 max-w-2xl mx-auto">
+          <h2 className="text-2xl font-medium text-[var(--v-clay)] mb-4">I Began to Join Hackathons...</h2>
+          <p className="text-base text-[var(--v-ink-soft)] max-w-2xl mx-auto">
             {"During my time in university, I joined a bunch of hackathons because of the "}
             <span className="line-through">prize money</span>
             {" skills I could gain out of them. They were honestly a load of fun"}
@@ -91,7 +91,7 @@ export default function Timeline() {
 
         <div className="relative flex flex-col items-center">
           {/* Vertical Timeline Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gray-700 rounded-full z-0" />
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-[var(--v-panel)] rounded-full z-0" />
 
           {timelineEvents.map((event, index) => {
             const IconComponent = iconMap[event.iconName]
@@ -110,25 +110,25 @@ export default function Timeline() {
               >
                 {/* Timeline Node */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
-                  <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center border-2 border-gray-900 shadow-lg">
-                    <IconComponent className="h-4 w-4 text-white" />
+                  <div className="w-8 h-8 bg-[var(--v-clay)] rounded-full flex items-center justify-center border-2 border-[var(--v-border)] shadow-lg">
+                    <IconComponent className="h-4 w-4 text-[var(--v-ink)]" />
                   </div>
                 </div>
 
                 {/* Event Card */}
 <Card
-  className={`bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-4 rounded-3xl w-full md:w-4/12 transition-all duration-300 hover:bg-gray-800/40 ${
+  className={`bg-[var(--v-panel)]/30 border-[var(--v-border)]/50 backdrop-blur-sm p-4 rounded-3xl w-full md:w-4/12 transition-all duration-300 hover:bg-[var(--v-panel)]/40 ${
     index % 2 === 0 ? "md:mr-[calc(50%+20px)] text-right" : "md:ml-[calc(50%+20px)] text-left"
   }`}
 >
-  <h3 className="text-lg font-semibold text-white mb-2">{event.title}</h3>
-  <p className="text-sm text-gray-300 leading-relaxed mb-3">{event.description}</p>
+  <h3 className="text-lg font-semibold text-[var(--v-ink)] mb-2">{event.title}</h3>
+  <p className="text-sm text-[var(--v-ink-soft)] leading-relaxed mb-3">{event.description}</p>
   <div className="flex gap-2 mt-3">
     {event.viewProjectLink && (
       <Link href={event.viewProjectLink} target="_blank" rel="noopener noreferrer">
         <Button
           variant="outline"
-          className="rounded-full border-gray-600 text-gray-300 hover:bg-gray-700 bg-transparent px-3 py-1 text-xs"
+          className="rounded-full border-[var(--v-border)] text-[var(--v-ink-soft)] hover:bg-[var(--v-panel)] bg-transparent px-3 py-1 text-xs"
         >
           <ExternalLink className="h-3 w-3 mr-1" /> View Project
         </Button>
@@ -138,7 +138,7 @@ export default function Timeline() {
       <Link href={event.viewCertificateLink} target="_blank" rel="noopener noreferrer">
         <Button
           variant="outline"
-          className="rounded-full border-gray-600 text-gray-300 hover:bg-gray-700 bg-transparent px-3 py-1 text-xs"
+          className="rounded-full border-[var(--v-border)] text-[var(--v-ink-soft)] hover:bg-[var(--v-panel)] bg-transparent px-3 py-1 text-xs"
         >
           <ExternalLink className="h-3 w-3 mr-1" /> View Certificate
         </Button>

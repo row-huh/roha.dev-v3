@@ -64,8 +64,8 @@ export default function DeepLearningJourney() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl font-medium text-purple-400 mb-4">What I'm up to now...</h2>
-          <p className="text-base text-gray-400 max-w-xl mx-auto">
+          <h2 className="text-2xl font-medium text-[var(--v-clay)] mb-4">What I'm up to now...</h2>
+          <p className="text-base text-[var(--v-ink-soft)] max-w-xl mx-auto">
             A roadmap of my current focus and future aspirations in the AI space.
           </p>
         </motion.div>
@@ -79,10 +79,10 @@ export default function DeepLearningJourney() {
           transition={{ duration: 0.4 }}
           className="relative z-20"
         >
-          <Card className="p-4 rounded-2xl bg-gray-800/30 border-gray-700/50 backdrop-blur-sm">
+          <Card className="p-4 rounded-2xl bg-[var(--v-panel)]/30 border-[var(--v-border)]/50 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              <Brain className="h-6 w-6 text-purple-400" />
-              <h3 className="text-lg font-semibold text-white">My Current Focus</h3>
+              <Brain className="h-6 w-6 text-[var(--v-clay)]" />
+              <h3 className="text-lg font-semibold text-[var(--v-ink)]">My Current Focus</h3>
             </div>
           </Card>
         </motion.div>
@@ -106,12 +106,12 @@ export default function DeepLearningJourney() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 w-full max-w-4xl relative z-10">
             {journeySteps.map((step, index) => (
               <motion.div key={index} variants={itemVariants} className="relative z-10">
-                <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-4 rounded-2xl h-full flex flex-col justify-between text-center transition-all duration-300 hover:bg-gray-800/40">
+                <Card className="bg-[var(--v-panel)]/30 border-[var(--v-border)]/50 backdrop-blur-sm p-4 rounded-2xl h-full flex flex-col justify-between text-center transition-all duration-300 hover:bg-[var(--v-panel)]/40">
                   <div className="flex flex-col items-center mb-3">
-                    <step.icon className="h-6 w-6 text-purple-400 mb-2" />
-                    <h3 className="text-base font-semibold text-white mb-1">{step.title}</h3>
+                    <step.icon className="h-6 w-6 text-[var(--v-clay)] mb-2" />
+                    <h3 className="text-base font-semibold text-[var(--v-ink)] mb-1">{step.title}</h3>
                   </div>
-                  <p className="text-gray-300 text-xs leading-relaxed">{step.description}</p>
+                  <p className="text-[var(--v-ink-soft)] text-xs leading-relaxed">{step.description}</p>
                 </Card>
               </motion.div>
             ))}

@@ -19,10 +19,13 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="w-full md:w-1/2 max-w-3xl text-left"
           >
-            <h1 className="text-5xl md:text-6xl font-medium text-white mb-4 leading-tight">
-              Hey, I'm <span className="text-purple-400 font-normal">Roha</span>
+            <p className="font-pixel text-sm tracking-widest text-[var(--v-moss)] mb-4 uppercase">
+              🌿 welcome to the village
+            </p>
+            <h1 className="font-pixel text-5xl md:text-6xl font-medium text-[var(--v-ink)] mb-4 leading-tight">
+              Hey, I'm <span className="text-[var(--v-clay)]">Roha</span>
             </h1>
-            <p className="text-xl text-gray-400 mb-8 leading-relaxed font-light">
+            <p className="text-xl text-[var(--v-ink-soft)] mb-8 leading-relaxed font-light">
               Goofing around with Tech &gt;_&lt;
             </p>
 
@@ -35,16 +38,23 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
             className="w-full md:w-1/2 flex justify-center md:justify-end"
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-              <Image
-                src="/overlays/overlay-big.jpg"
-                alt="Overlay visual"
-                fill
-                priority
-                quality={95}
-                sizes="(min-width: 1024px) 420px, (min-width: 640px) 20rem, 18rem"
-                className="object-cover"
-              />
+            {/* Framed like a cozy polaroid pinned to a cottage wall */}
+            <div className="relative animate-village-bob">
+              <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] rounded-2xl overflow-hidden bg-[var(--v-paper)] p-3 shadow-[0_18px_40px_-12px_rgba(110,83,60,0.45)] ring-1 ring-[var(--v-border)]/70 rotate-[-2deg]">
+                <div className="relative w-full h-full rounded-xl overflow-hidden ring-1 ring-[var(--v-bark)]/20">
+                  {/* Pixel-art village portrait. Fallback: "/overlays/overlay-big.jpg" */}
+                  <Image
+                    src="/overlays/village-hero.png"
+                    alt="Pixel-art plant witch"
+                    fill
+                    priority
+                    quality={95}
+                    sizes="(min-width: 1024px) 420px, (min-width: 640px) 20rem, 18rem"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              <span aria-hidden className="absolute -bottom-4 -left-4 text-4xl rotate-[8deg]">🪴</span>
             </div>
           </motion.div>
         </div>

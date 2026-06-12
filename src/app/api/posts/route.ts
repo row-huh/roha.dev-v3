@@ -8,10 +8,12 @@ export async function GET(request: Request) {
   try {
     const posts = await getSortedPostsData()
     const items = posts.slice(0, limit).map((p) => ({
+      slug: p.slug,
       title: p.title,
       description: p.description,
       date: p.date,
       image: p.image,
+      category: p.category,
       link: `/writing/${p.slug}`,
     }))
 

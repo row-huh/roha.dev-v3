@@ -57,8 +57,10 @@ function SkillRow({ skills, direction, speed }: SkillRowProps) {
             transition={{ duration: 0.2 }}
             className="flex-none mx-6 flex items-center justify-center text-center"
           >
-            <skill.icon className="h-5 w-5 text-gray-300 mr-2" />
-            <p className="text-sm font-medium text-gray-300">{skill.name}</p>
+            <span className="flex items-center rounded-full border border-[var(--v-border)]/70 bg-[var(--v-panel)]/60 px-3 py-1.5">
+              <skill.icon className="h-4 w-4 text-[var(--v-moss)] mr-2" />
+              <p className="text-sm font-medium text-[var(--v-ink)]">{skill.name}</p>
+            </span>
           </motion.div>
         ))}
       </motion.div>
@@ -116,8 +118,8 @@ export default function MySkills() {
           transition={{ duration: 0.8 }}
           className="mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-medium text-purple-400 mb-4 leading-tight">My Skills</h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <h2 className="font-pixel text-5xl md:text-6xl font-medium text-[var(--v-clay)] mb-4 leading-tight">🌱 My Skills</h2>
+          <p className="text-xl text-[var(--v-ink-soft)] max-w-2xl mx-auto">
             A comprehensive list of everything I've "goofed" around with
           </p>
         </motion.div>

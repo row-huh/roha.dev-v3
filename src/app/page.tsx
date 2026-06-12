@@ -38,10 +38,20 @@ function HomePageContent() {
 
 
   return (
-  <div className="min-h-screen bg-black text-white relative overflow-hidden">
+  <div className="village-home village-light min-h-screen relative overflow-hidden">
+      {/* Decorative cottagecore sprites — subtle, behind everything */}
+      <div aria-hidden className="pointer-events-none select-none absolute inset-0 z-0 overflow-hidden">
+        <span className="animate-village-bob absolute left-[4%] top-[18%] text-4xl opacity-30">🪴</span>
+        <span className="animate-village-bob absolute right-[6%] top-[30%] text-5xl opacity-25" style={{ animationDelay: "1.2s" }}>🌿</span>
+        <span className="animate-village-bob absolute left-[8%] top-[52%] text-4xl opacity-25" style={{ animationDelay: "0.6s" }}>🍄</span>
+        <span className="animate-village-bob absolute right-[9%] top-[64%] text-4xl opacity-30" style={{ animationDelay: "2s" }}>☕</span>
+        <span className="animate-village-bob absolute left-[5%] top-[80%] text-4xl opacity-25" style={{ animationDelay: "1.6s" }}>🕯️</span>
+        <span className="animate-village-bob absolute right-[5%] top-[88%] text-4xl opacity-25" style={{ animationDelay: "0.9s" }}>🌙</span>
+      </div>
+
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
-      
+
       {/* Navigation */}
       < NavBar />
 

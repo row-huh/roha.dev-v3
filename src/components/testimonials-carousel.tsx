@@ -112,9 +112,9 @@ function Testimonials() {
       <div 
         ref={carouselRef} 
         className="flex overflow-x-auto scroll-smooth pb-4 gap-4 sm:gap-6"
-        style={{ 
-          scrollbarWidth: 'thin', 
-          scrollbarColor: '#6b21a8 #1f2937'
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'var(--v-clay) var(--v-panel)'
         }}
       >
         {testimonials.map((testimonial, index) => (
@@ -126,8 +126,8 @@ function Testimonials() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-5 rounded-3xl h-full flex flex-col justify-between :bhoverg-gray-800/40 transition-all duration-300">
-              <p className="text-xs text-gray-300 mb-4 italic flex-grow leading-tight">
+            <Card className="bg-[var(--v-panel)]/60 border-[var(--v-border)]/70 backdrop-blur-sm p-5 rounded-3xl h-full flex flex-col justify-between hover:bg-[var(--v-panel)]/85 transition-all duration-300 shadow-[0_10px_24px_-14px_rgba(110,83,60,0.4)]">
+              <p className="text-xs text-[var(--v-ink-soft)] mb-4 italic flex-grow leading-tight">
                 "{testimonial.quote}"
               </p>
               <div className="flex items-center justify-between mt-3">
@@ -141,20 +141,20 @@ function Testimonials() {
                     style={{ aspectRatio: "1 / 1" }}
                   />
                   <div>
-                    <p className="font-medium text-sm text-white">
+                    <p className="font-medium text-sm text-[var(--v-ink)]">
                       {testimonial.name}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-[var(--v-ink-soft)]">
                       {testimonial.role}
                     </p>
                   </div>
                 </div>
                 {testimonial.socialLink && (
                   <Link href={testimonial.socialLink.url} target="_blank" rel="noopener noreferrer">
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      className="text-gray-400 hover:text-white"
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-[var(--v-bark)] hover:text-[var(--v-clay)]"
                     >
                       {testimonial.socialLink.type === "github" && <Github className="h-4 w-4" />}
                       {testimonial.socialLink.type === "linkedin" && <Linkedin className="h-4 w-4" />}
@@ -172,7 +172,7 @@ function Testimonials() {
       <Button
         variant="outline"
         size="icon"
-        className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-900/90 border-purple-400/30 backdrop-blur-md text-purple-300 hover:bg-purple-900/60 hover:text-white hover:border-purple-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
+        className="absolute top-1/2 left-2 -translate-y-1/2 bg-[var(--v-surface)]/95 border-[var(--v-clay)]/40 backdrop-blur-md text-[var(--v-clay)] hover:bg-[var(--v-clay)] hover:text-[var(--v-paper)] hover:border-[var(--v-clay)] rounded-full z-20 flex transition-all duration-300 hover:scale-110"
         onClick={() => scroll("left")}
       >
         <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -180,7 +180,7 @@ function Testimonials() {
       <Button
         variant="outline"
         size="icon"
-        className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-900/90 border-purple-400/30 backdrop-blur-md text-purple-300 hover:bg-purple-900/60 hover:text-white hover:border-purple-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
+        className="absolute top-1/2 right-2 -translate-y-1/2 bg-[var(--v-surface)]/95 border-[var(--v-clay)]/40 backdrop-blur-md text-[var(--v-clay)] hover:bg-[var(--v-clay)] hover:text-[var(--v-paper)] hover:border-[var(--v-clay)] rounded-full z-20 flex transition-all duration-300 hover:scale-110"
         onClick={() => scroll("right")}
       >
         <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -194,15 +194,15 @@ function Testimonials() {
             display: block;
           }
           div[style*="scrollbarWidth"]::-webkit-scrollbar-track {
-            background: #1f2937;
+            background: var(--v-panel);
             border-radius: 10px;
           }
           div[style*="scrollbarWidth"]::-webkit-scrollbar-thumb {
-            background: #6b21a8;
+            background: var(--v-clay);
             border-radius: 10px;
           }
           div[style*="scrollbarWidth"]::-webkit-scrollbar-thumb:hover {
-            background: #7c3aed;
+            background: var(--v-clay-deep);
           }
         }
       `}</style>
@@ -221,10 +221,10 @@ export default function TestimonialsCarousel() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-4xl font-medium text-white mb-6">
-            What people I've worked with have to say about me
+          <h2 className="font-pixel text-4xl font-medium text-[var(--v-ink)] mb-6">
+            🍵 What people I've worked with have to say about me
           </h2>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto">
+          <p className="text-lg text-[var(--v-ink-soft)] max-w-3xl mx-auto">
             These are feedbacks from some of the best people I've ever worked with
           </p>
         </motion.div>

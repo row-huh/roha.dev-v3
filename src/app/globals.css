@@ -198,6 +198,32 @@ html {
   @apply border-l-4 border-gray-600 pl-4 italic text-gray-400;
 }
 
+/* Warm parchment prose for the OS-mode document viewer */
+.pdf-prose { color: #3b2f1e; }
+.pdf-prose h1 { @apply text-2xl font-bold mt-8 mb-4 leading-tight; color: #2f2616; }
+.pdf-prose h2 { @apply text-xl font-semibold mt-7 mb-3; color: #2f2616; }
+.pdf-prose h3 { @apply text-lg font-medium mt-6 mb-2; color: #2f2616; }
+.pdf-prose p { @apply mb-4 leading-relaxed; color: #4a3b26; }
+.pdf-prose ul { @apply list-disc list-outside pl-5 mb-4; color: #4a3b26; }
+.pdf-prose ol { @apply list-decimal list-outside pl-5 mb-4; color: #4a3b26; }
+.pdf-prose li { @apply mb-1; }
+.pdf-prose a { @apply underline; color: #a8552e; }
+.pdf-prose a:hover { color: #c2703d; }
+.pdf-prose strong { @apply font-semibold; color: #2f2616; }
+.pdf-prose code { @apply px-1 py-0.5 rounded text-sm; color: #5c7a38; background: #ece4cf; }
+.pdf-prose pre { @apply p-3 rounded my-4 overflow-x-auto text-sm; background: #ece4cf; color: #4a3b26; }
+.pdf-prose blockquote { @apply border-l-4 pl-4 italic my-4; border-color: #c9a86a; color: #6b5b43; }
+.pdf-prose img { @apply rounded my-4 max-w-full; }
+.pdf-prose hr { @apply my-6; border-color: rgba(47,38,22,0.2); }
+
+/* ===== OS mode — cottagecore pixel theme ===== */
+.os-pixel { font-family: var(--font-pixel), ui-monospace, monospace; }
+.pixelated { image-rendering: pixelated; image-rendering: crisp-edges; }
+/* hard, offset "pixel" drop shadow (no blur) */
+.os-shadow { box-shadow: 4px 4px 0 0 #2f2616; }
+.os-shadow-sm { box-shadow: 3px 3px 0 0 #2f2616; }
+.os-shadow-inset { box-shadow: inset 2px 2px 0 0 rgba(255,255,255,0.35), inset -2px -2px 0 0 rgba(47,38,22,0.18); }
+
 /* Custom animation keyframes for card flair */
 @keyframes slow-float {
   0%,100% { transform: translate3d(0,0,0); }
@@ -213,3 +239,112 @@ html {
 /* Utility classes (tailwind arbitrary animate replacement) */
 .animate-slow-float { animation: slow-float 11s ease-in-out infinite; }
 .group:hover .group-hover\:animate-sheen-swipe { animation: sheen-swipe 1.2s ease-in-out; }
+
+
+/* =========================================================================
+   Village / cottagecore theme — SCOPED to the homepage only (.village-home)
+   Default: DARK "witchy forest night" — deep mossy charcoal, candle-amber
+   glow, sage + terracotta accents. All colors are semantic CSS vars, so the
+   whole page flips by swapping this one block. To fall back to the original
+   cream daytime look, add the `village-light` class on the wrapper (see below).
+   Nothing here affects OS mode or other pages.
+   ========================================================================= */
+.village-home {
+  /* --- DARK palette (default) --- */
+  --v-bg:        #161b13;  /* page base — deep forest night */
+  --v-bg-deep:   #11150e;  /* deepest (footer / edges) */
+  --v-surface:   #222a1c;  /* nav / solid buttons */
+  --v-panel:     #28311f;  /* cards / panels (used with /opacity) */
+  --v-border:    #3c4630;  /* mossy hairline borders */
+  --v-ink:       #ece5d3;  /* primary text / headings (warm cream) */
+  --v-ink-soft:  #a7a98c;  /* muted sage-grey text */
+  --v-moss:      #a3b85f;  /* bright sage accent */
+  --v-forest:    #6f8443;
+  --v-clay:      #cf8a52;  /* terracotta glow */
+  --v-clay-deep: #b06a38;
+  --v-amber:     #e0ac4a;  /* candle / honey highlight */
+  --v-bark:      #b9926e;  /* lightened brown (visible on dark) */
+  --v-paper:     #efe8d6;  /* light frame surface (polaroid) */
+  --v-on-accent: #241a10;  /* text sitting on a clay button */
+  --v-ghost:     rgba(236,229,211,0.10); /* huge faint footer wordmark */
+
+  background-color: var(--v-bg);
+  color: var(--v-ink);
+
+  /* layered night scene: faint moss glow up top, warm candle glow at the floor */
+  background-image:
+    radial-gradient(120% 70% at 50% 0%, rgba(111,132,67,0.18) 0%, rgba(111,132,67,0) 55%),
+    radial-gradient(130% 90% at 50% 100%, rgba(224,172,74,0.10) 0%, rgba(224,172,74,0) 60%),
+    linear-gradient(180deg, var(--v-bg) 0%, var(--v-bg-deep) 100%);
+  background-attachment: fixed;
+}
+
+/* --- LIGHT fallback: add `village-light` to the wrapper to restore the
+       original warm cream "daytime village" look --- */
+.village-home.village-light {
+  --v-bg:        #ece5d3;
+  --v-bg-deep:   #e6dec9;
+  --v-surface:   #ece5d3;
+  --v-panel:     #e2d9c1;
+  --v-border:    #c9b896;
+  --v-ink:       #38492b;
+  --v-ink-soft:  #6b6750;
+  --v-moss:      #7c8b4e;
+  --v-forest:    #45562f;
+  --v-clay:      #a86a45;
+  --v-clay-deep: #8a5234;
+  --v-amber:     #c08a2c;
+  --v-bark:      #6e533c;
+  --v-paper:     #f3eede;
+  --v-on-accent: #f3eede;
+  --v-ghost:     rgba(56,73,43,0.18);
+
+  background-image:
+    radial-gradient(120% 70% at 50% 0%, #f3eede 0%, rgba(243,238,222,0) 55%),
+    radial-gradient(120% 80% at 50% 100%, rgba(124,139,78,0.22) 0%, rgba(124,139,78,0) 60%),
+    linear-gradient(180deg, var(--v-bg) 0%, var(--v-bg-deep) 100%);
+}
+
+/* faint pixel-tile grid laid over the whole page for a subtle game-map feel */
+.village-home::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(to right, rgba(163,184,95,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(163,184,95,0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.village-home.village-light::before {
+  background-image:
+    linear-gradient(to right, rgba(56,73,43,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56,73,43,0.05) 1px, transparent 1px);
+}
+
+/* Markdown article prose on village pages — override the dark global .prose
+   defaults (white headings / gray body) so articles read on the cream page.
+   Body text colors are set inline via prose-* modifiers; headings are not, so
+   they need this. */
+.village-home .prose :where(h1, h2, h3, h4, h5, h6) { color: var(--v-ink); }
+.village-home .prose :where(ol, ul, li) { color: var(--v-ink); }
+.village-home .prose :where(blockquote) { color: var(--v-ink-soft); border-left-color: var(--v-clay); }
+
+/* cute blocky pixel font for big headings inside the village */
+.village-home .font-pixel {
+  font-family: var(--font-pixel), "Pixelify Sans", ui-monospace, monospace;
+  letter-spacing: 0.01em;
+}
+
+/* themed scrollbar while on the homepage */
+.village-home ::-webkit-scrollbar-track { background: var(--v-bg-deep); }
+.village-home ::-webkit-scrollbar-thumb { background: var(--v-border); border-radius: 3px; }
+.village-home ::-webkit-scrollbar-thumb:hover { background: var(--v-clay); }
+
+/* gentle bob for decorative sprites (potted plants etc.) */
+@keyframes village-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.village-home .animate-village-bob { animation: village-bob 6s ease-in-out infinite; }

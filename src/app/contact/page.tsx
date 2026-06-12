@@ -13,7 +13,7 @@ export default function ContactPage() {
   const pathname = usePathname()
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden flex flex-col">
+    <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden flex flex-col">
       {/* Navigation */}
       <NavBar />
 
@@ -25,37 +25,37 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium text-white mb-4 leading-tight">
-              Get in <span className="text-purple-400 font-normal">Touch</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium text-[var(--v-ink)] mb-4 leading-tight">
+              Get in <span className="text-[var(--v-clay)] font-normal">Touch</span>
             </h1>
-            <p className="text-base sm:text-lg text-gray-400 mb-8 leading-relaxed">
+            <p className="text-base sm:text-lg text-[var(--v-ink-soft)] mb-8 leading-relaxed">
               Have a project in mind, a question about AI, or just want to say hello? 
               Feel free to reach out! I'm always open to new collaborations and conversations.
             </p>
 
             <div className="space-y-5">
-              <div className="flex items-center gap-3 sm:gap-4 text-gray-300 text-sm sm:text-base">
-                <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
-                <a href="mailto:roha.pathan125@gmail.com" className="hover:text-purple-300 transition-colors">
+              <div className="flex items-center gap-3 sm:gap-4 text-[var(--v-ink-soft)] text-sm sm:text-base">
+                <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-[var(--v-clay)]" />
+                <a href="mailto:roha.pathan125@gmail.com" className="hover:text-[var(--v-clay)] transition-colors">
                   roha.pathan125@gmail.com
                 </a>
               </div>
-              <div className="flex items-center gap-3 sm:gap-4 text-gray-300 text-sm sm:text-base">
-                <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
+              <div className="flex items-center gap-3 sm:gap-4 text-[var(--v-ink-soft)] text-sm sm:text-base">
+                <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-[var(--v-clay)]" />
                 <span>+92 325 7007071</span>
               </div>
-              <div className="flex items-center gap-3 sm:gap-4 text-gray-300 text-sm sm:text-base">
-                <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
+              <div className="flex items-center gap-3 sm:gap-4 text-[var(--v-ink-soft)] text-sm sm:text-base">
+                <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-[var(--v-clay)]" />
                 <span>Karachi, Pakistan</span>
               </div>
               <div className="flex items-center gap-4 pt-4">
                 <Link href="https://github.com/row-huh" target="_blank" rel="noopener noreferrer">
-                  <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+                  <Button variant="ghost" size="icon" className="text-[var(--v-ink-soft)] hover:text-[var(--v-ink)]">
                     <Github className="h-5 w-5 sm:h-6 sm:w-6" />
                   </Button>
                 </Link>
                 <Link href="https://www.linkedin.com/in/roha-pathan-687960272/" target="_blank" rel="noopener noreferrer">
-                  <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
+                  <Button variant="ghost" size="icon" className="text-[var(--v-ink-soft)] hover:text-[var(--v-ink)]">
                     <Linkedin className="h-5 w-5 sm:h-6 sm:w-6" />
                   </Button>
                 </Link>
@@ -75,7 +75,7 @@ export default function ContactPage() {
               className="space-y-5 sm:space-y-6"
             >
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-[var(--v-ink-soft)] mb-2">
                   Your Name
                 </label>
                 <Input
@@ -83,12 +83,12 @@ export default function ContactPage() {
                   name="name"
                   type="text"
                   placeholder="Your Name"
-                  className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                  className="bg-[var(--v-panel)]/50 border-[var(--v-border)] text-[var(--v-ink)] placeholder-gray-400 
+                            focus:ring-[var(--v-clay)] focus:border-[var(--v-clay)]"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-[var(--v-ink-soft)] mb-2">
                   Your Email
                 </label>
                 <Input
@@ -96,12 +96,12 @@ export default function ContactPage() {
                   name="email"
                   type="email"
                   placeholder="Your Email"
-                  className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                  className="bg-[var(--v-panel)]/50 border-[var(--v-border)] text-[var(--v-ink)] placeholder-gray-400 
+                            focus:ring-[var(--v-clay)] focus:border-[var(--v-clay)]"
                 />
               </div>
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="subject" className="block text-sm font-medium text-[var(--v-ink-soft)] mb-2">
                   Subject
                 </label>
                 <Input
@@ -109,12 +109,12 @@ export default function ContactPage() {
                   name="subject"
                   type="text"
                   placeholder="The TL;DR of your message"
-                  className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                  className="bg-[var(--v-panel)]/50 border-[var(--v-border)] text-[var(--v-ink)] placeholder-gray-400 
+                            focus:ring-[var(--v-clay)] focus:border-[var(--v-clay)]"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-[var(--v-ink-soft)] mb-2">
                   Your Message
                 </label>
                 <Textarea
@@ -122,12 +122,12 @@ export default function ContactPage() {
                   name="message"
                   rows={5}
                   placeholder="Deploy your thoughts here..."
-                  className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                  className="bg-[var(--v-panel)]/50 border-[var(--v-border)] text-[var(--v-ink)] placeholder-gray-400 
+                            focus:ring-[var(--v-clay)] focus:border-[var(--v-clay)]"
                 />
               </div>
               <Button
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full 
+                className="w-full bg-[var(--v-clay)] hover:bg-[var(--v-clay-deep)] text-[var(--v-ink)] rounded-full 
                           py-3 text-base sm:text-lg font-semibold"
               >
                 Send Message

@@ -7,7 +7,7 @@ import { projects } from "@/lib/projects-data"
 
 export default function ProjectsPage() {
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden">
       {/* Navigation */}
       < NavBar />
 
@@ -19,10 +19,10 @@ export default function ProjectsPage() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <h1 className="text-5xl md:text-6xl font-medium text-white leading-tight my-[19px] mt-[50px]">
-              My <span className="text-purple-400 font-normal">Work</span>
+            <h1 className="text-5xl md:text-6xl font-medium text-[var(--v-ink)] leading-tight my-[19px] mt-[50px]">
+              My <span className="text-[var(--v-clay)] font-normal">Work</span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+            <p className="text-xl text-[var(--v-ink-soft)] max-w-2xl mx-auto">
               A showcase of my projects, from AI engineering to fullstack development.
             </p>
           </motion.div>

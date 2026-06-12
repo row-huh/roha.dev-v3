@@ -357,9 +357,9 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   return (
     <section ref={sectionRef} className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl">
-            <h2 className="text-4xl font-medium text-white mb-6">Latest Insights</h2>
-            <p className="text-lg text-gray-400 mb-12">
-              I write a lot but only a fraction makes it online. 
+            <h2 className="font-pixel text-4xl font-medium text-[var(--v-ink)] mb-6">📖 Latest Insights</h2>
+            <p className="text-lg text-[var(--v-ink-soft)] mb-12">
+              I write a lot but only a fraction makes it online.
               Catch up on the latest updates;
             </p>
         {/* Grid Setup: 4 cols on lg, single on small; responsive gap */}
@@ -383,7 +383,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 {/* Mobile ratio */}
                 <div className="relative block md:hidden aspect-4/5">
                   <Image
-                    src="/overlays/overlay-big.jpg"
+                    src="/overlays/village-forest.png"
                     alt={featured.title}
                     fill
                     priority
@@ -394,7 +394,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 {/* Desktop ratio */}
                 <div className="relative hidden md:block aspect-video">
                   <Image
-                    src="/overlays/overlay-big.jpg"
+                    src="/overlays/village-forest.png"
                     alt={featured.title}
                     fill
                     priority
@@ -438,7 +438,9 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 "bg-linear-to-br from-pink-500/25 via-violet-500/20 to-transparent",
               ]
               const colorOverlay = overlays[i % overlays.length]
-              const overlayImage = `/overlays/overlay-${(i % 3) + 1}.jpg`
+              // Pixel-art village scenes. Fallback: `/overlays/overlay-${(i % 3) + 1}.jpg`
+              const villageImages = ["/overlays/village-plants.png", "/overlays/village-cafe.png", "/overlays/village-forest.png"]
+              const overlayImage = villageImages[i % villageImages.length]
               return (
               <article key={i} className="group relative">
                   <div
