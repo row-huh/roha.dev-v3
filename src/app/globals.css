@@ -242,67 +242,74 @@ html {
 
 
 /* =========================================================================
-   Village / cottagecore theme — SCOPED to the homepage only (.village-home)
-   Default: DARK "witchy forest night" — deep mossy charcoal, candle-amber
-   glow, sage + terracotta accents. All colors are semantic CSS vars, so the
-   whole page flips by swapping this one block. To fall back to the original
-   cream daytime look, add the `village-light` class on the wrapper (see below).
-   Nothing here affects OS mode or other pages.
+   Village theme — site-wide (.village-home wrapper on every page).
+   Two palettes driven by the theme class on <html> (next-themes, attribute="class"):
+     • LIGHT (base, below)        → warm cream "daytime village" (cottagecore)
+     • DARK  (.dark override)     → black canvas with emerald-green accents
+   Every component references semantic --v-* vars, so the whole site flips by
+   swapping this one block. LIGHT is the base so SSR/pre-hydration paints cream
+   (no flash of undefined vars); DARK only overrides what changes.
+   Nothing here affects OS mode.
    ========================================================================= */
 .village-home {
-  /* --- DARK palette (default) --- */
-  --v-bg:        #161b13;  /* page base — deep forest night */
-  --v-bg-deep:   #11150e;  /* deepest (footer / edges) */
-  --v-surface:   #222a1c;  /* nav / solid buttons */
-  --v-panel:     #28311f;  /* cards / panels (used with /opacity) */
-  --v-border:    #3c4630;  /* mossy hairline borders */
-  --v-ink:       #ece5d3;  /* primary text / headings (warm cream) */
-  --v-ink-soft:  #a7a98c;  /* muted sage-grey text */
-  --v-moss:      #a3b85f;  /* bright sage accent */
-  --v-forest:    #6f8443;
-  --v-clay:      #cf8a52;  /* terracotta glow */
-  --v-clay-deep: #b06a38;
-  --v-amber:     #e0ac4a;  /* candle / honey highlight */
-  --v-bark:      #b9926e;  /* lightened brown (visible on dark) */
-  --v-paper:     #efe8d6;  /* light frame surface (polaroid) */
-  --v-on-accent: #241a10;  /* text sitting on a clay button */
-  --v-ghost:     rgba(236,229,211,0.10); /* huge faint footer wordmark */
-
-  background-color: var(--v-bg);
-  color: var(--v-ink);
-
-  /* layered night scene: faint moss glow up top, warm candle glow at the floor */
-  background-image:
-    radial-gradient(120% 70% at 50% 0%, rgba(111,132,67,0.18) 0%, rgba(111,132,67,0) 55%),
-    radial-gradient(130% 90% at 50% 100%, rgba(224,172,74,0.10) 0%, rgba(224,172,74,0) 60%),
-    linear-gradient(180deg, var(--v-bg) 0%, var(--v-bg-deep) 100%);
-  background-attachment: fixed;
-}
-
-/* --- LIGHT fallback: add `village-light` to the wrapper to restore the
-       original warm cream "daytime village" look --- */
-.village-home.village-light {
-  --v-bg:        #ece5d3;
-  --v-bg-deep:   #e6dec9;
-  --v-surface:   #ece5d3;
-  --v-panel:     #e2d9c1;
-  --v-border:    #c9b896;
-  --v-ink:       #38492b;
-  --v-ink-soft:  #6b6750;
-  --v-moss:      #7c8b4e;
+  /* --- LIGHT palette (base / default) — warm cream daytime --- */
+  --v-bg:        #ece5d3;  /* page base */
+  --v-bg-deep:   #e6dec9;  /* deepest (footer / edges) */
+  --v-surface:   #ece5d3;  /* nav / solid buttons */
+  --v-panel:     #e2d9c1;  /* cards / panels (used with /opacity) */
+  --v-border:    #c9b896;  /* hairline borders */
+  --v-ink:       #38492b;  /* primary text / headings */
+  --v-ink-soft:  #6b6750;  /* muted body text */
+  --v-moss:      #7c8b4e;  /* sage accent (eyebrows, tags) */
   --v-forest:    #45562f;
-  --v-clay:      #a86a45;
+  --v-clay:      #a86a45;  /* terracotta — primary accent */
   --v-clay-deep: #8a5234;
-  --v-amber:     #c08a2c;
+  --v-amber:     #c08a2c;  /* honey highlight */
   --v-bark:      #6e533c;
-  --v-paper:     #f3eede;
-  --v-on-accent: #f3eede;
-  --v-ghost:     rgba(56,73,43,0.18);
+  --v-paper:     #f3eede;  /* light frame surface (polaroid) */
+  --v-on-accent: #f3eede;  /* text on a clay button */
+  --v-ghost:     rgba(56,73,43,0.18); /* huge faint footer wordmark */
 
-  background-image:
+  --v-bg-image:
     radial-gradient(120% 70% at 50% 0%, #f3eede 0%, rgba(243,238,222,0) 55%),
     radial-gradient(120% 80% at 50% 100%, rgba(124,139,78,0.22) 0%, rgba(124,139,78,0) 60%),
     linear-gradient(180deg, var(--v-bg) 0%, var(--v-bg-deep) 100%);
+  --v-grid:
+    linear-gradient(to right, rgba(56,73,43,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(56,73,43,0.05) 1px, transparent 1px);
+
+  background-color: var(--v-bg);
+  color: var(--v-ink);
+  background-image: var(--v-bg-image);
+  background-attachment: fixed;
+}
+
+/* --- DARK palette — "purple witch night" (original purplish theme) --- */
+.dark .village-home {
+  --v-bg:        #000000;  /* completely black canvas */
+  --v-bg-deep:   #050805;  /* near-black, faintest green for footer/edges */
+  --v-surface:   #0c120c;  /* nav / solid buttons (raised black-green) */
+  --v-panel:     #0f160f;  /* cards / panels */
+  --v-border:    #213024;  /* green-tinted hairline borders */
+  --v-ink:       #e8f1e6;  /* primary text / headings (off-white, faint green) */
+  --v-ink-soft:  #93a892;  /* muted sage-grey text */
+  --v-moss:      #86efac;  /* light mint — secondary accent (eyebrows / tags) */
+  --v-forest:    #15803d;  /* deep green */
+  --v-clay:      #4ade80;  /* emerald — signature accent (the "Roha" glow) */
+  --v-clay-deep: #22c55e;  /* deeper emerald (hover / pressed) */
+  --v-amber:     #a3e635;  /* lime highlight */
+  --v-bark:      #9bb39a;  /* light green-grey, visible on black */
+  --v-paper:     #e9f1e7;  /* light frame surface (polaroid) */
+  --v-on-accent: #04140a;  /* near-black text on a green button */
+  --v-ghost:     rgba(134,239,172,0.07); /* faint footer wordmark */
+
+  /* mostly-black with a faint green halo top & floor — keeps it reading black */
+  --v-bg-image:
+    radial-gradient(120% 70% at 50% 0%, rgba(34,120,60,0.12) 0%, rgba(34,120,60,0) 55%),
+    radial-gradient(130% 90% at 50% 100%, rgba(74,222,128,0.07) 0%, rgba(74,222,128,0) 60%),
+    linear-gradient(180deg, var(--v-bg) 0%, var(--v-bg-deep) 100%);
+  /* no pixel grid in dark — keep the black clean (grid stays in light mode) */
+  --v-grid: none;
 }
 
 /* faint pixel-tile grid laid over the whole page for a subtle game-map feel */
@@ -312,15 +319,8 @@ html {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image:
-    linear-gradient(to right, rgba(163,184,95,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(163,184,95,0.05) 1px, transparent 1px);
+  background-image: var(--v-grid);
   background-size: 32px 32px;
-}
-.village-home.village-light::before {
-  background-image:
-    linear-gradient(to right, rgba(56,73,43,0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(56,73,43,0.05) 1px, transparent 1px);
 }
 
 /* Markdown article prose on village pages — override the dark global .prose

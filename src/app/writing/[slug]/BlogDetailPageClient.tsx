@@ -28,7 +28,7 @@ export default function BlogDetailPageClient({
     // This case should ideally be handled by generateStaticParams and getPostData
     // but kept for robust client-side error handling if direct navigation occurs.
     return (
-      <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden flex items-center justify-center">
+      <div className="village-home min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden flex items-center justify-center">
         <div className="relative z-10 text-center">
           <h1 className="text-4xl font-bold mb-4">Blog Post Not Found</h1>
           <p className="text-lg text-[var(--v-ink-soft)] mb-8">The blog post you are looking for does not exist.</p>
@@ -55,7 +55,7 @@ export default function BlogDetailPageClient({
   }
 
   return (
-    <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden">
+    <div className="village-home min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden">
       {/* Navigation */}
       <NavBar />
 

@@ -37,7 +37,7 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
   }, [selectedCategory, initialPosts])
 
   return (
-    <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden">
+    <div className="village-home min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden">
       {/* Navigation */}
         < NavBar />
 

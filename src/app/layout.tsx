@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, Oswald, Pixelify_Sans } from "next/font/google" // Import Oswald + pixel display font
 import "./globals.css"
 import { OsModeProvider } from "@/components/os-mode/os-mode-context"
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" }) // Define Oswald font
@@ -47,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${oswald.variable} ${pixel.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${oswald.variable} ${pixel.variable}`}>
       <head>
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Roha - AI Engineer & Fullstack Developer" />
@@ -69,7 +70,9 @@ export default function RootLayout({
         <meta name="twitter:image:alt" content="Roha - AI Engineer & Fullstack Developer" />
       </head>
       <body className={inter.className}>
-        <OsModeProvider>{children}</OsModeProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <OsModeProvider>{children}</OsModeProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -329,7 +329,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="village-home village-light relative min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)]">
+    <div className="village-home relative min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)]">
       <AnimatedBackground />
 
       <header>

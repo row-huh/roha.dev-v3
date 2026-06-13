@@ -13,7 +13,7 @@ export default function ContactPage() {
   const pathname = usePathname()
 
   return (
-    <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden flex flex-col">
+    <div className="village-home min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden flex flex-col">
       {/* Navigation */}
       <NavBar />
 

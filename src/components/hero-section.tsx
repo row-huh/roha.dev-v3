@@ -55,6 +55,7 @@ export default function HeroSection() {
                 </div>
               </div>
               <span aria-hidden className="absolute -bottom-4 -left-4 text-4xl rotate-[8deg]">🪴</span>
+            </div>
           </motion.div>
         </div>
       </div>

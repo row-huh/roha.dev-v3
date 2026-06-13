@@ -3,6 +3,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
+import ThemeToggle from "./theme-toggle"
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -78,11 +79,14 @@ export default function NavBar() {
                 </motion.div>
               ))}
             </div>
+            <ThemeToggle />
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile: theme toggle + menu button */}
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
           <motion.button
-            className={`md:hidden p-2 rounded-lg transition-colors ${
+            className={`p-2 rounded-lg transition-colors ${
               isHome
                 ? "text-[var(--v-ink-soft)] hover:text-[var(--v-ink)] hover:bg-[var(--v-clay)]/15"
                 : "text-gray-300 hover:text-white hover:bg-gray-800/50"
@@ -98,6 +102,7 @@ export default function NavBar() {
               )}
             </svg>
           </motion.button>
+          </div>
         </div>
 
         {/* Mobile Navigation Menu */}

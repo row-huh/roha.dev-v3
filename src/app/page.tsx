@@ -38,7 +38,7 @@ function HomePageContent() {
 
 
   return (
-  <div className="village-home village-light min-h-screen relative overflow-hidden">
+  <div className="village-home min-h-screen relative overflow-hidden">
       {/* Decorative cottagecore sprites — subtle, behind everything */}
       <div aria-hidden className="pointer-events-none select-none absolute inset-0 z-0 overflow-hidden">
         <span className="animate-village-bob absolute left-[4%] top-[18%] text-4xl opacity-30">🪴</span>
