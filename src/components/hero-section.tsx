@@ -35,15 +35,18 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
             className="w-full md:w-1/2 flex justify-center md:justify-end"
           >
-            <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px]">
+              {/* Soft card background */}
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-[#f6f2e7] to-[#ece4d2] shadow-2xl ring-1 ring-black/5" />
+              {/* Pixel-art character popping out of the card */}
               <Image
-                src="/overlays/overlay-big.jpg"
-                alt="Overlay visual"
-                fill
+                src="/overlays/character.png"
+                alt="Roha pixel character"
+                width={768}
+                height={1024}
                 priority
-                quality={95}
-                sizes="(min-width: 1024px) 420px, (min-width: 640px) 20rem, 18rem"
-                className="object-cover"
+                quality={100}
+                className="absolute left-1/2 bottom-0 -translate-x-1/2 h-[140%] w-auto max-w-none object-contain pointer-events-none select-none [image-rendering:pixelated]"
               />
             </div>
           </motion.div>
