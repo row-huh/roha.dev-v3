@@ -33,7 +33,7 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.4, delay: index * 0.05 }}
         >
-          <Card className="group bg-gray-900/50 border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/5">
+          <Card className="group bg-[var(--v-bg)]/50 border-[var(--v-border)] rounded-2xl overflow-hidden hover:border-[var(--v-border)] transition-all duration-300 hover:shadow-lg hover:shadow-[var(--v-clay)]/5">
             <div className="relative aspect-video overflow-hidden">
               <Image
                 src={project.image || "/placeholder.svg?height=200&width=300&text=Project+Image"}
@@ -44,10 +44,10 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
             </div>
             
             <div className="p-5">
-              <h3 className="text-lg font-medium text-white mb-2 group-hover:text-purple-400 transition-colors">
+              <h3 className="text-lg font-medium text-[var(--v-ink)] mb-2 group-hover:text-[var(--v-clay)] transition-colors">
                 {project.title}
               </h3>
-              <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+              <p className="text-sm text-[var(--v-ink-soft)] mb-4 line-clamp-2">
                 {project.description}
               </p>
               
@@ -55,25 +55,25 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
                 {project.tags.slice(0, 4).map((tag, tagIndex) => (
                   <span 
                     key={tagIndex} 
-                    className="text-xs text-gray-500 bg-gray-800/80 px-2 py-1 rounded-md"
+                    className="text-xs text-[var(--v-ink-soft)] bg-[var(--v-panel)]/80 px-2 py-1 rounded-md"
                   >
                     {tag}
                   </span>
                 ))}
                 {project.tags.length > 4 && (
-                  <span className="text-xs text-gray-500 bg-gray-800/80 px-2 py-1 rounded-md">
+                  <span className="text-xs text-[var(--v-ink-soft)] bg-[var(--v-panel)]/80 px-2 py-1 rounded-md">
                     +{project.tags.length - 4}
                   </span>
                 )}
               </div>
               
-              <div className="flex items-center gap-3 pt-3 border-t border-gray-800">
+              <div className="flex items-center gap-3 pt-3 border-t border-[var(--v-border)]">
                 {project.githubLink && project.githubLink !== "#" && project.githubLink !== "" && (
                   <Link 
                     href={project.githubLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-700 transition-all"
+                    className="p-2 rounded-lg bg-[var(--v-panel)]/80 text-[var(--v-ink-soft)] hover:text-[var(--v-ink)] hover:bg-[var(--v-panel)] transition-all"
                     aria-label="GitHub"
                   >
                     <Github className="w-4 h-4" />
@@ -84,7 +84,7 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
                     href={project.liveDemoLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-700 transition-all"
+                    className="p-2 rounded-lg bg-[var(--v-panel)]/80 text-[var(--v-ink-soft)] hover:text-[var(--v-ink)] hover:bg-[var(--v-panel)] transition-all"
                     aria-label="Demo"
                   >
                     <ExternalLink className="w-4 h-4" />
@@ -95,7 +95,7 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
                     href={project.youtubeLink} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-gray-800/80 text-gray-400 hover:text-red-400 hover:bg-gray-700 transition-all"
+                    className="p-2 rounded-lg bg-[var(--v-panel)]/80 text-[var(--v-ink-soft)] hover:text-red-400 hover:bg-[var(--v-panel)] transition-all"
                     aria-label="YouTube"
                   >
                     <Youtube className="w-4 h-4" />

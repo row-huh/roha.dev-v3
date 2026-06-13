@@ -12,12 +12,12 @@ export default function WhatsPlaying() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl font-medium text-white mb-6">Currently Playing</h2>
-            <p className="text-lg text-gray-400 mb-12">
+            <h2 className="font-pixel text-4xl font-medium text-[var(--v-ink)] mb-6">🎵 Currently Playing</h2>
+            <p className="text-lg text-[var(--v-ink-soft)] mb-12">
               Music that's recently on repeat, I'll keep updating this
             </p>
 
-            <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
+            <Card className="bg-[var(--v-panel)]/70 border-[var(--v-border)]/70 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto shadow-[0_12px_30px_-12px_rgba(110,83,60,0.4)]">
               <iframe
                 style={{ borderRadius: "12px" }}
                 src="https://open.spotify.com/embed/track/0H7Wdgn1C7vFy4z0o2kBUZ?utm_source=generator&theme=0"

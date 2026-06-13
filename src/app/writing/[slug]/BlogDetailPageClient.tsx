@@ -28,13 +28,13 @@ export default function BlogDetailPageClient({
     // This case should ideally be handled by generateStaticParams and getPostData
     // but kept for robust client-side error handling if direct navigation occurs.
     return (
-      <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center">
+      <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden flex items-center justify-center">
         <div className="relative z-10 text-center">
           <h1 className="text-4xl font-bold mb-4">Blog Post Not Found</h1>
-          <p className="text-lg text-gray-400 mb-8">The blog post you are looking for does not exist.</p>
+          <p className="text-lg text-[var(--v-ink-soft)] mb-8">The blog post you are looking for does not exist.</p>
           <Button 
             onClick={handleBack}
-            className="bg-purple-600 hover:bg-purple-700 text-white rounded-full"
+            className="bg-[var(--v-clay)] hover:bg-[var(--v-clay-deep)] text-[var(--v-ink)] rounded-full"
           >
             <ArrowLeft className="h-4 w-4 mr-2" /> Go Back
           </Button>
@@ -55,7 +55,7 @@ export default function BlogDetailPageClient({
   }
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="village-home village-light min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)] relative overflow-hidden">
       {/* Navigation */}
       <NavBar />
 
@@ -69,22 +69,22 @@ export default function BlogDetailPageClient({
           {/* Back Button - Small clean arrow */}
           <button
             onClick={handleBack}
-            className="mb-16 p-2 rounded-full hover:bg-white/5 transition-colors group"
+            className="mb-16 p-2 rounded-full hover:bg-[var(--v-paper)]/5 transition-colors group"
             aria-label="Go back"
           >
-            <ArrowLeft className="h-5 w-5 text-gray-400 group-hover:text-white transition-colors" />
+            <ArrowLeft className="h-5 w-5 text-[var(--v-ink-soft)] group-hover:text-[var(--v-ink)] transition-colors" />
           </button>
 
           {/* Date and Category - Centered on one line */}
           <div className="flex items-center justify-center gap-3 mb-6">
-            <p className="text-sm text-gray-400">{post.date}</p>
-            <span className="inline-block px-3 py-1 bg-white/10 text-white rounded-md text-xs font-medium tracking-wide">
+            <p className="text-sm text-[var(--v-ink-soft)]">{post.date}</p>
+            <span className="inline-block px-3 py-1 bg-[var(--v-paper)]/10 text-[var(--v-ink)] rounded-md text-xs font-medium tracking-wide">
               {formatCategory(post.category)}
             </span>
           </div>
 
           {/* Title - Centered */}
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-12 leading-tight tracking-tight text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-[var(--v-ink)] mb-12 leading-tight tracking-tight text-center">
             {post.title}
           </h1>
 
@@ -109,13 +109,13 @@ export default function BlogDetailPageClient({
               prose-h1:text-4xl prose-h1:mb-6 prose-h1:mt-12
               prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-10
               prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-8
-              prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6
-              prose-a:text-purple-400 prose-a:no-underline hover:prose-a:text-purple-300
-              prose-strong:text-white prose-strong:font-semibold
-              prose-code:text-purple-300 prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-              prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
-              prose-ul:my-6 prose-li:text-gray-300 prose-li:my-2
-              prose-blockquote:border-l-purple-500 prose-blockquote:text-gray-400 prose-blockquote:italic"
+              prose-p:text-[var(--v-ink-soft)] prose-p:leading-relaxed prose-p:mb-6
+              prose-a:text-[var(--v-clay)] prose-a:no-underline hover:prose-a:text-[var(--v-clay)]
+              prose-strong:text-[var(--v-ink)] prose-strong:font-semibold
+              prose-code:text-[var(--v-clay)] prose-code:bg-[var(--v-paper)]/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+              prose-pre:bg-[var(--v-paper)]/5 prose-pre:border prose-pre:border-[var(--v-border)]/10 prose-pre:rounded-xl
+              prose-ul:my-6 prose-li:text-[var(--v-ink-soft)] prose-li:my-2
+              prose-blockquote:border-l-[var(--v-clay)] prose-blockquote:text-[var(--v-ink-soft)] prose-blockquote:italic"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
         </motion.div>

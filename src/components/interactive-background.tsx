@@ -2,7 +2,7 @@ export default function InteractiveBackground() {
   return (
     <div className="fixed inset-0 z-0">
       {/* Black Background */}
-      <div className="absolute inset-0 bg-black" />
+      <div className="absolute inset-0 bg-[var(--v-bg)]" />
 
       {/* Grain/Noise Effect */}
       <div

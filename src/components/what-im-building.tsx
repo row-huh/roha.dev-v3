@@ -15,8 +15,8 @@ export default function WhatImBuilding() {
             className="grid lg:grid-cols-2 gap-16 items-center"
           >
             <div>
-              <h3 className="text-3xl font-medium text-white mb-6">What I'm Building</h3>
-              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+              <h3 className="font-pixel text-3xl font-medium text-[var(--v-ink)] mb-6">🔨 What I'm Building</h3>
+              <p className="text-lg text-[var(--v-ink-soft)] mb-8 leading-relaxed">
                 Currently crafting an LLM from scratch, diving deep into transformer architectures and attention
                 mechanisms. It's about understanding how intelligence emerges from mathematics.
               </p>
@@ -25,7 +25,7 @@ export default function WhatImBuilding() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="rounded-full bg-transparent border-gray-600 text-gray-300 hover:bg-gray-800"
+                    className="rounded-full bg-transparent border-[var(--v-clay)]/60 text-[var(--v-bark)] hover:bg-[var(--v-clay)]/15 hover:text-[var(--v-ink)]"
                   >
                     <Github className="h-4 w-4 mr-2" />
                     View Code
@@ -37,7 +37,7 @@ export default function WhatImBuilding() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="rounded-full bg-transparent border-gray-600 text-gray-300 hover:bg-gray-800"
+                    className="rounded-full bg-transparent border-[var(--v-clay)]/60 text-[var(--v-bark)] hover:bg-[var(--v-clay)]/15 hover:text-[var(--v-ink)]"
                   >
                     <ExternalLink className="h-4 w-4 mr-2" />
                     View Dev Log
@@ -46,21 +46,21 @@ export default function WhatImBuilding() {
               </div>
             </div>
 
-            <div className="relative flex items-center justify-center bg-gray-800/30 border-gray-700/50 backdrop-blur-sm px-8 py-11 rounded-3xl transition-all duration-300 hover:bg-gray-700/50 hover:border-purple-500/50 overflow-hidden">
-              {/* Background placeholder image; replace 'overlay-github' later */}
+            <div className="relative flex items-center justify-center bg-[var(--v-panel)]/50 border border-[var(--v-border)]/70 backdrop-blur-sm px-8 py-11 rounded-3xl transition-all duration-300 hover:bg-[var(--v-panel)]/80 hover:border-[var(--v-clay)]/60 overflow-hidden shadow-[0_12px_30px_-14px_rgba(110,83,60,0.4)]">
+              {/* Cozy pixel cafe backdrop. Fallback: "/overlays/overlay-github.jpg" */}
               <img
-                src="/overlays/overlay-github.jpg"
-                alt="GitHub background"
-                className="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none select-none"
+                src="/overlays/village-cafe.png"
+                alt="Pixel-art cafe backdrop"
+                className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none select-none"
               />
-              <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-transparent to-black/60 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--v-paper)]/40 via-transparent to-[var(--v-moss)]/25 pointer-events-none" />
               <Link
                 href="https://github.com/row-huh/llm-from-scratch"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-center w-32 h-32"
+                className="group relative flex items-center justify-center w-32 h-32"
               >
-                <Github className="h-16 w-16 text-gray-400 transition-colors duration-300 group-hover:text-white" />
+                <Github className="h-16 w-16 text-[var(--v-bark)] transition-colors duration-300 group-hover:text-[var(--v-ink)]" />
               </Link>
             </div>
           </motion.div>

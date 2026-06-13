@@ -12,10 +12,10 @@ export default function CTA() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white mb-4 sm:mb-6">
-            Let's Build Something
+          <h2 className="font-pixel text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-[var(--v-ink)] mb-4 sm:mb-6">
+            🏡 Let's Build Something
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-gray-400 mb-8 sm:mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-[var(--v-ink-soft)] mb-8 sm:mb-10 md:mb-12 max-w-2xl mx-auto leading-relaxed">
             Every great collaboration starts with a conversation. Let's create something that pushes boundaries.
           </p>
           
@@ -24,7 +24,7 @@ export default function CTA() {
             <Link href="/contact">
               <Button
                 size="lg"
-                className="bg-white text-gray-900 hover:bg-gray-100 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-medium rounded-full transition-all duration-200 hover:scale-105"
+                className="bg-[var(--v-clay)] text-[var(--v-paper)] hover:bg-[var(--v-clay-deep)] px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-medium rounded-full transition-all duration-200 hover:scale-105 shadow-[0_8px_20px_-8px_rgba(168,106,69,0.7)]"
               >
                 Start a Conversation
               </Button>
@@ -33,7 +33,7 @@ export default function CTA() {
               <Button
                 variant="outline"
                 size="lg"
-                className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-gray-500 px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-medium rounded-full bg-transparent transition-all duration-200 hover:scale-105"
+                className="border-[var(--v-moss)] text-[var(--v-forest)] hover:bg-[var(--v-moss)]/15 hover:border-[var(--v-forest)] px-6 md:px-8 py-3 md:py-4 text-base md:text-lg font-medium rounded-full bg-transparent transition-all duration-200 hover:scale-105"
               >
                 View My Work
               </Button>
@@ -54,7 +54,7 @@ export default function CTA() {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full border-gray-600 text-gray-300 hover:bg-gray-800 hover:border-gray-500 px-8 py-4 text-lg font-medium rounded-full bg-transparent transition-all duration-200"
+                className="w-full border-[var(--v-moss)] text-[var(--v-forest)] hover:bg-[var(--v-moss)]/15 hover:border-[var(--v-forest)] px-8 py-4 text-lg font-medium rounded-full bg-transparent transition-all duration-200"
               >
                 View My Work
               </Button>

@@ -65,28 +65,28 @@ export default function ScrollProgress() {
           >
             {/* Label */}
             <span
-              className={`text-sm font-medium transition-all duration-300 ${
+              className={`font-pixel text-sm font-medium transition-all duration-300 ${
                 activeSection === section.id
-                  ? "opacity-100 text-purple-400"
-                  : "opacity-0 group-hover:opacity-100 text-gray-400"
+                  ? "opacity-100 text-[var(--v-clay)]"
+                  : "opacity-0 group-hover:opacity-100 text-[var(--v-ink-soft)]"
               }`}
             >
               {section.label}
             </span>
 
-            {/* Dot indicator */}
+            {/* Dot indicator (square = pixel tile) */}
             <div className="relative">
               <motion.div
-                className={`h-3 w-3 rounded-full border-2 transition-all duration-300 ${
+                className={`h-3 w-3 rounded-[2px] border-2 transition-all duration-300 ${
                   activeSection === section.id
-                    ? "border-purple-400 bg-purple-400 scale-125"
-                    : "border-gray-500 bg-transparent group-hover:border-purple-400"
+                    ? "border-[var(--v-clay)] bg-[var(--v-clay)] scale-125"
+                    : "border-[var(--v-moss)] bg-transparent group-hover:border-[var(--v-clay)]"
                 }`}
                 whileHover={{ scale: 1.3 }}
               />
               {activeSection === section.id && (
                 <motion.div
-                  className="absolute inset-0 rounded-full bg-purple-400/30"
+                  className="absolute inset-0 rounded-[2px] bg-[var(--v-clay)]/30"
                   initial={{ scale: 1 }}
                   animate={{ scale: 1.8, opacity: 0 }}
                   transition={{ duration: 1.5, repeat: Infinity }}

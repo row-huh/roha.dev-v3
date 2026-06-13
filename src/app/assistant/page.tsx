@@ -97,7 +97,7 @@ function renderWithLinks(text: string) {
         <a
           key={i}
           href={part}
-          className="underline underline-offset-4 text-white hover:text-white/90 break-all"
+          className="underline underline-offset-4 text-[var(--v-ink)] hover:text-[var(--v-ink)]/90 break-all"
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
         >
@@ -150,18 +150,18 @@ function ToolTile({ tool }: { tool: Exclude<ToolName, undefined> }) {
     >
       <div className="flex h-36 flex-col justify-between p-3 md:h-40">
         <div>
-          <p className="text-[10px] uppercase tracking-wide text-white/75">{eyebrow}</p>
+          <p className="text-[10px] uppercase tracking-wide text-[var(--v-ink)]/75">{eyebrow}</p>
           <div className="mt-1 flex items-center gap-1.5">
-            <Icon className="h-3.5 w-3.5 text-white" />
-            <h3 className="text-base font-semibold text-white">{label}</h3>
+            <Icon className="h-3.5 w-3.5 text-[var(--v-ink)]" />
+            <h3 className="text-base font-semibold text-[var(--v-ink)]">{label}</h3>
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.10] ring-1 ring-white/15 backdrop-blur-md">
-            <Icon className="h-3.5 w-3.5 text-white" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--v-paper)]/[0.10] ring-1 ring-white/15 backdrop-blur-md">
+            <Icon className="h-3.5 w-3.5 text-[var(--v-ink)]" />
           </div>
           <ChevronRight
-            className="h-3.5 w-3.5 text-white/80 transition-transform duration-200 group-hover:translate-x-0.5"
+            className="h-3.5 w-3.5 text-[var(--v-ink)]/80 transition-transform duration-200 group-hover:translate-x-0.5"
             aria-hidden="true"
           />
         </div>
@@ -169,7 +169,7 @@ function ToolTile({ tool }: { tool: Exclude<ToolName, undefined> }) {
 
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20" />
-        <div className="absolute inset-0 rounded-2xl bg-white/5" />
+        <div className="absolute inset-0 rounded-2xl bg-[var(--v-paper)]/5" />
       </div>
     </Link>
   )
@@ -201,18 +201,18 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
     >
       <div className="flex h-36 flex-col justify-between p-3 md:h-40">
         <div>
-          <p className="text-[10px] uppercase tracking-wide text-white/75">{eyebrow}</p>
+          <p className="text-[10px] uppercase tracking-wide text-[var(--v-ink)]/75">{eyebrow}</p>
           <div className="mt-1 flex items-center gap-1.5">
-            <Icon className="h-3.5 w-3.5 text-white" />
-            <h3 className="text-base font-semibold text-white line-clamp-2">{label}</h3>
+            <Icon className="h-3.5 w-3.5 text-[var(--v-ink)]" />
+            <h3 className="text-base font-semibold text-[var(--v-ink)] line-clamp-2">{label}</h3>
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/[0.10] ring-1 ring-white/15 backdrop-blur-md">
-            <Icon className="h-3.5 w-3.5 text-white" />
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[var(--v-paper)]/[0.10] ring-1 ring-white/15 backdrop-blur-md">
+            <Icon className="h-3.5 w-3.5 text-[var(--v-ink)]" />
           </div>
           <ChevronRight
-            className="h-3.5 w-3.5 text-white/80 transition-transform duration-200 group-hover:translate-x-0.5"
+            className="h-3.5 w-3.5 text-[var(--v-ink)]/80 transition-transform duration-200 group-hover:translate-x-0.5"
             aria-hidden="true"
           />
         </div>
@@ -220,7 +220,7 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
 
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
         <div className="absolute inset-0 rounded-2xl ring-1 ring-white/20" />
-        <div className="absolute inset-0 rounded-2xl bg-white/5" />
+        <div className="absolute inset-0 rounded-2xl bg-[var(--v-paper)]/5" />
       </div>
     </Link>
   )
@@ -232,7 +232,7 @@ function LinkTile({ href, kind, slug }: { href: string; kind: "projects" | "writ
 function SpotifyEmbed({ trackId }: { trackId: string }) {
   return (
     <div className="max-w-[400px] w-full">
-      <div className="rounded-xl overflow-hidden ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md p-1">
+      <div className="rounded-xl overflow-hidden ring-1 ring-white/15 bg-[var(--v-paper)]/[0.06] backdrop-blur-md p-1">
         <iframe
           style={{ borderRadius: "12px" }}
           src={`https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`}
@@ -329,7 +329,7 @@ useEffect(() => {
   }
 
   return (
-    <div className="relative min-h-screen bg-gray-950 text-gray-100">
+    <div className="village-home village-light relative min-h-screen bg-[var(--v-bg)] text-[var(--v-ink)]">
       <AnimatedBackground />
 
       <header>
@@ -345,7 +345,7 @@ useEffect(() => {
             e.preventDefault()
               router.back()
               }}
-              className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
+              className="ml-24 mt-8 inline-flex items-center text-[var(--v-ink-soft)] hover:text-[var(--v-clay)] px-[5px] py-[31px] pt-[53px] pb-[26px]"
             >
               <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </a>
@@ -359,19 +359,19 @@ useEffect(() => {
         <main className="relative z-10">
 
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
-            <h1 className="mb-3 text-xl font-semibold tracking-tight text-white md:text-3xl">
-              Hi, I'm <span className="text-purple-400 font-normal">Pethia</span> 
+            <h1 className="mb-3 text-xl font-semibold tracking-tight text-[var(--v-ink)] md:text-3xl">
+              Hi, I'm <span className="text-[var(--v-clay)] font-normal">Pethia</span> 
               <br />
-              Ask me anything about <span className="text-purple-400 font-normal">Roha</span>
+              Ask me anything about <span className="text-[var(--v-clay)] font-normal">Roha</span>
             </h1>
 
             <div className="mt-2 w-full max-w-xl">
-              <div className="rounded-2xl ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-xl p-1.5">
+              <div className="rounded-2xl ring-1 ring-white/15 bg-[var(--v-paper)]/[0.06] backdrop-blur-xl p-1.5">
                 <Input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about projects, latest post, Spotify…"
-                  className="h-10 rounded-xl border-white/10 bg-white/[0.06] text-sm text-gray-100 placeholder:text-gray-300/70
+                  className="h-10 rounded-xl border-[var(--v-border)]/10 bg-[var(--v-paper)]/[0.06] text-sm text-[var(--v-ink)] placeholder:text-[var(--v-ink-soft)]/70
                              focus-visible:ring-purple-500/60"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
@@ -386,9 +386,9 @@ useEffect(() => {
                   <button
                     key={s}
                     onClick={() => handleSend(s)}
-                    className="rounded-full px-2.5 py-1 text-xs text-gray-100
-                               ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md
-                               hover:bg-white/[0.08] transition-colors"
+                    className="rounded-full px-2.5 py-1 text-xs text-[var(--v-ink)]
+                               ring-1 ring-white/15 bg-[var(--v-paper)]/[0.06] backdrop-blur-md
+                               hover:bg-[var(--v-paper)]/[0.08] transition-colors"
                   >
                     {s}
                   </button>
@@ -426,8 +426,8 @@ useEffect(() => {
                           className={`max-w-[85%] rounded-xl px-3 py-2 text-sm leading-relaxed
                                       ring-1 backdrop-blur-md ${
                                         isUser
-                                          ? "ml-auto ring-white/15 bg-white/[0.10] text-white"
-                                          : "mr-auto ring-white/12 bg-white/[0.06] text-gray-100"
+                                          ? "ml-auto ring-white/15 bg-[var(--v-paper)]/[0.10] text-[var(--v-ink)]"
+                                          : "mr-auto ring-white/12 bg-[var(--v-paper)]/[0.06] text-[var(--v-ink)]"
                                       }`}
                         >
                           <div className="whitespace-pre-wrap break-words">{renderWithLinks(cleanedText)}</div>
@@ -493,11 +493,11 @@ useEffect(() => {
 
                 {status !== "ready" && (
                   <div className="flex items-start">
-                    <div className="mr-auto max-w-[85%] rounded-xl px-3 py-2 text-sm text-gray-100 ring-1 ring-white/12 bg-white/[0.06] backdrop-blur-md">
+                    <div className="mr-auto max-w-[85%] rounded-xl px-3 py-2 text-sm text-[var(--v-ink)] ring-1 ring-white/12 bg-[var(--v-paper)]/[0.06] backdrop-blur-md">
                       <span className="inline-flex items-center gap-2">
-                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300" />
-                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300 [animation-delay:150ms]" />
-                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300 [animation-delay:300ms]" />
+                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--v-clay)]" />
+                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--v-clay)] [animation-delay:150ms]" />
+                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--v-clay)] [animation-delay:300ms]" />
                       </span>
                     </div>
                   </div>
@@ -516,13 +516,13 @@ useEffect(() => {
 
             {/* Bottom composer */}
             <div className="sticky bottom-0 pb-3">
-              <div className="rounded-2xl ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-xl px-2.5 py-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.35)]">
+              <div className="rounded-2xl ring-1 ring-white/15 bg-[var(--v-paper)]/[0.06] backdrop-blur-xl px-2.5 py-2 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.35)]">
                 <div className="flex items-center gap-2">
                   <Input
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Write your message…"
-                    className="h-9 flex-1 rounded-xl border-white/10 bg-white/[0.06] text-sm text-gray-100 placeholder:text-gray-300/70
+                    className="h-9 flex-1 rounded-xl border-[var(--v-border)]/10 bg-[var(--v-paper)]/[0.06] text-sm text-[var(--v-ink)] placeholder:text-[var(--v-ink-soft)]/70
                                focus-visible:ring-purple-500/60"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
@@ -536,7 +536,7 @@ useEffect(() => {
                       type="button"
                       variant="outline"
                       onClick={() => stop()}
-                      className="h-9 rounded-xl ring-1 ring-white/15 bg-white/[0.06] text-white hover:bg-white/[0.08]"
+                      className="h-9 rounded-xl ring-1 ring-white/15 bg-[var(--v-paper)]/[0.06] text-[var(--v-ink)] hover:bg-[var(--v-paper)]/[0.08]"
                       aria-label="Stop streaming"
                     >
                       <StopCircle className="h-4 w-4" />
@@ -546,7 +546,7 @@ useEffect(() => {
                       type="button"
                       onClick={() => handleSend()}
                       disabled={!input.trim()}
-                      className="h-9 rounded-xl bg-purple-600 px-3 text-sm text-white hover:bg-purple-500 disabled:opacity-50"
+                      className="h-9 rounded-xl bg-[var(--v-clay)] px-3 text-sm text-[var(--v-ink)] hover:bg-[var(--v-clay)] disabled:opacity-50"
                       aria-label="Send"
                     >
                       <Send className="mr-1.5 h-3.5 w-3.5" />
@@ -560,7 +560,7 @@ useEffect(() => {
                     <button
                       key={s}
                       onClick={() => handleSend(s)}
-                      className="rounded-full px-2.5 py-0.5 text-xs text-gray-100 ring-1 ring-white/15 bg-white/[0.06] backdrop-blur-md hover:bg-white/[0.08] transition-colors"
+                      className="rounded-full px-2.5 py-0.5 text-xs text-[var(--v-ink)] ring-1 ring-white/15 bg-[var(--v-paper)]/[0.06] backdrop-blur-md hover:bg-[var(--v-paper)]/[0.08] transition-colors"
                     >
                       {s}
                     </button>

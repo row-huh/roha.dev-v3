@@ -1,10 +1,13 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Oswald } from "next/font/google" // Import Oswald
+import { Inter, Oswald, Pixelify_Sans } from "next/font/google" // Import Oswald + pixel display font
 import "./globals.css"
+import { OsModeProvider } from "@/components/os-mode/os-mode-context"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" }) // Define Oswald font
+// Cute pixel display font — only used by the homepage "village" theme via --font-pixel
+const pixel = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixel" })
 
 export const metadata: Metadata = {
   title: "Roha - AI Engineer & Fullstack Developer",
@@ -44,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
+    <html lang="en" className={`${inter.variable} ${oswald.variable} ${pixel.variable}`}>
       <head>
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Roha - AI Engineer & Fullstack Developer" />
@@ -65,7 +68,9 @@ export default function RootLayout({
         <meta name="twitter:image" content="https://roha.dev/overlays/overlay-og.jpg" />
         <meta name="twitter:image:alt" content="Roha - AI Engineer & Fullstack Developer" />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <OsModeProvider>{children}</OsModeProvider>
+      </body>
     </html>
   )
 }
