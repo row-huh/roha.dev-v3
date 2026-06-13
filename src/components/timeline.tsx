@@ -81,7 +81,7 @@ export default function Timeline() {
           transition={{ duration: 0.8 }}
           className="mb-20"
         >
-          <h2 className="text-2xl font-medium text-purple-400 mb-4">I Began to Join Hackathons...</h2>
+          <h2 className="text-2xl font-medium text-moss-400 mb-4">I Began to Join Hackathons...</h2>
           <p className="text-base text-gray-400 max-w-2xl mx-auto">
             {"During my time in university, I joined a bunch of hackathons because of the "}
             <span className="line-through">prize money</span>
@@ -110,7 +110,7 @@ export default function Timeline() {
               >
                 {/* Timeline Node */}
                 <div className="absolute left-1/2 transform -translate-x-1/2 z-10">
-                  <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center border-2 border-gray-900 shadow-lg">
+                  <div className="w-8 h-8 bg-moss-600 rounded-full flex items-center justify-center border-2 border-gray-900 shadow-lg">
                     <IconComponent className="h-4 w-4 text-white" />
                   </div>
                 </div>

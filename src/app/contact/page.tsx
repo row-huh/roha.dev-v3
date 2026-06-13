@@ -26,7 +26,7 @@ export default function ContactPage() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium text-white mb-4 leading-tight">
-              Get in <span className="text-purple-400 font-normal">Touch</span>
+              Get in <span className="text-moss-400 font-normal">Touch</span>
             </h1>
             <p className="text-base sm:text-lg text-gray-400 mb-8 leading-relaxed">
               Have a project in mind, a question about AI, or just want to say hello? 
@@ -35,17 +35,17 @@ export default function ContactPage() {
 
             <div className="space-y-5">
               <div className="flex items-center gap-3 sm:gap-4 text-gray-300 text-sm sm:text-base">
-                <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
-                <a href="mailto:roha.pathan125@gmail.com" className="hover:text-purple-300 transition-colors">
+                <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-moss-400" />
+                <a href="mailto:roha.pathan125@gmail.com" className="hover:text-moss-300 transition-colors">
                   roha.pathan125@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-3 sm:gap-4 text-gray-300 text-sm sm:text-base">
-                <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
+                <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-moss-400" />
                 <span>+92 325 7007071</span>
               </div>
               <div className="flex items-center gap-3 sm:gap-4 text-gray-300 text-sm sm:text-base">
-                <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-purple-400" />
+                <MapPin className="h-5 w-5 sm:h-6 sm:w-6 text-moss-400" />
                 <span>Karachi, Pakistan</span>
               </div>
               <div className="flex items-center gap-4 pt-4">
@@ -84,7 +84,7 @@ export default function ContactPage() {
                   type="text"
                   placeholder="Your Name"
                   className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                            focus:ring-moss-500 focus:border-moss-500"
                 />
               </div>
               <div>
@@ -97,7 +97,7 @@ export default function ContactPage() {
                   type="email"
                   placeholder="Your Email"
                   className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                            focus:ring-moss-500 focus:border-moss-500"
                 />
               </div>
               <div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                   type="text"
                   placeholder="The TL;DR of your message"
                   className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                            focus:ring-moss-500 focus:border-moss-500"
                 />
               </div>
               <div>
@@ -123,11 +123,11 @@ export default function ContactPage() {
                   rows={5}
                   placeholder="Deploy your thoughts here..."
                   className="bg-gray-700/50 border-gray-600 text-white placeholder-gray-400 
-                            focus:ring-purple-500 focus:border-purple-500"
+                            focus:ring-moss-500 focus:border-moss-500"
                 />
               </div>
               <Button
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-full 
+                className="w-full bg-moss-600 hover:bg-moss-700 text-white rounded-full 
                           py-3 text-base sm:text-lg font-semibold"
               >
                 Send Message

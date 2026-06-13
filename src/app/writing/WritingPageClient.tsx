@@ -50,7 +50,7 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-medium text-white mb-4 leading-tight py-4 pt-[25px] mt-[39px]">
-              My <span className="text-purple-400 font-normal">Writings</span>
+              My <span className="text-moss-400 font-normal">Writings</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               {"I often write about tech, self-help, and whatever bizarre thought hijacks my brain that day.\n"}
@@ -70,7 +70,7 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
                 variant={selectedCategory === category.value ? "default" : "outline"}
                 className={`${
                   selectedCategory === category.value
-                    ? "bg-purple-600 text-white hover:bg-purple-700"
+                    ? "bg-moss-600 text-white hover:bg-moss-700"
                     : "border-gray-600 text-gray-300 hover:bg-gray-700 bg-transparent"
                 } rounded-full px-4 py-2 text-sm`}
                 onClick={() => setSelectedCategory(category.value)}
@@ -99,11 +99,11 @@ export default function WritingPageClient({ initialPosts }: WritingPageClientPro
                     </Link>
                     <div className="flex items-center mt-auto w-full flex-row justify-start">
                       <p className="text-xs text-gray-400">{post.date}</p>
-                      <span className="py-1 bg-purple-600/20 text-purple-300 rounded-full text-xs uppercase px-2 mx-2.5">
+                      <span className="py-1 bg-moss-600/20 text-moss-300 rounded-full text-xs uppercase px-2 mx-2.5">
                         {post.category.replace(/-/g, " ")}
                       </span>
                       <Link href={`/writing/${post.slug}`}>
-                        <Button variant="ghost" size="sm" className="text-purple-400 hover:text-white mx-[-10px]">
+                        <Button variant="ghost" size="sm" className="text-moss-400 hover:text-white mx-[-10px]">
                           Read More <ExternalLink className="h-3 w-3 ml-1" />
                         </Button>
                       </Link>

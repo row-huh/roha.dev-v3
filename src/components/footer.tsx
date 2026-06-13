@@ -13,7 +13,7 @@ export default function Footer() {
           className="font-extrabold leading-none tracking-tight whitespace-nowrap select-none"
           style={{
             fontSize: "clamp(2rem, 15vw, 12rem)", // More responsive scaling
-            fontFamily: "'Bebas Neue', 'Anton', 'Oswald', 'Fjalla One', sans-serif", // Taller, condensed fonts
+            fontFamily: "var(--font-bebas-neue), 'Anton', 'Fjalla One', sans-serif", // Taller, condensed fonts
             letterSpacing: "-0.02em",
             color: "rgba(255,255,255,0.15)",
             textShadow: "0px 4px 10px rgba(0,0,0,0.2)",

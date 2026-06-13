@@ -52,7 +52,7 @@ export default function AIAssistantPreview({ align = "center" }: AIAssistantPrev
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Ask my AI anything or just say hi!"
             className="h-12 flex-1 rounded-xl border-white/10 bg-white/6 text-gray-100 placeholder:text-gray-300/70
-                       focus-visible:ring-purple-500/60"
+                       focus-visible:ring-moss-500/60"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault()
@@ -63,7 +63,7 @@ export default function AIAssistantPreview({ align = "center" }: AIAssistantPrev
           <Button
             type="button"
             onClick={() => goAsk(undefined, true)}
-            className="h-12 rounded-xl bg-purple-600 px-4 text-white hover:bg-purple-500"
+            className="h-12 rounded-xl bg-moss-600 px-4 text-white hover:bg-moss-500"
             aria-label="Ask Pethia"
           >
             <Send className="h-4 w-4" />

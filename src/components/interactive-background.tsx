@@ -1,3 +1,4 @@
+
 export default function InteractiveBackground() {
   return (
     <div className="fixed inset-0 z-0">

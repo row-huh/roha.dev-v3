@@ -34,7 +34,7 @@ export default function BlogDetailPageClient({
           <p className="text-lg text-gray-400 mb-8">The blog post you are looking for does not exist.</p>
           <Button 
             onClick={handleBack}
-            className="bg-purple-600 hover:bg-purple-700 text-white rounded-full"
+            className="bg-moss-600 hover:bg-moss-700 text-white rounded-full"
           >
             <ArrowLeft className="h-4 w-4 mr-2" /> Go Back
           </Button>
@@ -110,12 +110,12 @@ export default function BlogDetailPageClient({
               prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-10
               prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-8
               prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6
-              prose-a:text-purple-400 prose-a:no-underline hover:prose-a:text-purple-300
+              prose-a:text-moss-400 prose-a:no-underline hover:prose-a:text-moss-300
               prose-strong:text-white prose-strong:font-semibold
-              prose-code:text-purple-300 prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+              prose-code:text-moss-300 prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
               prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
               prose-ul:my-6 prose-li:text-gray-300 prose-li:my-2
-              prose-blockquote:border-l-purple-500 prose-blockquote:text-gray-400 prose-blockquote:italic"
+              prose-blockquote:border-l-moss-500 prose-blockquote:text-gray-400 prose-blockquote:italic"
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
         </motion.div>

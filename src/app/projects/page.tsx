@@ -20,7 +20,7 @@ export default function ProjectsPage() {
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-medium text-white leading-tight my-[19px] mt-[50px]">
-              My <span className="text-purple-400 font-normal">Work</span>
+              My <span className="text-moss-400 font-normal">Work</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
               A showcase of my projects, from AI engineering to fullstack development.

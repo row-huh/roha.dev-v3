@@ -62,7 +62,7 @@ export default function ProjectsCarousel({ projects }: ProjectsCarouselProps) {
               </div>
               <div className="flex flex-wrap gap-2 mt-auto">
                 {project.tags.map((tag, tagIndex) => (
-                  <span key={tagIndex} className="bg-purple-600/20 text-purple-300 text-xs px-3 py-1 rounded-full">
+                  <span key={tagIndex} className="bg-moss-600/20 text-moss-300 text-xs px-3 py-1 rounded-full">
                     {tag}
                   </span>
                 ))}

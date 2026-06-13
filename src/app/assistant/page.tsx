@@ -345,7 +345,7 @@ useEffect(() => {
             e.preventDefault()
               router.back()
               }}
-              className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-purple-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
+              className="ml-24 mt-8 inline-flex items-center text-gray-400 hover:text-moss-400 px-[5px] py-[31px] pt-[53px] pb-[26px]"
             >
               <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </a>
@@ -360,9 +360,9 @@ useEffect(() => {
 
           <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 text-center">
             <h1 className="mb-3 text-xl font-semibold tracking-tight text-white md:text-3xl">
-              Hi, I'm <span className="text-purple-400 font-normal">Pethia</span> 
+              Hi, I'm <span className="text-moss-400 font-normal">Pethia</span> 
               <br />
-              Ask me anything about <span className="text-purple-400 font-normal">Roha</span>
+              Ask me anything about <span className="text-moss-400 font-normal">Roha</span>
             </h1>
 
             <div className="mt-2 w-full max-w-xl">
@@ -372,7 +372,7 @@ useEffect(() => {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about projects, latest post, Spotify…"
                   className="h-10 rounded-xl border-white/10 bg-white/[0.06] text-sm text-gray-100 placeholder:text-gray-300/70
-                             focus-visible:ring-purple-500/60"
+                             focus-visible:ring-moss-500/60"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
                       e.preventDefault()
@@ -495,9 +495,9 @@ useEffect(() => {
                   <div className="flex items-start">
                     <div className="mr-auto max-w-[85%] rounded-xl px-3 py-2 text-sm text-gray-100 ring-1 ring-white/12 bg-white/[0.06] backdrop-blur-md">
                       <span className="inline-flex items-center gap-2">
-                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300" />
-                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300 [animation-delay:150ms]" />
-                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-purple-300 [animation-delay:300ms]" />
+                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-moss-300" />
+                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-moss-300 [animation-delay:150ms]" />
+                        <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-moss-300 [animation-delay:300ms]" />
                       </span>
                     </div>
                   </div>
@@ -523,7 +523,7 @@ useEffect(() => {
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Write your message…"
                     className="h-9 flex-1 rounded-xl border-white/10 bg-white/[0.06] text-sm text-gray-100 placeholder:text-gray-300/70
-                               focus-visible:ring-purple-500/60"
+                               focus-visible:ring-moss-500/60"
                     onKeyDown={(e) => {
                       if (e.key === "Enter") {
                         e.preventDefault()
@@ -546,7 +546,7 @@ useEffect(() => {
                       type="button"
                       onClick={() => handleSend()}
                       disabled={!input.trim()}
-                      className="h-9 rounded-xl bg-purple-600 px-3 text-sm text-white hover:bg-purple-500 disabled:opacity-50"
+                      className="h-9 rounded-xl bg-moss-600 px-3 text-sm text-white hover:bg-moss-500 disabled:opacity-50"
                       aria-label="Send"
                     >
                       <Send className="mr-1.5 h-3.5 w-3.5" />

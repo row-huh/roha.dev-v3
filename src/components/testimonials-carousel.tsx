@@ -114,7 +114,7 @@ function Testimonials() {
         className="flex overflow-x-auto scroll-smooth pb-4 gap-4 sm:gap-6"
         style={{ 
           scrollbarWidth: 'thin', 
-          scrollbarColor: '#6b21a8 #1f2937'
+          scrollbarColor: '#4b6c37 #1f2937'
         }}
       >
         {testimonials.map((testimonial, index) => (
@@ -172,7 +172,7 @@ function Testimonials() {
       <Button
         variant="outline"
         size="icon"
-        className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-900/90 border-purple-400/30 backdrop-blur-md text-purple-300 hover:bg-purple-900/60 hover:text-white hover:border-purple-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
+        className="absolute top-1/2 left-2 -translate-y-1/2 bg-gray-900/90 border-moss-400/30 backdrop-blur-md text-moss-300 hover:bg-moss-900/60 hover:text-white hover:border-moss-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
         onClick={() => scroll("left")}
       >
         <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -180,7 +180,7 @@ function Testimonials() {
       <Button
         variant="outline"
         size="icon"
-        className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-900/90 border-purple-400/30 backdrop-blur-md text-purple-300 hover:bg-purple-900/60 hover:text-white hover:border-purple-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
+        className="absolute top-1/2 right-2 -translate-y-1/2 bg-gray-900/90 border-moss-400/30 backdrop-blur-md text-moss-300 hover:bg-moss-900/60 hover:text-white hover:border-moss-400/50 rounded-full z-20 flex transition-all duration-300 hover:scale-110"
         onClick={() => scroll("right")}
       >
         <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -198,11 +198,11 @@ function Testimonials() {
             border-radius: 10px;
           }
           div[style*="scrollbarWidth"]::-webkit-scrollbar-thumb {
-            background: #6b21a8;
+            background: #4b6c37;
             border-radius: 10px;
           }
           div[style*="scrollbarWidth"]::-webkit-scrollbar-thumb:hover {
-            background: #7c3aed;
+            background: #80b361;
           }
         }
       `}</style>

@@ -33,7 +33,7 @@ export function ToolCard({ href, title, icon, className }: ToolCardProps) {
           <div className="text-xs font-medium text-white">{title}</div>
         </div>
         {/* Soft outer glow */}
-        <div className="pointer-events-none absolute inset-0 -z-10 rounded-lg bg-purple-600/20 blur-xl opacity-50" />
+        <div className="pointer-events-none absolute inset-0 -z-10 rounded-lg bg-moss-600/20 blur-xl opacity-50" />
       </motion.div>
     </Link>
   )

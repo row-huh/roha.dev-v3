@@ -17,7 +17,7 @@ export default function WhatsPlaying() {
               Music that's recently on repeat, I'll keep updating this
             </p>
 
-            <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
+            <Card className="bg-gradient-to-r from-moss-500/10 to-moss-600/10 border-moss-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
               <iframe
                 style={{ borderRadius: "12px" }}
                 src="https://open.spotify.com/embed/track/0H7Wdgn1C7vFy4z0o2kBUZ?utm_source=generator&theme=0"

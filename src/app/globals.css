@@ -8,8 +8,10 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-pixelify), ui-sans-serif, system-ui, sans-serif;
+  --font-pixel: var(--font-pixelify), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -43,6 +45,21 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Brand accent — olive green sampled from the hero character's sweater (#4b6c37 = moss-600). */
+@theme {
+  --color-moss-50: #f4f8f2;
+  --color-moss-100: #e3eedd;
+  --color-moss-200: #c8ddbb;
+  --color-moss-300: #a1c68b;
+  --color-moss-400: #80b361;
+  --color-moss-500: #629047;
+  --color-moss-600: #4b6c37;
+  --color-moss-700: #3d592c;
+  --color-moss-800: #2f4422;
+  --color-moss-900: #23331a;
+  --color-moss-950: #151f0f;
 }
 
 :root {
@@ -114,12 +131,66 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/*
+ * Light mode — "Stardew village" beige theme.
+ * The whole site is hardcoded with Tailwind grayscale utilities (bg-black, text-white,
+ * bg-gray-800, text-gray-400, ...). Tailwind v4 compiles those to var(--color-*), so we
+ * flip the entire site to a warm paper palette just by remapping those tokens here.
+ * Green (moss) accents are defined in @theme and intentionally left untouched.
+ */
+.light {
+  /* shadcn semantic tokens */
+  --background: #efe9d7;
+  --foreground: #2f2a21;
+  --card: #f4efe1;
+  --card-foreground: #2f2a21;
+  --popover: #f4efe1;
+  --popover-foreground: #2f2a21;
+  --muted: #e7dfca;
+  --muted-foreground: #6f6750;
+  --border: #d8cfb5;
+  --input: #d8cfb5;
+  --ring: #80b361;
+
+  /* Remapped grayscale: warm paper + ink instead of dark UI */
+  --color-black: #efe9d7;   /* page background */
+  --color-white: #2f2a21;   /* primary text / headings */
+  --color-gray-100: #3a3528;
+  --color-gray-200: #45402f;
+  --color-gray-300: #564f3c; /* secondary text */
+  --color-gray-400: #6f6750; /* muted body text */
+  --color-gray-500: #8a8268;
+  --color-gray-600: #b3a988; /* faint borders */
+  --color-gray-700: #d8cfb5; /* borders */
+  --color-gray-800: #f4efe1; /* card surfaces */
+  --color-gray-900: #e7dfca; /* deeper surfaces */
+  --color-gray-950: #ddd4bd;
+}
+
+/* Graph-paper grid for light mode, faint grain for dark mode */
+.bg-page-grid {
+  background-color: var(--color-black);
+}
+.light .bg-page-grid {
+  background-image:
+    linear-gradient(to right, rgba(75, 108, 55, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(75, 108, 55, 0.07) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+.dark .bg-page-grid {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: cover;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
   }
 }
 
@@ -183,7 +254,7 @@ html {
 }
 
 .prose a {
-  @apply text-blue-400 underline hover:text-blue-300 transition-colors;
+  @apply text-moss-400 underline hover:text-moss-300 transition-colors;
 }
 
 .prose strong {

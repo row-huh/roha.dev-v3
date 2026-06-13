@@ -13,6 +13,7 @@ import Footer from "@/components/footer"
 import CTA from "@/components/cta"
 import BlogsCarousel from "@/components/blogs-carousel"
 import ScrollProgress from "@/components/scroll-progress"
+import ThemeToggle from "@/components/theme-toggle"
 
 
 function HomePageContent() {
@@ -39,9 +40,15 @@ function HomePageContent() {
 
   return (
   <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      {/* Themed background: graph-paper grid in light, faint grain in dark */}
+      <div className="bg-page-grid fixed inset-0 pointer-events-none" />
+
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
-      
+
+      {/* Theme toggle */}
+      <ThemeToggle />
+
       {/* Navigation */}
       < NavBar />
 

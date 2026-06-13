@@ -64,7 +64,7 @@ export default function DeepLearningJourney() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-2xl font-medium text-purple-400 mb-4">What I'm up to now...</h2>
+          <h2 className="text-2xl font-medium text-moss-400 mb-4">What I'm up to now...</h2>
           <p className="text-base text-gray-400 max-w-xl mx-auto">
             A roadmap of my current focus and future aspirations in the AI space.
           </p>
@@ -81,7 +81,7 @@ export default function DeepLearningJourney() {
         >
           <Card className="p-4 rounded-2xl bg-gray-800/30 border-gray-700/50 backdrop-blur-sm">
             <div className="flex items-center gap-3">
-              <Brain className="h-6 w-6 text-purple-400" />
+              <Brain className="h-6 w-6 text-moss-400" />
               <h3 className="text-lg font-semibold text-white">My Current Focus</h3>
             </div>
           </Card>
@@ -108,7 +108,7 @@ export default function DeepLearningJourney() {
               <motion.div key={index} variants={itemVariants} className="relative z-10">
                 <Card className="bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-4 rounded-2xl h-full flex flex-col justify-between text-center transition-all duration-300 hover:bg-gray-800/40">
                   <div className="flex flex-col items-center mb-3">
-                    <step.icon className="h-6 w-6 text-purple-400 mb-2" />
+                    <step.icon className="h-6 w-6 text-moss-400 mb-2" />
                     <h3 className="text-base font-semibold text-white mb-1">{step.title}</h3>
                   </div>
                   <p className="text-gray-300 text-xs leading-relaxed">{step.description}</p>

@@ -35,7 +35,7 @@ export default function NavBar() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <Link href="/" className="text-lg sm:text-xl font-semibold text-white hover:text-gray-200 transition-colors">
+            <Link href="/" className="font-display text-xl sm:text-2xl text-white hover:text-moss-400 transition-colors">
               roha.dev
             </Link>
           </motion.div>

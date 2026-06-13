@@ -1,10 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Oswald } from "next/font/google" // Import Oswald
+import { Inter, Pixelify_Sans, Bebas_Neue } from "next/font/google"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" }) // Define Oswald font
+const pixelifySans = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixelify" })
+const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas-neue" })
 
 export const metadata: Metadata = {
   title: "Roha - AI Engineer & Fullstack Developer",
@@ -44,8 +45,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
+    <html lang="en" className={`${inter.variable} ${pixelifySans.variable} ${bebasNeue.variable} dark`} suppressHydrationWarning>
       <head>
+        {/* Apply saved theme before paint to avoid a flash (defaults to dark) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme')||'dark';var r=document.documentElement;r.classList.remove('light','dark');r.classList.add(t);}catch(e){}})();`,
+          }}
+        />
         {/* Open Graph Meta Tags */}
         <meta property="og:title" content="Roha - AI Engineer & Fullstack Developer" />
         <meta property="og:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />

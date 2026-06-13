@@ -33,7 +33,7 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.4, delay: index * 0.05 }}
         >
-          <Card className="group bg-gray-900/50 border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/5">
+          <Card className="group bg-gray-900/50 border-gray-800 rounded-2xl overflow-hidden hover:border-gray-700 transition-all duration-300 hover:shadow-lg hover:shadow-moss-500/5">
             <div className="relative aspect-video overflow-hidden">
               <Image
                 src={project.image || "/placeholder.svg?height=200&width=300&text=Project+Image"}
@@ -44,7 +44,7 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
             </div>
             
             <div className="p-5">
-              <h3 className="text-lg font-medium text-white mb-2 group-hover:text-purple-400 transition-colors">
+              <h3 className="text-lg font-medium text-white mb-2 group-hover:text-moss-400 transition-colors">
                 {project.title}
               </h3>
               <p className="text-sm text-gray-400 mb-4 line-clamp-2">

@@ -383,7 +383,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 {/* Mobile ratio */}
                 <div className="relative block md:hidden aspect-4/5">
                   <Image
-                    src="/overlays/overlay-big.jpg"
+                    src="/overlays/green/featured.jpg"
                     alt={featured.title}
                     fill
                     priority
@@ -394,7 +394,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                 {/* Desktop ratio */}
                 <div className="relative hidden md:block aspect-video">
                   <Image
-                    src="/overlays/overlay-big.jpg"
+                    src="/overlays/green/featured.jpg"
                     alt={featured.title}
                     fill
                     priority
@@ -433,12 +433,12 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
           >
             {secondary.map((post, i) => {
               const overlays = [
-                "bg-linear-to-br from-amber-400/25 via-orange-500/20 to-transparent",
-                "bg-linear-to-br from-cyan-400/25 via-blue-500/20 to-transparent",
-                "bg-linear-to-br from-pink-500/25 via-violet-500/20 to-transparent",
+                "bg-linear-to-br from-moss-400/25 via-moss-500/20 to-transparent",
+                "bg-linear-to-br from-moss-500/25 via-moss-600/20 to-transparent",
+                "bg-linear-to-br from-moss-300/25 via-moss-500/20 to-transparent",
               ]
               const colorOverlay = overlays[i % overlays.length]
-              const overlayImage = `/overlays/overlay-${(i % 3) + 1}.jpg`
+              const overlayImage = `/overlays/green/side_${(i % 3) + 1}.jpg`
               return (
               <article key={i} className="group relative">
                   <div

@@ -19,7 +19,7 @@ export default function ResumeTool() {
           <div className="flex flex-wrap justify-center gap-3 text-xs text-white/70">
             <div className="flex items-center gap-1">
               <Mail className="w-3 h-3" />
-              <Link href={'mailto:roha.pathan125@gmail.com'} className="transition-colors duration-200 hover:text-purple-400">
+              <Link href={'mailto:roha.pathan125@gmail.com'} className="transition-colors duration-200 hover:text-moss-400">
                 <span>roha.pathan125@gmail.com</span>
               </Link>
             </div>
@@ -33,7 +33,7 @@ export default function ResumeTool() {
             </div>
             <div className="flex items-center gap-1">
               <Globe className="w-3 h-3" />
-              <Link href={'https://www.roha.dev'} className="transition-colors duration-200 hover:text-purple-400">
+              <Link href={'https://www.roha.dev'} className="transition-colors duration-200 hover:text-moss-400">
                 <span>roha.dev</span>
               </Link>
             </div>
@@ -43,7 +43,7 @@ export default function ResumeTool() {
         {/* Download Button */}
         <div className="text-center mb-4">
           <a href="/resume/resume.pdf" target="_blank" rel="noopener noreferrer">
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white text-sm">
+            <Button className="bg-moss-600 hover:bg-moss-700 text-white text-sm">
               <Download className="w-3 h-3 mr-1" />
               Download PDF
             </Button>
@@ -169,12 +169,12 @@ export default function ResumeTool() {
                 <div>
                   <h3 className="text-sm font-medium text-white">CS50P - Python Programming</h3>
                   <p className="text-xs text-white/70">Harvard University</p>
-                  <a href="https://cs50.harvard.edu/certificates/aeb756b8-e607-46ab-b95b-d835bd352cbd" className="text-xs text-purple-400 hover:text-gray-400">View Certificate</a>
+                  <a href="https://cs50.harvard.edu/certificates/aeb756b8-e607-46ab-b95b-d835bd352cbd" className="text-xs text-moss-400 hover:text-gray-400">View Certificate</a>
                 </div>
                 <div>
                   <h3 className="text-sm font-medium text-white">CS50AI - Artificial Intelligence</h3>
                   <p className="text-xs text-white/70">Harvard University</p>
-                  <a href="https://cs50.harvard.edu/certificates/e46f231e-3be6-4b4e-8bd8-c58f82e7bf2d" className="text-xs text-purple-400 hover:text-gray-400">View Certificate</a>
+                  <a href="https://cs50.harvard.edu/certificates/e46f231e-3be6-4b4e-8bd8-c58f82e7bf2d" className="text-xs text-moss-400 hover:text-gray-400">View Certificate</a>
                 </div>
               </div>
             </section>

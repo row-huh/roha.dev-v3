@@ -9,37 +9,37 @@ const skillCategories = [
     title: "Frontend Development",
     icon: Code,
     skills: ["Next.js", "React", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS"],
-    color: "from-blue-500/20 to-cyan-500/20 border-blue-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
   {
     title: "Backend Development",
     icon: Database,
     skills: ["Python", "Django", "Flask", "Java", "C", "C++"],
-    color: "from-green-500/20 to-emerald-500/20 border-green-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
   {
     title: "Databases & Data Management",
     icon: Database,
     skills: ["MySQL", "Oracle SQL", "PostgreSQL", "SQLite", "MongoDB", "Supabase"],
-    color: "from-purple-500/20 to-violet-500/20 border-purple-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
   {
     title: "Version Control & Deployment",
     icon: Cloud,
     skills: ["Git", "GitHub", "Version Control", "Vercel"],
-    color: "from-orange-500/20 to-red-500/20 border-orange-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
   {
     title: "AI & Machine Learning",
     icon: Brain,
     skills: ["Vertex AI", "RAG", "LLMs", "Agentic AI", "Machine Learning"],
-    color: "from-pink-500/20 to-rose-500/20 border-pink-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
   {
     title: "Automation & Web Scraping",
     icon: Wrench,
     skills: ["Selenium", "Beautiful Soup"],
-    color: "from-yellow-500/20 to-amber-500/20 border-yellow-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
   {
     title: "Software Engineering Concepts",
@@ -51,7 +51,7 @@ const skillCategories = [
       "Software Development",
       "Problem Solving",
     ],
-    color: "from-teal-500/20 to-cyan-500/20 border-teal-500/30",
+    color: "from-moss-500/20 to-moss-600/20 border-moss-500/30",
   },
 ]
 

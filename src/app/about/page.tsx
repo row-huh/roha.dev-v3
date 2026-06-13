@@ -36,7 +36,7 @@ export default function AboutPage() {
             >
               {/* Profile Picture */}
               <div className="relative mb-4">
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-2 border-gray-700/50 backdrop-blur-sm">
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-moss-500/20 to-moss-600/20 border-2 border-gray-700/50 backdrop-blur-sm">
                   <Image
                     src="/miscellaneous/roha2.png"
                     alt="Roha's Profile"
@@ -53,7 +53,7 @@ export default function AboutPage() {
 
               {/* Name and Title */}
               <h1 className="text-lg font-semibold text-white mb-2">Roha Pathan</h1>
-              <p className="text-purple-400 text-xs font-medium mb-3">AI Engineer & Fullstack Developer</p>
+              <p className="text-moss-400 text-xs font-medium mb-3">AI Engineer & Fullstack Developer</p>
 
               {/* Short Bio */}
               <div className="text-xs text-gray-300 leading-relaxed space-y-2">
@@ -127,7 +127,7 @@ export default function AboutPage() {
                 className="mb-16 text-center"
               >
                 <h1 className="text-2xl md:text-6xl font-medium text-white mb-4 leading-tight text-center">
-                  About the young <span className="text-purple-400 font-normal">padawan</span>
+                  About the young <span className="text-moss-400 font-normal">padawan</span>
                 </h1>
                 <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8 text-center">
                   This padawan has a lot of lore which you can either scroll below to read or just ask!
