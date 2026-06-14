@@ -28,7 +28,7 @@ export default function HeroSection() {
               Hey, I'm <span className="text-moss-500">Roha</span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-400 mb-8 leading-relaxed font-light">
-              Goofing around with Tech &gt;_&lt;
+               I'm a software engineer who writes sometimes, watches too much anime, is into physics, science fiction, and books. I like solving problems, going for long walks, sleeping, talking about tech and distro hopping &gt;_&lt;
             </p>
 
           </motion.div>

@@ -1,36 +1,25 @@
-import { Card } from "@/components/ui/card"
+"use client"
+
 import { motion } from "framer-motion"
 
-
 export default function WhatsPlaying() {
-    return (
-    <section className="py-56 px-8 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-4xl font-medium text-white mb-6">Currently Playing</h2>
-            <p className="text-lg text-gray-400 mb-12">
-              Music that's recently on repeat, I'll keep updating this
-            </p>
-
-            <Card className="bg-gradient-to-r from-moss-500/10 to-moss-600/10 border-moss-500/20 backdrop-blur-sm p-2 rounded-2xl max-w-2xl mx-auto">
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src="https://open.spotify.com/embed/track/0H7Wdgn1C7vFy4z0o2kBUZ?utm_source=generator&theme=0"
-                width="100%"
-                height="352"
-                frameBorder="0"
-                allowFullScreen={true}
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                title="Spotify Embed"
-              ></iframe>
-            </Card>
-          </motion.div>
-        </div>
-      </section>
-    )
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, delay: 0.8, ease: "easeOut" }}
+      className="fixed bottom-4 left-4 z-50 w-[300px] max-w-[calc(100vw-2rem)] rounded-xl border border-moss-500/25 bg-black/50 p-1 shadow-xl shadow-moss-600/20 ring-1 ring-white/5 backdrop-blur-md"
+    >
+      <iframe
+        style={{ borderRadius: "10px" }}
+        src="https://open.spotify.com/embed/track/0H7Wdgn1C7vFy4z0o2kBUZ?utm_source=generator&theme=0"
+        width="100%"
+        height="80"
+        frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+        title="Spotify Embed"
+      ></iframe>
+    </motion.div>
+  )
 }

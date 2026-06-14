@@ -118,7 +118,7 @@ export default function MySkills() {
         >
           <h2 className="text-5xl md:text-6xl font-medium text-moss-400 mb-4 leading-tight">My Skills</h2>
           <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            A comprehensive list of everything I've "goofed" around with
+            A comprehensive list of everything I'm experienced with
           </p>
         </motion.div>
 
