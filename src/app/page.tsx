@@ -12,7 +12,6 @@ import WhatsPlaying from "@/components/whats-playing"
 import Footer from "@/components/footer"
 import CTA from "@/components/cta"
 import BlogsCarousel from "@/components/blogs-carousel"
-import LoreDropdown from "@/components/lore-dropdown"
 import ScrollProgress from "@/components/scroll-progress"
 import ThemeToggle from "@/components/theme-toggle"
 
@@ -62,12 +61,6 @@ function HomePageContent() {
       <div id="blogs">
         < BlogsCarousel/>
       </div>
-
-      {/* Read the Lore — expandable About Me sections */}
-      <div id="lore">
-        <LoreDropdown />
-      </div>
-
 
       {/* My Skills Section */}
       <div id="skills">

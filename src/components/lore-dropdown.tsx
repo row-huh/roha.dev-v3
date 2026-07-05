@@ -43,9 +43,9 @@ export default function LoreDropdown() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="overflow-hidden"
+            className="bg-lore overflow-hidden"
           >
-            <div className="pt-12">
+            <div className="pt-24">
               {/* How it Began */}
               <Cs50Certificates />
 
@@ -60,6 +60,21 @@ export default function LoreDropdown() {
 
               {/* What I'm Up To Now */}
               <DeepLearningJourney />
+
+              {/* Close the lore from the bottom */}
+              <div className="flex justify-center pt-16 pb-4">
+                <button
+                  type="button"
+                  onClick={() => setOpen(false)}
+                  className="group inline-flex items-center gap-3 rounded-full border border-moss-500/30 bg-moss-500/10 px-6 py-3 text-sm font-display uppercase tracking-[0.18em] text-moss-300 backdrop-blur-sm transition-colors hover:bg-moss-500/20 hover:border-moss-500/50"
+                >
+                  <span aria-hidden>📜</span>
+                  Close the lore
+                  <span aria-hidden className="text-moss-400">
+                    ▴
+                  </span>
+                </button>
+              </div>
             </div>
           </motion.div>
         )}

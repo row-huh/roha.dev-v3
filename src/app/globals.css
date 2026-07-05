@@ -182,6 +182,50 @@
   background-size: cover;
 }
 
+/* Subtle backdrop for the expanded "Read the lore" content — a faint moss
+   wash that fades to transparent at the top and bottom so it merges into the
+   surrounding page background. */
+.bg-lore {
+  position: relative;
+  isolation: isolate;
+}
+.bg-lore::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(880px, 80vw);
+  z-index: -1;
+  pointer-events: none;
+  /* Fade the left/right edges so the band blends into the page sideways */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 22%, #000 78%, transparent);
+}
+.light .bg-lore::before {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 50%, rgba(75, 108, 55, 0.06), transparent 70%),
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(75, 108, 55, 0.05) 72px,
+      rgba(75, 108, 55, 0.05) calc(100% - 72px),
+      transparent
+    );
+}
+.dark .bg-lore::before {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 50%, rgba(98, 144, 71, 0.08), transparent 70%),
+    linear-gradient(
+      to bottom,
+      transparent,
+      rgba(35, 51, 26, 0.22) 72px,
+      rgba(35, 51, 26, 0.22) calc(100% - 72px),
+      transparent
+    );
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

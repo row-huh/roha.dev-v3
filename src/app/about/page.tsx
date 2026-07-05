@@ -1,173 +1,139 @@
-"use client"
-
-import { motion } from "framer-motion"
 import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import Cs50Certificates from "@/components/cs50-certificates"
-import UniversityJourney from "@/components/university-journey"
-import Timeline from "@/components/timeline"
-import Footer from "@/components/footer"
-import AIAssistantPreview from "@/components/ai-assistant-preview"
-import DeepLearningJourney from "@/components/deep-learning-journey"
 import NavBar from "@/components/nav-bar"
-import ContractorArc from "@/components/contractor"
+import Footer from "@/components/footer"
+import ThemeToggle from "@/components/theme-toggle"
 
+const notes = [
+  {
+    title: "How it started",
+    body: "I first got hooked on programming through CS50, C, Python, and AI. It gave me the first real sense that code could turn curiosity into something usable.",
+  },
+  {
+    title: "University",
+    body: "I am studying Software Engineering, keeping a steady pace through the degree while building projects outside class and learning by making things.",
+  },
+  {
+    title: "Hackathons",
+    body: "I joined a bunch of hackathons across AI, healthcare, low-code tools, identity, and product prototypes. They were useful pressure cookers for shipping quickly.",
+  },
+  {
+    title: "Freelance work",
+    body: "I have worked on small client projects, websites, curriculum development, and programming tutoring.",
+  },
+  {
+    title: "Current focus",
+    body: "Right now I am leaning deeper into AI engineering and deep learning, including transformer architectures and building an LLM from scratch.",
+  },
+]
+
+const links = [
+  {
+    label: "CS50P certificate",
+    href: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Djw3OP1LQTb8cKUF8p9N8yUGW44mMg.png",
+  },
+  {
+    label: "CS50AI certificate",
+    href: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-7jpxTxs6g9LbJyNBaI2TbQIbjJgMzL.png",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/row-huh",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com/in/roha-pathan",
+  },
+  {
+    label: "Resume",
+    href: "/resume/resume.pdf",
+  },
+]
+
+const projectLinks = [
+  {
+    label: "MalamaAI hackathon project",
+    href: "https://lablab.ai/event/lokahi-innovation-in-healthcare/codeducklings/malamaai",
+  },
+  {
+    label: "Accessible UI hackathon project",
+    href: "https://lablab.ai/event/langflow-hackathon/rohabecoding/accessible-ui",
+  },
+  {
+    label: "Techathon repository",
+    href: "https://github.com/row-huh/Tecna-s-Tribe_Techathon",
+  },
+]
 
 export default function AboutPage() {
-  const pathname = usePathname()
-
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Navigation */}
-      < NavBar />
+      <div className="bg-page-grid fixed inset-0 pointer-events-none" />
+      <ThemeToggle />
+      <NavBar />
 
-      <main className="relative z-10 pt-24">
-<div className="flex flex-col md:flex-row min-h-screen">
-  {/* Sidebar */}
-  <div className="md:fixed md:left-6 md:right-auto md:top-24 md:bottom-0 md:w-64 
-                  w-full md:border-r border-gray-700/50 p-6 
-                  flex flex-col md:backdrop-blur-xl">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="flex flex-col items-center text-center"
-            >
-              {/* Profile Picture */}
-              <div className="relative mb-4">
-                <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-br from-moss-500/20 to-moss-600/20 border-2 border-gray-700/50 backdrop-blur-sm">
-                  <Image
-                    src="/miscellaneous/roha2.png"
-                    alt="Roha's Profile"
-                    width={96}
-                    height={96}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                {/* Status indicator */}
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-gray-900 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                </div>
-              </div>
+      <main className="relative z-10 px-5 pt-32 pb-20 sm:px-8">
+        <article className="mx-auto max-w-3xl">
+          <header className="border-b border-gray-700/50 pb-10">
+            <p className="mb-4 text-xs font-display uppercase tracking-[0.22em] text-moss-400">About me</p>
+            <h1 className="text-3xl font-medium leading-tight text-white sm:text-5xl">Roha Pathan</h1>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-gray-300 sm:text-lg">
+              I am a software engineering student and fullstack developer moving deeper into AI engineering. I like
+              building practical things, writing when I have a thought I cannot shake, and learning the machinery behind
+              intelligent systems.
+            </p>
+          </header>
 
-              {/* Name and Title */}
-              <h1 className="text-lg font-semibold text-white mb-2">Roha Pathan</h1>
-              <p className="text-moss-400 text-xs font-medium mb-3">AI Engineer & Fullstack Developer</p>
-
-              {/* Short Bio */}
-              <div className="text-xs text-gray-300 leading-relaxed space-y-2">
-                <p>Final year Software Engineering student with a passion for AI and deep learning.</p>
-                <p>
-                  Currently building an LLM from scratch and exploring the fascinating world of transformer
-                  architectures.
-                </p>
-                <p>When not coding, you'll find me diving into research papers or participating in hackathons.</p>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="mt-6 grid grid-cols-2 gap-3 w-full">
-                <div className="bg-gray-800/30 rounded-lg p-2 text-center">
-                  <div className="text-sm font-semibold text-white">15+</div>
-                  <div className="text-xs text-gray-400">Projects</div>
-                </div>
-                <div className="bg-gray-800/30 rounded-lg p-2 text-center">
-                  <div className="text-sm font-semibold text-white">5+</div>
-                  <div className="text-xs text-gray-400">Hackathons</div>
-                </div>
-              </div>
-
-              {/* Contact Links */}
-              <div className="mt-4 flex gap-2">
-                <Link
-                  href="https://github.com/row-huh"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center hover:bg-gray-700/50 transition-colors"
-                >
-                  <svg className="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="https://linkedin.com/in/roha-pathan"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center hover:bg-gray-700/50 transition-colors"
-                >
-                  <svg className="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="/contact"
-                  className="w-8 h-8 bg-gray-800/50 rounded-lg flex items-center justify-center hover:bg-gray-700/50 transition-colors"
-                >
-                  <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Scrollable Content */}
-          <div className="md:ml-64 flex-1 overflow-y-auto">
-            <div className="pt-15 px-4 sm:px-6 py-6 transform scale-100 md:scale-95 origin-top">
-              {/* Page Title */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="mb-16 text-center"
-              >
-                <h1 className="text-2xl md:text-6xl font-medium text-white mb-4 leading-tight text-center">
-                  About the young <span className="text-moss-400 font-normal">padawan</span>
-                </h1>
-                <p className="text-md text-gray-400 max-w-3xl mx-auto mb-8 text-center">
-                  This padawan has a lot of lore which you can either scroll below to read or just ask!
-                </p>
-
-                <div className="flex justify-center">
-                  <AIAssistantPreview />
-                </div>
-
-              </motion.div>
-
-              {/* How it Began */}
-              <div className="mb-0">
-                <Cs50Certificates />
-              </div>
-
-              {/* Then I Joined University */}
-              <div className="mb-0">
-                <UniversityJourney />
-              </div>
-
-              {/* Hackathons */}
-              <div className="mb-0">
-                <Timeline />
-              </div>
-
-              {/* Freelancer Arc - Coming Soon Section */}
-              <div className="mb-0">
-                <ContractorArc />
-              </div>
-
-              {/* What I'm Up To Now */}
-              <div className="mb-0">
-                <DeepLearningJourney />
-              </div>
-              
+          <section className="py-10">
+            <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-gray-400">The short version</h2>
+            <div className="mt-6 space-y-8">
+              {notes.map((note) => (
+                <section key={note.title} className="grid gap-2 border-b border-gray-800/80 pb-6 sm:grid-cols-[160px_1fr]">
+                  <h3 className="text-sm font-medium text-moss-400">{note.title}</h3>
+                  <p className="text-sm leading-7 text-gray-300">{note.body}</p>
+                </section>
+              ))}
             </div>
-          </div>
-        </div>
+          </section>
+
+          <section className="grid gap-10 border-t border-gray-700/50 pt-10 md:grid-cols-2">
+            <div>
+              <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-gray-400">Links</h2>
+              <div className="mt-5 flex flex-col items-start gap-3">
+                {links.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    target={link.href.startsWith("http") ? "_blank" : undefined}
+                    rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="text-sm text-gray-300 underline underline-offset-4 transition-colors hover:text-moss-400"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-medium uppercase tracking-[0.18em] text-gray-400">Selected receipts</h2>
+              <div className="mt-5 flex flex-col items-start gap-3">
+                {projectLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-300 underline underline-offset-4 transition-colors hover:text-moss-400"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        </article>
       </main>
+
+      <Footer />
     </div>
   )
 }
