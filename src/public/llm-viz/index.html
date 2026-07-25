@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-2 Internals — Interactive Visualization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- ====== LANDING / INPUT ====== -->
+        <section id="landing" class="landing">
+            <div class="landing-content">
+                <div class="logo">
+                    <span class="logo-bracket">{</span>
+                    <span class="logo-text">GPT-2</span>
+                    <span class="logo-bracket">}</span>
+                </div>
+                <h1>Inside the Transformer</h1>
+                <p class="tagline">Follow your prompt through every layer of a GPT-2 model</p>
+
+                <div class="input-area">
+                    <input type="text" id="user-input" placeholder="What is the meaning of life?"
+                           value="What is the meaning of life?" autocomplete="off" spellcheck="false">
+                    <button id="start-btn" class="btn btn-primary">
+                        <span>Begin Journey</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                <p class="hint">Enter any question or phrase, then watch GPT-2 process it step by step.</p>
+
+                <div class="specs">
+                    <div class="spec"><span class="spec-val">12</span><span class="spec-label">Layers</span></div>
+                    <div class="spec"><span class="spec-val">768</span><span class="spec-label">Dimensions</span></div>
+                    <div class="spec"><span class="spec-val">12</span><span class="spec-label">Attention Heads</span></div>
+                    <div class="spec"><span class="spec-val">50,257</span><span class="spec-label">Vocab Size</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== WALKTHROUGH ====== -->
+        <section id="walkthrough" class="walkthrough hidden">
+            <!-- Top Bar -->
+            <div class="topbar">
+                <button id="restart-btn" class="btn btn-ghost" title="Start over">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 105.64-11.36L3 10"/></svg>
+                    <span>Restart</span>
+                </button>
+                <div class="topbar-center">
+                    <div id="step-label" class="step-label">Step 1 / 11</div>
+                </div>
+                <div class="topbar-right">
+                    <button id="skip-anim-btn" class="btn btn-ghost" title="Skip animation">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                        <span>Skip</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-track">
+                <div id="progress-bar" class="progress-bar"></div>
+                <div id="progress-dots" class="progress-dots"></div>
+            </div>
+
+            <!-- Stage Header -->
+            <div class="stage-header">
+                <h2 id="stage-title">Raw Text</h2>
+                <button id="info-btn" class="btn btn-icon" title="Toggle explanation">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                </button>
+            </div>
+
+            <!-- Explanation Panel -->
+            <div id="explanation" class="explanation collapsed">
+                <p id="explanation-text"></p>
+            </div>
+
+            <!-- Visual Stage -->
+            <div class="stage-wrap">
+                <div id="stage" class="stage"></div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="nav-bar">
+                <button id="prev-btn" class="btn btn-secondary" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    <span>Back</span>
+                </button>
+                <button id="next-btn" class="btn btn-primary" disabled>
+                    <span>Next Step</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
