@@ -8,7 +8,7 @@ image: ''
 category: side-notes
 ---
 
-https://miro.medium.com/v2/resize:fit:640/format:webp/0*kTRvduBfX7_bTDhY.gif
+![image](/md-assets/naruto-hand-signs/image13.gif)
 
 Naruto is an anime where characters perform sequences of hand signs to activate different techniques called “jutsu,” specifically a form of ninja technique known as ninjutsu. Depending on the sequence of signs, a jutsu can produce effects ranging from creating multiple clones to raising a wall of mud.
 
@@ -259,7 +259,7 @@ Now here I know the test set is really small and you can’t really measure the 
 
 It looks fine on the surface, but once you start testing it more extensively, a small flaw becomes apparent. For example, if I make random hand signs, the model may still classify them as one of the Naruto gestures. Similarly, even when I make a valid hand sign with the hands positioned farther apart, the model still tends to predict the corresponding gesture.
 
-![image](/md-assets/naruto-hand-signs/image11.png)
+![image](https://miro.medium.com/v2/resize:fit:640/format:webp/1*RSbxa26jwt_AihMMlBClqw.gif)
 
 The main problem here is that there is no information being passed to the model about the distance between the two hands, which can cause some confusion. My solution was to add an inter-hand distance feature and set a detection threshold of around 60%, where anything below that would be labelled as `None` to reduce these false predictions.
 
