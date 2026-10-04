@@ -8,7 +8,7 @@ image: ''
 category: side-notes
 ---
 
-![image](/md-assets/naruto-hand-signs/image1.png)
+https://miro.medium.com/v2/resize:fit:640/format:webp/0*kTRvduBfX7_bTDhY.gif
 
 Naruto is an anime where characters perform sequences of hand signs to activate different techniques called “jutsu,” specifically a form of ninja technique known as ninjutsu. Depending on the sequence of signs, a jutsu can produce effects ranging from creating multiple clones to raising a wall of mud.
 
