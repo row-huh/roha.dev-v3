@@ -20,7 +20,8 @@ export default async function BlogDetailPage({
 }: Props) {
   const resolvedParams = await params
   const postData = await getPostData(resolvedParams.slug)
-  return <BlogDetailPageClient post={postData} />
+  const recentPosts = (await getSortedPostsData()).slice(0, 3).map(({ slug, title }) => ({ slug, title }))
+  return <BlogDetailPageClient post={postData} recentPosts={recentPosts} />
 }
 
 // Per-post SEO metadata for rich embeds (Open Graph/Twitter)

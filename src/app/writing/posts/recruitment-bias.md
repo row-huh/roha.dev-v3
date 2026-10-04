@@ -3,7 +3,7 @@ title: "Exploring Bias in Recruitment, An Attempt to Solve it - And Why it was t
 description: "A practical guide for developers to understand the core concepts behind Large Language Models, from architecture to application."
 date: "February 26, 2025"
 image: "/placeholder.svg?height=400&width=800&text=LLMs+Demystified+Blog"
-category: "highlights"
+category: "dev-notes"
 ---
 
 Employers—like everyone else—can have biases, whether they realize it or not. Subconscious bias sneaks into hiring decisions, influencing choices based on factors like age, gender, race, or culture. The problem? It moves hiring further away from being objective, increasing the chances of selecting a less qualified candidate simply due to bias. Over time, this doesn’t just affect individual job seekers—it shapes entire workplaces, limiting diversity, fresh perspectives, and overall team performance.

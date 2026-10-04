@@ -15,8 +15,41 @@ export interface BlogPostMetadata {
   category: string
 }
 
+export interface BlogHeading {
+  id: string
+  text: string
+  level: number
+}
+
 export interface BlogPostContent extends BlogPostMetadata {
   contentHtml: string
+  headings: BlogHeading[]
+}
+
+function decodeEntities(text: string): string {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&")
+}
+
+// Gives every heading an id so the table of contents can link to it.
+function addHeadingIds(contentHtml: string): { contentHtml: string; headings: BlogHeading[] } {
+  const headings: BlogHeading[] = []
+  const used = new Map<string, number>()
+  const withIds = contentHtml.replace(/<h([1-6])>([\s\S]*?)<\/h\1>/g, (_, level: string, inner: string) => {
+    const text = decodeEntities(inner.replace(/<[^>]+>/g, "")).trim()
+    const base = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "section"
+    const count = used.get(base) ?? 0
+    used.set(base, count + 1)
+    const id = count === 0 ? base : `${base}-${count + 1}`
+    headings.push({ id, text, level: Number(level) })
+    return `<h${level} id="${id}">${inner}</h${level}>`
+  })
+  return { contentHtml: withIds, headings }
 }
 
 export async function getSortedPostsData(): Promise<BlogPostMetadata[]> {
@@ -52,12 +85,13 @@ export async function getPostData(slug: string): Promise<BlogPostContent> {
 
   // Use remark to convert markdown into HTML string
   const processedContent = await remark().use(html).process(matterResult.content)
-  const contentHtml = processedContent.toString()
+  const { contentHtml, headings } = addHeadingIds(processedContent.toString())
 
   // Combine the data with the slug and contentHtml
   return {
     slug,
     contentHtml,
+    headings,
     ...(matterResult.data as { title: string; description: string; date: string; image: string; category: string }),
   }
 }

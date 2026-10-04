@@ -1,6 +1,6 @@
 import matter from "gray-matter"
 
-export const CATEGORIES = ["side-notes", "error-logs", "dev-notes", "highlights"] as const
+export const CATEGORIES = ["side-notes", "error-logs", "dev-notes"] as const
 
 export interface PostFields {
   title: string

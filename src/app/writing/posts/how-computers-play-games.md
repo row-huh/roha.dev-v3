@@ -3,7 +3,7 @@ title: "How Computers Play Games - And Why are They so Good at it?"
 description: "An in-depth look at the algorithms that make computers unbeatable"
 date: "Aug 1, 2024"
 image: ""
-category: "highlights"
+category: "dev-notes"
 ---
 
 

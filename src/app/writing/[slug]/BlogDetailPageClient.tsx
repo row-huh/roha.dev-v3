@@ -7,12 +7,15 @@ import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
 import type { BlogPostContent } from "@/lib/blog" // Import the type
 import NavBar from "@/components/nav-bar"
+import WritingSidebar, { type RecentPost } from "@/components/writing-sidebar"
 
 
 export default function BlogDetailPageClient({
   post,
+  recentPosts,
 }: {
   post: BlogPostContent // Receive the full post data as a prop
+  recentPosts: RecentPost[]
 }) {
   const router = useRouter()
 
@@ -54,12 +57,22 @@ export default function BlogDetailPageClient({
       .join(" ")
   }
 
+  // List the two shallowest heading levels the post uses; fall back to the title when it has none.
+  const topLevel = Math.min(...post.headings.map((h) => h.level))
+  const tocItems =
+    post.headings.length > 0
+      ? post.headings.filter((h) => h.level <= topLevel + 1)
+      : [{ id: "post-title", text: post.title, level: 1 }]
+
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white relative">
       {/* Navigation */}
       <NavBar />
 
-      <main className="relative z-10 pt-32 pb-24 px-6">
+      <div className="relative z-10 mx-auto flex max-w-7xl gap-10 px-4 pt-32 pb-24 sm:px-6 lg:px-8">
+        <WritingSidebar recentPosts={recentPosts} activeSlug={post.slug} />
+
+      <main className="min-w-0 flex-1">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -84,7 +97,7 @@ export default function BlogDetailPageClient({
           </div>
 
           {/* Title - Centered */}
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-12 leading-tight tracking-tight text-center">
+          <h1 id="post-title" className="scroll-mt-28 text-4xl md:text-5xl font-bold text-white mb-12 leading-tight tracking-tight text-center">
             {post.title}
           </h1>
 
@@ -105,7 +118,7 @@ export default function BlogDetailPageClient({
           {/* Blog Content */}
           <div
             className="prose prose-invert prose-lg max-w-none
-              prose-headings:font-bold prose-headings:tracking-tight
+              prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-28
               prose-h1:text-4xl prose-h1:mb-6 prose-h1:mt-12
               prose-h2:text-3xl prose-h2:mb-4 prose-h2:mt-10
               prose-h3:text-2xl prose-h3:mb-3 prose-h3:mt-8
@@ -120,6 +133,29 @@ export default function BlogDetailPageClient({
           />
         </motion.div>
       </main>
+
+        <aside className="hidden w-56 shrink-0 xl:block">
+          <nav
+            className="sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto border-l border-gray-800"
+            aria-label="On this page"
+          >
+            <ul className="flex flex-col">
+              {tocItems.map((heading) => (
+                <li key={heading.id}>
+                  <a
+                    href={`#${heading.id}`}
+                    className={`-ml-px block border-l border-transparent py-1.5 pr-2 text-sm text-gray-400 transition-colors hover:border-white hover:text-white ${
+                      heading.level > topLevel && post.headings.length > 0 ? "pl-8" : "pl-4"
+                    }`}
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      </div>
     </div>
   )
 }

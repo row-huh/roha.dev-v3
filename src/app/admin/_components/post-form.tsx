@@ -20,7 +20,6 @@ const CATEGORIES = [
   { name: "SideNotes", value: "side-notes" },
   { name: "Error Logs", value: "error-logs" },
   { name: "Dev Notes", value: "dev-notes" },
-  { name: "Highlights", value: "highlights" },
 ]
 
 function pad(n: number): string {

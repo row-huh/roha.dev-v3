@@ -2,121 +2,97 @@
 
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Sparkles } from "lucide-react"
-import Image from "next/image"
-import { usePathname } from "next/navigation" // Keep usePathname for navigation styling
-// New Client Component to handle filtering and UI interactions
-// This component will receive the initial data as props
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import { BlogPostMetadata } from "@/lib/blog"
 import NavBar from "@/components/nav-bar"
+import WritingSidebar, { writingTopics } from "@/components/writing-sidebar"
 
 interface WritingPageClientProps {
   initialPosts: BlogPostMetadata[]
 }
 
+const RECENT_COUNT = 3
+
 export default function WritingPageClient({ initialPosts }: WritingPageClientProps) {
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const pathname = usePathname() // usePathname is a client hook
+  const [selectedTopic, setSelectedTopic] = useState("all")
 
-  const categories = [
-    { name: "All", value: "all" },
-    { name: "SideNotes", value: "side-notes" },
-    { name: "Error Logs", value: "error-logs" },
-    { name: "Dev Notes", value: "dev-notes" },
-    { name: "Highlights", value: "highlights" },
-  ]
+  // Topic links on post pages arrive as /writing?topic=<value>
+  useEffect(() => {
+    const topic = new URLSearchParams(window.location.search).get("topic")
+    if (topic && writingTopics.some((t) => t.value === topic)) setSelectedTopic(topic)
+  }, [])
 
-  const filteredBlogPosts = useMemo(() => {
-    if (selectedCategory === "all") {
-      return initialPosts
-    }
-    return initialPosts.filter((post) => post.category === selectedCategory)
-  }, [selectedCategory, initialPosts])
+  const filteredPosts = useMemo(() => {
+    if (selectedTopic === "all") return initialPosts
+    return initialPosts.filter((post) => post.category === selectedTopic)
+  }, [selectedTopic, initialPosts])
+
+  const recentPosts = initialPosts.slice(0, RECENT_COUNT)
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Navigation */}
-        < NavBar />
+    <div className="min-h-screen bg-black text-white relative">
+      <NavBar />
 
-      <main className="relative z-10 py-32 px-8">
-        <div className="max-w-6xl mx-auto">
+      <div className="relative z-10 mx-auto flex max-w-7xl gap-12 px-4 pt-32 pb-24 sm:px-6 lg:px-8">
+        <WritingSidebar recentPosts={recentPosts} selectedTopic={selectedTopic} onSelectTopic={setSelectedTopic} />
+
+        <main className="min-w-0 flex-1">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            transition={{ duration: 0.6 }}
+            className="mb-12 text-center"
           >
-            <h1 className="text-5xl md:text-6xl font-medium text-white mb-4 leading-tight py-4 pt-[25px] mt-[39px]">
-              My <span className="text-moss-400 font-normal">Writings</span>
+            <h1 className="mb-4 text-4xl font-medium leading-tight text-white md:text-5xl">
+              My <span className="font-normal text-moss-400">Writings</span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              {"I often write about tech, self-help, and whatever bizarre thought hijacks my brain that day.\n"}
+            <p className="mx-auto max-w-2xl text-lg text-gray-400">
+              I often write about tech, self-help, and whatever bizarre thought hijacks my brain that day.
             </p>
           </motion.div>
 
-          {/* Filter Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-4 mb-12"
-          >
-            {categories.map((category) => (
-              <Button
-                key={category.value}
-                variant={selectedCategory === category.value ? "default" : "outline"}
-                className={`${
-                  selectedCategory === category.value
-                    ? "bg-moss-600 text-white hover:bg-moss-700"
-                    : "border-gray-600 text-gray-300 hover:bg-gray-700 bg-transparent"
-                } rounded-full px-4 py-2 text-sm`}
-                onClick={() => setSelectedCategory(category.value)}
+          {/* Topic chips: mobile and tablet, where the sidebar is hidden */}
+          <div className="mb-10 flex flex-wrap justify-center gap-2 lg:hidden">
+            {[{ name: "All posts", value: "all" }, ...writingTopics].map((topic) => (
+              <button
+                key={topic.value}
+                onClick={() => setSelectedTopic(topic.value)}
+                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
+                  selectedTopic === topic.value
+                    ? "border-moss-600 bg-moss-600 text-white"
+                    : "border-gray-700 text-gray-300 hover:bg-gray-800"
+                }`}
               >
-                {category.name}
-              </Button>
-            ))}
-          </motion.div>
-
-          {/* Blog Posts List */}
-          <div className="flex flex-col gap-6">
-            {filteredBlogPosts.map((post, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card
-                  className={`bg-gray-800/30 border-gray-700/50 backdrop-blur-sm p-6 rounded-3xl h-full flex flex-col md:flex-row items-start gap-6 transition-all duration-300 hover:bg-gray-800/40`}
-                >
-                  <div className="flex flex-col flex-grow">
-                    <Link href={`/writing/${post.slug}`} className="block">
-                      <h2 className="text-xl font-medium text-white mb-2">{post.title}</h2>
-                      <p className="text-gray-300 text-sm mb-4 line-clamp-3">{post.description}</p>
-                    </Link>
-                    <div className="flex items-center mt-auto w-full flex-row justify-start">
-                      <p className="text-xs text-gray-400">{post.date}</p>
-                      <span className="py-1 bg-moss-600/20 text-moss-300 rounded-full text-xs uppercase px-2 mx-2.5">
-                        {post.category.replace(/-/g, " ")}
-                      </span>
-                      <Link href={`/writing/${post.slug}`}>
-                        <Button variant="ghost" size="sm" className="text-moss-400 hover:text-white mx-[-10px]">
-                          Read More <ExternalLink className="h-3 w-3 ml-1" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
+                {topic.name}
+              </button>
             ))}
           </div>
-        </div>
-      </main>
 
-    
+          <div className="mx-auto flex max-w-3xl flex-col divide-y divide-gray-800">
+            {filteredPosts.map((post, index) => (
+              <motion.article
+                key={post.slug}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: Math.min(index, 6) * 0.06 }}
+                className="py-8 first:pt-0"
+              >
+                <Link href={`/writing/${post.slug}`} className="group block">
+                  <p className="mb-2 text-sm text-gray-400">{post.date}</p>
+                  <h2 className="mb-2 text-xl font-medium text-white transition-colors group-hover:text-moss-400">
+                    {post.title}
+                  </h2>
+                  <p className="mb-3 line-clamp-3 text-gray-300">{post.description}</p>
+                  <p className="text-sm capitalize text-gray-500">{post.category.replace(/-/g, " ")}</p>
+                </Link>
+              </motion.article>
+            ))}
+            {filteredPosts.length === 0 && (
+              <p className="py-8 text-center text-gray-400">Nothing here yet.</p>
+            )}
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
