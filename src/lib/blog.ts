@@ -39,14 +39,8 @@ export async function getSortedPostsData(): Promise<BlogPostMetadata[]> {
       ...(matterResult.data as { title: string; description: string; date: string; image: string; category: string }),
     }
   })
-  // Sort posts by date
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1
-    } else {
-      return -1
-    }
-  })
+  // Dates are stored like "October 14, 2025", so they must be parsed rather than compared as strings
+  return allPostsData.sort((a, b) => (Date.parse(b.date) || 0) - (Date.parse(a.date) || 0))
 }
 
 export async function getPostData(slug: string): Promise<BlogPostContent> {
