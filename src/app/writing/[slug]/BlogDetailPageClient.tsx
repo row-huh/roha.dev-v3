@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
-import Image from "next/image"
 import type { BlogPostContent } from "@/lib/blog" // Import the type
 import NavBar from "@/components/nav-bar"
 import WritingSidebar, { type RecentPost } from "@/components/writing-sidebar"
@@ -25,6 +24,15 @@ export default function BlogDetailPageClient({
     } else {
       router.push("/")
     }
+  }
+
+  const handleCopyCode = async (event: React.MouseEvent<HTMLDivElement>) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>("[data-copy-code]")
+    const code = button?.closest(".code-block")?.querySelector("pre code")
+    if (!button || !code) return
+    await navigator.clipboard.writeText(code.textContent ?? "")
+    button.textContent = "Copied"
+    setTimeout(() => (button.textContent = "Copy"), 1500)
   }
 
   if (!post) {
@@ -104,14 +112,9 @@ export default function BlogDetailPageClient({
           {/* Conditional Image Display */}
           {hasImage && (
             <div className="mb-16 rounded-2xl overflow-hidden">
-              <Image
-                src={post.image}
-                alt={post.title}
-                width={1200}
-                height={675}
-                className="w-full h-auto object-cover"
-                priority
-              />
+              {/* Plain img so covers hosted on other sites load and GIFs animate. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={post.image} alt={post.title} className="w-full h-auto object-cover" />
             </div>
           )}
 
@@ -125,10 +128,9 @@ export default function BlogDetailPageClient({
               prose-p:text-gray-300 prose-p:leading-relaxed prose-p:mb-6
               prose-a:text-moss-400 prose-a:no-underline hover:prose-a:text-moss-300
               prose-strong:text-white prose-strong:font-semibold
-              prose-code:text-moss-300 prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-              prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl
               prose-ul:my-6 prose-li:text-gray-300 prose-li:my-2
               prose-blockquote:border-l-moss-500 prose-blockquote:text-gray-400 prose-blockquote:italic"
+            onClick={handleCopyCode}
             dangerouslySetInnerHTML={{ __html: post.contentHtml }}
           />
         </motion.div>

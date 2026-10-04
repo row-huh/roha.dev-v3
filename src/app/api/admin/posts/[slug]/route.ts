@@ -1,5 +1,5 @@
 import { adminApi } from "@/lib/admin-auth"
-import { CmsError, deletePost, getPost, parsePostInput, savePost } from "@/lib/github-cms"
+import { CmsError, deletePost, getPost, parseImagesInput, parsePostInput, savePost } from "@/lib/github-cms"
 
 type Context = { params: Promise<{ slug: string }> }
 
@@ -15,7 +15,7 @@ export async function PUT(request: Request, { params }: Context) {
   return adminApi(async () => {
     const body = await request.json().catch(() => null)
     const post = parsePostInput(body, (await params).slug)
-    await savePost(post, "update")
+    await savePost(post, "update", parseImagesInput(body?.images))
     return Response.json({ ok: true, slug: post.slug })
   })
 }

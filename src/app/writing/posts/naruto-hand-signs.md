@@ -255,11 +255,11 @@ At this point I took a few more samples(~30 ish) for the confusing classes (bird
 
 Now here I know the test set is really small and you can’t really measure the accuracy of a model if all the testing images are taken under the same lightning and background. So It’s now time to try the trained model saved as model.pt and have it perform inference on a video in real time.
 
-![image](/md-assets/naruto-hand-signs/image10.png)
+![image](/md-assets/naruto-hand-signs/initial-demo.gif)
 
 It looks fine on the surface, but once you start testing it more extensively, a small flaw becomes apparent. For example, if I make random hand signs, the model may still classify them as one of the Naruto gestures. Similarly, even when I make a valid hand sign with the hands positioned farther apart, the model still tends to predict the corresponding gesture.
 
-![image](https://miro.medium.com/v2/resize:fit:640/format:webp/1*RSbxa26jwt_AihMMlBClqw.gif)
+![image](/md-assets/naruto-hand-signs/randomsies.gif)
 
 The main problem here is that there is no information being passed to the model about the distance between the two hands, which can cause some confusion. My solution was to add an inter-hand distance feature and set a detection threshold of around 60%, where anything below that would be labelled as `None` to reduce these false predictions.
 
@@ -272,7 +272,7 @@ And Alas,
 ## The Final Demo
 Model now correctly shows all random gestures as ‘None’ and inter-hand distance isn’t a problem anymore :)
 
-![image](/md-assets/naruto-hand-signs/image12.png)
+![image](/md-assets/naruto-hand-signs/final-demo.gif)
 
 Code Repository:
 https://github.com/row-huh/mediapipe-gesture-recognizer-naruto-handsigns

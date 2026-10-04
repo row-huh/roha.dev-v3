@@ -68,28 +68,45 @@ function config() {
   return {
     token,
     branch: process.env.GITHUB_BRANCH || "main",
-    contentsUrl: `https://api.github.com/repos/${owner}/${repo}/contents/${process.env.GITHUB_POSTS_PATH || "src/app/writing/posts"}`,
+    repoUrl: `https://api.github.com/repos/${owner}/${repo}`,
+    postsPath: process.env.GITHUB_POSTS_PATH || "src/app/writing/posts",
+    imagesPath: process.env.GITHUB_IMAGES_PATH || "src/public/md-assets",
   }
 }
 
 async function github(path: string, init?: { method: string; body: Record<string, unknown> }): Promise<Response> {
-  const { token, branch, contentsUrl } = config()
-  const url = `${contentsUrl}${path}` + (init ? "" : `?ref=${encodeURIComponent(branch)}`)
-  return fetch(url, {
+  const { token, repoUrl } = config()
+  return fetch(`${repoUrl}${path}`, {
     method: init?.method ?? "GET",
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
     },
-    body: init ? JSON.stringify({ ...init.body, branch }) : undefined,
+    body: init ? JSON.stringify(init.body) : undefined,
     cache: "no-store",
+  }).catch(() => {
+    throw new CmsError("Could not reach GitHub. Check your connection and try again.", 502)
   })
 }
 
-async function getFile(slug: string): Promise<{ sha: string; raw: string } | null> {
+async function githubJson<T>(action: string, path: string, init?: { method: string; body: Record<string, unknown> }): Promise<T> {
+  const res = await github(path, init)
+  if (!res.ok) throw new CmsError(`GitHub ${action} failed (${res.status})`, 502)
+  return (await res.json()) as T
+}
+
+function contentsPath(filePath: string): string {
+  return `/contents/${filePath}?ref=${encodeURIComponent(config().branch)}`
+}
+
+function postFilePath(slug: string): string {
   assertValidSlug(slug)
-  const res = await github(`/${slug}.md`)
+  return `${config().postsPath}/${slug}.md`
+}
+
+async function getFile(slug: string): Promise<{ sha: string; raw: string } | null> {
+  const res = await github(contentsPath(postFilePath(slug)))
   if (res.status === 404) return null
   if (!res.ok) throw new CmsError(`GitHub read failed (${res.status})`, 502)
   const file = (await res.json()) as { sha: string; content: string }
@@ -110,9 +127,7 @@ function toAdminPost(slug: string, raw: string): AdminPost {
 }
 
 export async function listPosts(): Promise<AdminPost[]> {
-  const res = await github("")
-  if (!res.ok) throw new CmsError(`GitHub list failed (${res.status})`, 502)
-  const entries = (await res.json()) as { name: string; type: string }[]
+  const entries = await githubJson<{ name: string; type: string }[]>("list", contentsPath(config().postsPath))
   const slugs = entries
     .filter((e) => e.type === "file" && e.name.endsWith(".md"))
     .map((e) => e.name.replace(/\.md$/, ""))
@@ -128,30 +143,105 @@ export async function getPost(slug: string): Promise<AdminPost | null> {
   return file ? toAdminPost(slug, file.raw) : null
 }
 
-export async function savePost(post: AdminPost, mode: "create" | "update"): Promise<void> {
+export interface PostImage {
+  name: string
+  sha: string
+}
+
+const IMAGE_NAME_PATTERN = /^image\d{0,4}\.(png|jpg|gif|webp)$/
+const MAX_IMAGE_BASE64_LENGTH = 4_000_000
+const MAX_IMAGES_PER_SAVE = 30
+
+function imageExtension(bytes: Buffer): string | null {
+  if (bytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return "png"
+  if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return "jpg"
+  if (bytes.subarray(0, 4).toString("latin1") === "GIF8") return "gif"
+  if (bytes.subarray(0, 4).toString("latin1") === "RIFF" && bytes.subarray(8, 12).toString("latin1") === "WEBP") return "webp"
+  return null
+}
+
+// Stores the image in the repo as an unattached blob; it only becomes a file when a post save references it.
+export async function uploadImage(data: unknown): Promise<{ sha: string; extension: string }> {
+  if (typeof data !== "string" || !/^[A-Za-z0-9+/]+={0,2}$/.test(data)) throw new CmsError("Invalid image data", 400)
+  if (data.length > MAX_IMAGE_BASE64_LENGTH) throw new CmsError("Image is too large (3 MB max)", 413)
+  const extension = imageExtension(Buffer.from(data.slice(0, 64), "base64"))
+  if (!extension) throw new CmsError("Only PNG, JPEG, GIF and WebP images are supported", 400)
+  const blob = await githubJson<{ sha: string }>("image upload", "/git/blobs", {
+    method: "POST",
+    body: { content: data, encoding: "base64" },
+  })
+  return { sha: blob.sha, extension }
+}
+
+export function parseImagesInput(input: unknown): PostImage[] {
+  if (input === undefined) return []
+  if (!Array.isArray(input) || input.length > MAX_IMAGES_PER_SAVE) throw new CmsError("Invalid images", 400)
+  return input.map((item) => {
+    const { name, sha } = (item ?? {}) as Record<string, unknown>
+    if (typeof name !== "string" || !IMAGE_NAME_PATTERN.test(name)) throw new CmsError("Invalid image name", 400)
+    if (typeof sha !== "string" || !/^[0-9a-f]{40}$/.test(sha)) throw new CmsError("Invalid image reference", 400)
+    return { name, sha }
+  })
+}
+
+export async function listImages(slug: string): Promise<string[]> {
+  assertValidSlug(slug)
+  const res = await github(contentsPath(`${config().imagesPath}/${slug}`))
+  if (res.status === 404) return []
+  if (!res.ok) throw new CmsError(`GitHub list failed (${res.status})`, 502)
+  const entries = (await res.json()) as { name: string; type: string }[]
+  return Array.isArray(entries) ? entries.filter((e) => e.type === "file").map((e) => e.name) : []
+}
+
+// Writes the post and its new images as a single commit, so the site redeploys once.
+export async function savePost(post: AdminPost, mode: "create" | "update", images: PostImage[] = []): Promise<void> {
+  const { branch, imagesPath } = config()
   const existing = await getFile(post.slug)
   if (mode === "create" && existing) throw new CmsError("A post with this slug already exists", 409)
   if (mode === "update" && !existing) throw new CmsError("Post not found", 404)
 
   const { slug, content, ...frontmatter } = post
   const raw = matter.stringify(content.startsWith("\n") ? content : `\n${content}`, frontmatter)
-  const res = await github(`/${slug}.md`, {
-    method: "PUT",
+
+  const ref = await githubJson<{ object: { sha: string } }>("read", `/git/ref/heads/${encodeURIComponent(branch)}`)
+  const parent = await githubJson<{ tree: { sha: string } }>("read", `/git/commits/${ref.object.sha}`)
+  const postBlob = await githubJson<{ sha: string }>("write", "/git/blobs", {
+    method: "POST",
+    body: { content: raw, encoding: "utf-8" },
+  })
+  const entry = (path: string, sha: string) => ({ path, mode: "100644", type: "blob", sha })
+  const tree = await githubJson<{ sha: string }>("write", "/git/trees", {
+    method: "POST",
     body: {
-      message: `${mode === "create" ? "Add" : "Update"} post: ${slug}`,
-      content: Buffer.from(raw, "utf8").toString("base64"),
-      sha: existing?.sha,
+      base_tree: parent.tree.sha,
+      tree: [
+        entry(postFilePath(slug), postBlob.sha),
+        ...images.map((image) => entry(`${imagesPath}/${slug}/${image.name}`, image.sha)),
+      ],
     },
   })
-  if (!res.ok) throw new CmsError(`GitHub write failed (${res.status})`, 502)
+  const commit = await githubJson<{ sha: string }>("write", "/git/commits", {
+    method: "POST",
+    body: {
+      message: `${mode === "create" ? "Add" : "Update"} post: ${slug}`,
+      tree: tree.sha,
+      parents: [ref.object.sha],
+    },
+  })
+  const update = await github(`/git/refs/heads/${encodeURIComponent(branch)}`, {
+    method: "PATCH",
+    body: { sha: commit.sha },
+  })
+  if (update.status === 422) throw new CmsError("The repository changed while saving. Please try again.", 409)
+  if (!update.ok) throw new CmsError(`GitHub write failed (${update.status})`, 502)
 }
 
 export async function deletePost(slug: string): Promise<void> {
   const existing = await getFile(slug)
   if (!existing) throw new CmsError("Post not found", 404)
-  const res = await github(`/${slug}.md`, {
+  const res = await github(`/contents/${postFilePath(slug)}`, {
     method: "DELETE",
-    body: { message: `Delete post: ${slug}`, sha: existing.sha },
+    body: { message: `Delete post: ${slug}`, sha: existing.sha, branch: config().branch },
   })
   if (!res.ok) throw new CmsError(`GitHub delete failed (${res.status})`, 502)
 }

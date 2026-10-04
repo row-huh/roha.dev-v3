@@ -305,9 +305,77 @@ html {
   @apply font-semibold text-white;
 }
 
-.prose code {
-  @apply text-pink-400 bg-zinc-800 px-1 py-0.5 rounded text-sm;
+/* Body text is justified and must never be wider than its column. */
+.prose {
+  overflow-wrap: anywhere;
 }
+
+.prose p,
+.prose li {
+  text-align: justify;
+  hyphens: auto;
+}
+
+.prose img,
+.prose video,
+.prose iframe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prose table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+/* Inline code (single backticks) */
+.prose :not(pre) > code {
+  @apply rounded-md border border-moss-700/50 bg-moss-950 px-1.5 py-0.5 font-mono text-[0.85em] font-medium text-moss-300;
+  overflow-wrap: anywhere;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* Code blocks: header bar with the language and a copy button, then the code */
+.prose .code-block {
+  @apply my-8 overflow-hidden rounded-xl border border-moss-800/60 bg-[#0b100a];
+}
+
+.prose .code-block-header {
+  @apply flex items-center justify-between border-b border-moss-800/60 bg-moss-950 px-4 py-2 font-mono text-xs text-moss-300;
+}
+
+.prose .code-block-copy {
+  @apply cursor-pointer rounded-md border border-moss-800/60 px-2 py-1 font-sans text-xs text-gray-300 transition-colors hover:border-moss-600 hover:text-white;
+}
+
+.prose .code-block pre {
+  @apply m-0 overflow-x-auto rounded-none border-0 bg-transparent p-4 text-sm leading-relaxed;
+}
+
+.prose .code-block pre code {
+  @apply border-0 bg-transparent p-0 font-mono text-gray-200;
+  overflow-wrap: normal;
+  white-space: pre;
+}
+
+/* Syntax colours: green-led to match the site, with a few contrasting hues */
+.prose .tok-keyword { color: #80b361; font-weight: 600; }
+.prose .tok-string { color: #e6c384; }
+.prose .tok-number { color: #f0a070; }
+.prose .tok-comment { color: #6b7f63; font-style: italic; }
+.prose .tok-function { color: #7fd4c1; }
+.prose .tok-type { color: #8fbcea; }
+.prose .tok-constant { color: #c9a5e8; }
+.prose .tok-decorator { color: #e58fb1; }
+.prose .tok-property { color: #a1c68b; }
 
 .prose blockquote {
   @apply border-l-4 border-gray-600 pl-4 italic text-gray-400;

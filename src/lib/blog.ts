@@ -3,6 +3,7 @@ import path from "path"
 import matter from "gray-matter"
 import { remark } from "remark"
 import html from "remark-html"
+import { highlight } from "@/lib/highlight"
 
 const postsDirectory = path.join(process.cwd(), "app", "writing", "posts")
 
@@ -52,6 +53,27 @@ function addHeadingIds(contentHtml: string): { contentHtml: string; headings: Bl
   return { contentHtml: withIds, headings }
 }
 
+// Wraps each fenced code block in a box with a language label and a copy button, and colours known languages.
+function wrapCodeBlocks(contentHtml: string): string {
+  return contentHtml.replace(
+    /<pre><code(?: class="language-([^"]*)")?>([\s\S]*?)<\/code><\/pre>/g,
+    (block, language: string | undefined, inner: string) => {
+      const label = (language || "code").toLowerCase().replace(/[^a-z0-9+#.-]/g, "")
+      const highlighted = highlight(decodeEntities(inner), label)
+      const code = highlighted === null ? block : `<pre><code>${highlighted}</code></pre>`
+      return `<div class="code-block not-prose"><div class="code-block-header"><span>${label}</span><button type="button" class="code-block-copy" data-copy-code>Copy</button></div>${code}</div>`
+    },
+  )
+}
+
+// A paragraph that is nothing but an image link (https://.../cat.gif) is shown as the image itself.
+function embedBareImageLinks(contentHtml: string): string {
+  return contentHtml.replace(
+    /<p>(https?:\/\/[^\s<>"]+\.(?:gif|png|jpe?g|webp|avif)(?:\?[^\s<>"]*)?)<\/p>/gi,
+    (_, url: string) => `<p><img src="${url}" alt="" loading="lazy"></p>`,
+  )
+}
+
 export async function getSortedPostsData(): Promise<BlogPostMetadata[]> {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory)
@@ -85,7 +107,7 @@ export async function getPostData(slug: string): Promise<BlogPostContent> {
 
   // Use remark to convert markdown into HTML string
   const processedContent = await remark().use(html).process(matterResult.content)
-  const { contentHtml, headings } = addHeadingIds(processedContent.toString())
+  const { contentHtml, headings } = addHeadingIds(wrapCodeBlocks(embedBareImageLinks(processedContent.toString())))
 
   // Combine the data with the slug and contentHtml
   return {
