@@ -77,14 +77,9 @@ export default function AboutPage() {
             <p className="mb-4 text-xs font-display uppercase tracking-[0.22em] text-moss-400">About me</p>
             <h1 className="text-3xl font-medium leading-tight text-white sm:text-5xl">Roha Pathan</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-gray-300 sm:text-lg">
-              I'm Roha (pronounce: Row-HA!). I'm for some reason into tech. 
-              When I was younger I wanted to be a doctor, only because I thought it will make me rich and people will bow down in respect when they see me. 
-              I was so sure I was born to be a doc until I actually took biology in high school. The amount of times I felt sick in labs was enough to make me 
-              realize I wasn't cut out for this. 
-              Then, I thought perhaps my destiny is to study business and I was gonna take commerce until my mom suggested computer science. 
-              I didn't want to but I was like "ehhh okay let's see". 
-              In second year of college (or 12th grade), I had to study C for exams, so I tossed my textbook away and joined cs50x to learn to code C. 
-              And boy was it fun. Then I took Software Engineering and this is what I do now!
+              I'm Roha (pronounce: Row-HA!). I'm a software engineer. When I'm not coding or learning, I like to lose in chess and basically every other competitive zero-sum game ever, watch an unhealthy amount of anime, and
+              try to get myself to read more books
+
             </p>
           </header>
 
