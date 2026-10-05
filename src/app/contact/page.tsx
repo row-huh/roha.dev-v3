@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, Phone, MapPin, Linkedin, Github, Twitter, Youtube, PenLine, ArrowUpRight } from "lucide-react"
+import { Mail, Phone, MapPin, Linkedin, Github, Twitter, Youtube, PenLine, Rss, ArrowUpRight } from "lucide-react"
 import { usePathname } from "next/navigation"
 import NavBar from "@/components/nav-bar"
 
@@ -30,6 +30,13 @@ const elsewhere = [
     note: "Project demos and walkthroughs",
     href: "https://www.youtube.com/@RohaIsWired",
     icon: Youtube,
+  },
+  {
+    name: "Substack",
+    handle: "Roha's Internal Monologue",
+    note: "Casual writings",
+    href: "https://rowhuh.substack.com",
+    icon: Rss,
   },
 ]
 
