@@ -13,7 +13,7 @@ export default function ResumeTool() {
         {/* Header */}
         <div className="text-center mb-4">
           <h1 className="text-2xl font-bold text-white mb-1">Roha Pathan</h1>
-          <p className="text-base text-white/80 mb-2">FullStack & AI/ML Engineer</p>
+          <p className="text-base text-white/80 mb-2">Software Engineer</p>
 
           {/* Contact Info */}
           <div className="flex flex-wrap justify-center gap-3 text-xs text-white/70">

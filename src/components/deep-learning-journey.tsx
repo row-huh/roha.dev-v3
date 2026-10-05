@@ -50,7 +50,7 @@ export default function DeepLearningJourney() {
     {
       title: "Fund My Deep Learning Transition",
       description:
-        "If you're looking for a fullstack developer with a strong foundation and keen interest in AI, I'm available to help build your next intelligent application.",
+        "If you're looking for a software engineer with a strong foundation and keen interest in AI, I'm available to help build your next intelligent application.",
       icon: DollarSign,
     },
   ]

@@ -8,15 +8,15 @@ const pixelifySans = Pixelify_Sans({ subsets: ["latin"], variable: "--font-pixel
 const bebasNeue = Bebas_Neue({ subsets: ["latin"], weight: "400", variable: "--font-bebas-neue" })
 
 export const metadata: Metadata = {
-  title: "Roha - AI Engineer & Fullstack Developer",
+  title: "Roha - Software Engineer",
   description:
-    "Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications.",
+    "Software engineer who builds things, writes sometimes, and is currently deep into deep learning.",
   // Used to make Open Graph/Twitter image URLs absolute when pages specify relative paths
   metadataBase: new URL("https://roha.dev"),
   openGraph: {
-    title: "Roha - AI Engineer & Fullstack Developer",
+    title: "Roha - Software Engineer",
     description:
-      "Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications.",
+      "Software engineer who builds things, writes sometimes, and is currently deep into deep learning.",
     url: "https://roha.dev",
     siteName: "Roha.dev",
     images: [
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         url: "/overlays/overlay-big.jpg",
         width: 1200,
         height: 630,
-        alt: "Roha - AI Engineer & Fullstack Developer",
+        alt: "Roha - Software Engineer",
       },
     ],
     locale: "en_US",
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Roha - AI Engineer & Fullstack Developer",
+    title: "Roha - Software Engineer",
     description:
-      "Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications.",
+      "Software engineer who builds things, writes sometimes, and is currently deep into deep learning.",
     images: ["/overlays/overlay-big.jpg"],
   },
 }
@@ -54,23 +54,23 @@ export default function RootLayout({
           }}
         />
         {/* Open Graph Meta Tags */}
-        <meta property="og:title" content="Roha - AI Engineer & Fullstack Developer" />
-        <meta property="og:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />
+        <meta property="og:title" content="Roha - Software Engineer" />
+        <meta property="og:description" content="Software engineer who builds things, writes sometimes, and is currently deep into deep learning." />
         <meta property="og:image" content="https://roha.dev/overlays/overlay-og.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="675" />
         <meta property="og:image:type" content="image/jpeg" />
-        <meta property="og:image:alt" content="Roha - AI Engineer & Fullstack Developer" />
+        <meta property="og:image:alt" content="Roha - Software Engineer" />
         <meta property="og:url" content="https://roha.dev" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Roha.dev" />
         
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Roha - AI Engineer & Fullstack Developer" />
-        <meta name="twitter:description" content="Fullstack developer diving into AI engineering and deep learning. Enthusiastic about building intelligent applications." />
+        <meta name="twitter:title" content="Roha - Software Engineer" />
+        <meta name="twitter:description" content="Software engineer who builds things, writes sometimes, and is currently deep into deep learning." />
         <meta name="twitter:image" content="https://roha.dev/overlays/overlay-og.jpg" />
-        <meta name="twitter:image:alt" content="Roha - AI Engineer & Fullstack Developer" />
+        <meta name="twitter:image:alt" content="Roha - Software Engineer" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>

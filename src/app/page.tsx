@@ -40,9 +40,6 @@ function HomePageContent() {
 
   return (
   <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      {/* Themed background: graph-paper grid in light, faint grain in dark */}
-      <div className="bg-page-grid fixed inset-0 pointer-events-none" />
-
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
 

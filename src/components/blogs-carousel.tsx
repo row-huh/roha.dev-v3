@@ -18,7 +18,7 @@ interface BlogsCarouselProps {
 }
 
 // Contract
-// - Inputs: up to 4 BlogPost items (fetched if not provided)
+// - Inputs: up to 5 BlogPost items (fetched if not provided): 1 featured + 4 secondary
 // - Output: responsive grid with sticky featured left, scrollable list right
 // - Behavior: hover zoom on images, full-card link overlay, smooth sticky top
 export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
@@ -92,7 +92,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
     let cancelled = false
     const load = async () => {
       try {
-        const res = await fetch("/api/posts?limit=4", { cache: "no-store" })
+        const res = await fetch("/api/posts?limit=5", { cache: "no-store" })
         if (!res.ok) return
         const data: BlogPost[] = await res.json()
         if (!cancelled) setBlogPosts(data)
@@ -348,7 +348,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   if (!items || items.length === 0) return null
 
   const featured = items[0]
-  const secondary = items.slice(1, 4)
+  const secondary = items.slice(1, 5)
   // Overlay assets expected in /public/overlays
   // big: /public/overlays/overlay-big.jpg (for featured)
   // small variants: overlay-1.jpg, overlay-2.jpg, overlay-3.jpg for secondary cards
@@ -424,11 +424,12 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
             </article>
           </div>
 
-          {/* Right: Secondary cards (scroll beside sticky) */}
+          {/* Secondary cards: small two-column tiles under the featured post on phones and tablets,
+              a programmatically scrolled column beside the sticky featured post on large screens */}
           {/* Right programmatic scroller: disable native wheel scroll so it follows page scroll */}
           <div
             ref={rightRef}
-            className="lg:col-span-1 flex flex-col gap-8 lg:h-[600px] lg:overflow-hidden lg:pr-2"
+            className="lg:col-span-1 grid grid-cols-2 gap-4 sm:gap-6 lg:flex lg:flex-col lg:gap-8 lg:h-[600px] lg:overflow-hidden lg:pr-2"
             style={{ scrollBehavior: "auto" }}
           >
             {secondary.map((post, i) => {
@@ -478,7 +479,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                   </div>
 
                 <div className="mt-3 space-y-1">
-                  <h4 className="text-lg sm:text-xl font-medium leading-snug">
+                  <h4 className="text-sm sm:text-base lg:text-xl font-medium leading-snug line-clamp-3 lg:line-clamp-none">
                     <Link
                       href={post.link}
                       target="_blank"
@@ -490,7 +491,7 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
                     </Link>
                   </h4>
                   <p className="text-xs text-muted-foreground">{post.date}</p>
-                  <p className="text-sm text-foreground/80">{post.description}</p>
+                  <p className="hidden lg:block text-sm text-foreground/80">{post.description}</p>
                 </div>
               </article>
             )})}

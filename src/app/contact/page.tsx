@@ -5,9 +5,33 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, Phone, MapPin, Linkedin, Github } from "lucide-react"
+import { Mail, Phone, MapPin, Linkedin, Github, Twitter, Youtube, PenLine, ArrowUpRight } from "lucide-react"
 import { usePathname } from "next/navigation"
 import NavBar from "@/components/nav-bar"
+
+const elsewhere = [
+  {
+    name: "Twitter / X",
+    handle: "@rokage_125",
+    note: "Half-formed thoughts and what I'm building",
+    href: "https://x.com/rokage_125",
+    icon: Twitter,
+  },
+  {
+    name: "Medium",
+    handle: "@roha-pathan125",
+    note: "Longer write-ups and tutorials",
+    href: "https://medium.com/@roha-pathan125",
+    icon: PenLine,
+  },
+  {
+    name: "YouTube",
+    handle: "@RohaIsWired",
+    note: "Project demos and walkthroughs",
+    href: "https://www.youtube.com/@RohaIsWired",
+    icon: Youtube,
+  },
+]
 
 export default function ContactPage() {
   const pathname = usePathname()
@@ -17,7 +41,7 @@ export default function ContactPage() {
       {/* Navigation */}
       <NavBar />
 
-      <main className="relative z-10 flex-grow flex items-center justify-center w-full px-4 sm:px-8 py-12">
+      <main className="relative z-10 flex-grow flex items-center justify-center w-full px-4 sm:px-8 pt-28 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 max-w-6xl w-full items-start">
           {/* Left Side */}
           <motion.div
@@ -60,6 +84,32 @@ export default function ContactPage() {
                   </Button>
                 </Link>
               </div>
+            </div>
+
+            <div className="mt-8 border-t border-gray-800 pt-6">
+              <h2 className="mb-1 text-lg font-medium text-white">Elsewhere</h2>
+              <p className="mb-4 text-sm text-gray-400">You can also find me in these places.</p>
+              <ul className="flex flex-col gap-1">
+                {elsewhere.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group -mx-3 flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-gray-800/40"
+                    >
+                      <item.icon className="h-5 w-5 shrink-0 text-moss-400" />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-sm text-white sm:text-base">
+                          {item.name} <span className="text-gray-500">{item.handle}</span>
+                        </span>
+                        <span className="block text-sm text-gray-400">{item.note}</span>
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 shrink-0 text-gray-600 transition-colors group-hover:text-moss-300" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </motion.div>
 

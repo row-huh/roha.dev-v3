@@ -10,8 +10,6 @@ import AIAssistantPreview from "./ai-assistant-preview"
 export default function HeroSection() {
   return (
     <section className="pt-24 pb-20 px-8 relative z-10 min-h-screen flex items-center">
-      {/* Soft green accent backdrop that gradually fades away down the page */}
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-moss-500/10 via-moss-500/[0.04] to-transparent" />
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-10">
           {/* Left: Text and Assistant */}
