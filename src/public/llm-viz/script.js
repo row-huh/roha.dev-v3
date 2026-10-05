@@ -37,7 +37,6 @@ const stage         = $('stage');
 // ── State ──────────────────────────────────────────────────
 let step = 0;
 let skipRequested = false;
-let animating = false;
 
 const data = {
     text: '',
@@ -49,7 +48,7 @@ const data = {
 
 // ── GPT-2 vocabulary (common subset) ────────────────────────
 const VOCAB = {
-    '<|endoftext|>':50256, 'the':262, 'Ġthe':262, 'Ġa':257, 'Ġis':318,
+    '<|endoftext|>':50256, 'the':1169, 'Ġthe':262, 'Ġa':257, 'Ġis':318,
     'Ġof':286, 'Ġto':284, 'Ġand':290, 'Ġin':287, 'Ġfor':329,
     'Ġthat':326, 'Ġit':340, 'ĠIt':632, 'Ġwas':373, 'Ġon':319,
     'Ġwith':351, 'Ġas':355, 'Ġare':389, 'Ġat':379, 'Ġbe':307,
@@ -61,10 +60,11 @@ const VOCAB = {
     'Hello':15496, 'Ġworld':995, 'Ġlife':1204,
     'Ġmeaning':3616, 'Ġmean':1612, 'ing':278,
     '.':13, ',':11, '?':30, '!':0, ' ':220,
+    'What':2061, 'The':464, 'This':1212, 'It':1026, 'I':40, 'ĠI':314,
     'ĠThe':383, 'Ġyou':345, 'Ġwe':356, 'Ġhas':468,
     'How':2437, 'ĠHow':1374, 'Ġhow':703, 'Why':5765, 'ĠWhy':4162,
     'Ġwhy':1521, 'Ġdo':466, 'Ġdoes':857, 'Ġwork':670,
-    'Ġwho':508, 'Ġwhen':618, 'Ġwhere':810, 'Ġwhich':543,
+    'Ġwho':508, 'Ġwhen':618, 'Ġwhere':810,
     'Ġpeople':661, 'Ġtime':640, 'Ġway':835, 'Ġthing':1517,
 };
 
@@ -77,12 +77,12 @@ const STEPS = [
     },
     {
         title: 'Tokenization (BPE)',
-        explain: `GPT-2 uses <b>Byte-Pair Encoding</b> to break text into sub-word tokens. Common words stay whole (e.g. "the"), while rare words get split into pieces (e.g. "meaning" → "mean" + "ing"). Spaces are attached to the <i>beginning</i> of words as a special Ġ character. GPT-2's vocabulary contains <b>50,257 tokens</b>.`,
+        explain: `GPT-2 uses <b>Byte-Pair Encoding</b> to break text into sub-word tokens. Common words stay whole (e.g. "the"), while rarer words get split into pieces (e.g. "tokenization" → "token" + "ization"). Spaces are attached to the <i>beginning</i> of words as a special Ġ character. GPT-2's vocabulary contains <b>50,257 tokens</b>. This demo uses a simplified splitter, so the pieces and IDs it shows for uncommon words are illustrative.`,
         render: renderTokenization,
     },
     {
         title: 'Vocabulary Lookup',
-        explain: `Each token string is looked up in the vocabulary table to get a unique integer <b>Token ID</b>. This is how we go from text to numbers. The vocabulary is a fixed mapping learned during training — every possible token has exactly one ID.`,
+        explain: `Each token string is looked up in the vocabulary table to get a unique integer <b>Token ID</b>. This is how we go from text to numbers. The vocabulary is a fixed mapping built once by the BPE algorithm, before the model is trained — every token has exactly one ID.`,
         render: renderVocabLookup,
     },
     {
@@ -107,7 +107,7 @@ const STEPS = [
     },
     {
         title: 'Self-Attention (Q·K·V)',
-        explain: `Self-Attention lets each token look at every other token to gather context. The input is projected into three matrices: <b>Query (Q)</b>, <b>Key (K)</b>, and <b>Value (V)</b>. Attention scores = <b>softmax(Q·Kᵀ / √d<sub>k</sub>)</b>. GPT-2 uses <b>12 attention heads</b>, each with d<sub>k</sub>=64, so the model can attend to different types of relationships simultaneously. GPT-2 also uses a <b>causal mask</b> — each token can only attend to tokens before it (and itself).`,
+        explain: `Self-Attention lets each token look at every other token to gather context. The input is projected into three matrices: <b>Query (Q)</b>, <b>Key (K)</b>, and <b>Value (V)</b>. Attention weights = <b>softmax(Q·Kᵀ / √d<sub>k</sub>)</b>. GPT-2 uses <b>12 attention heads</b>, each with d<sub>k</sub>=64, so the model can attend to different types of relationships simultaneously. GPT-2 also uses a <b>causal mask</b> — each token can only attend to tokens before it (and itself).`,
         render: renderAttention,
     },
     {
@@ -131,12 +131,23 @@ const TOTAL_STEPS = STEPS.length;
 
 // ── Utilities ──────────────────────────────────────────────
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-const skippableSleep = async (ms) => { if (!skipRequested) await sleep(ms); };
+
+// Every render gets its own run id. A render that wakes up after a newer one has
+// started throws CANCELLED instead of drawing into a stage it no longer owns.
+const CANCELLED = Symbol('cancelled');
+let runId = 0;
+const skippableSleep = async (ms) => {
+    const run = runId;
+    if (!skipRequested) await sleep(ms);
+    if (run !== runId) throw CANCELLED;
+};
+
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 function hashStr(s) {
     let h = 0;
     for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
-    return Math.abs(h);
+    return h >>> 0;
 }
 
 function getID(tok) {
@@ -153,14 +164,10 @@ function pseudoVec(seed, dim) {
     return v;
 }
 
+// GPT-2's position embeddings are learned, not sinusoidal, so these are
+// pseudo-random like the token vectors (just smaller in magnitude).
 function positionalVec(pos, dim) {
-    const v = [];
-    for (let i = 0; i < dim; i++) {
-        const k = Math.floor(i / 2);
-        const freq = 1 / Math.pow(10000, (2 * k) / dim);
-        v.push(+(i % 2 === 0 ? Math.sin(pos * freq) : Math.cos(pos * freq)).toFixed(2));
-    }
-    return v;
+    return pseudoVec(50300 + pos, dim).map(v => +(v * 0.4).toFixed(2));
 }
 
 function addVec(a, b) { return a.map((v, i) => +(v + b[i]).toFixed(2)); }
@@ -176,10 +183,43 @@ function el(tag, cls, html) {
 function tip(element, text, position) {
     element.setAttribute('data-tip', text);
     if (position === 'below') element.classList.add('tip-below');
-    if (position === 'left')  element.classList.add('tip-left');
-    if (position === 'right') element.classList.add('tip-right');
     return element;
 }
+
+// One floating tooltip positioned in the viewport, so tips are never clipped by
+// the stage and only the innermost hovered element shows one.
+const tipEl = el('div', 'tooltip');
+tipEl.setAttribute('role', 'tooltip');
+document.body.appendChild(tipEl);
+let tipTarget = null;
+
+function showTip(target) {
+    tipTarget = target;
+    tipEl.textContent = target.getAttribute('data-tip');
+    tipEl.classList.add('visible');
+    const r = target.getBoundingClientRect();
+    const t = tipEl.getBoundingClientRect();
+    const gap = 8;
+    let top = target.classList.contains('tip-below') ? r.bottom + gap : r.top - t.height - gap;
+    if (top < gap) top = r.bottom + gap;
+    if (top + t.height > window.innerHeight - gap) top = Math.max(gap, r.top - t.height - gap);
+    const left = Math.min(Math.max(gap, r.left + r.width / 2 - t.width / 2), window.innerWidth - t.width - gap);
+    tipEl.style.top = `${top}px`;
+    tipEl.style.left = `${Math.max(gap, left)}px`;
+}
+
+function hideTip() {
+    tipTarget = null;
+    tipEl.classList.remove('visible');
+}
+
+document.addEventListener('mouseover', e => {
+    const target = e.target.closest('[data-tip]');
+    if (target === tipTarget) return;
+    if (target) showTip(target); else hideTip();
+});
+document.addEventListener('mouseleave', hideTip);
+document.addEventListener('scroll', hideTip, true);
 
 function makeVecEl(values, label, tooltip) {
     const wrap = el('div', 'vec');
@@ -196,6 +236,9 @@ function makeVecEl(values, label, tooltip) {
 function displayToken(tok) {
     return (typeof tok === 'string' && tok.startsWith('Ġ')) ? tok.slice(1) : String(tok);
 }
+
+/** Token text, escaped for use as element HTML */
+const tokHtml = tok => esc(displayToken(tok));
 
 // ── Tokenizer (simple BPE-like) ─────────────────────────────
 function tokenize(text) {
@@ -223,30 +266,31 @@ function tokenize(text) {
 // Generates a plausible continuation for ANY input text.
 function generateContinuation(inputText) {
     const t = inputText.toLowerCase().trim();
-    const words = t.split(/\s+/);
-    const lastWord = words[words.length - 1].replace(/[^a-z]/g, '');
+
+    // Match on word starts, so "weather" is not food ("eat") and "explain" is not tech ("ai")
+    const has = (...stems) => new RegExp(`\\b(?:${stems.join('|')})`).test(t);
 
     // Detect question patterns
-    const isQuestion = t.includes('?') || /^(what|who|how|why|when|where|which|can|do|does|is|are|will|would|could|should|shall)/.test(t);
+    const isQuestion = t.includes('?') || /^(what|who|how|why|when|where|which|can|do|does|is|are|will|would|could|should|shall)\b/.test(t);
 
     // Detect topic keywords
     const topics = {
-        life:     t.includes('life') || t.includes('living') || t.includes('alive'),
-        meaning:  t.includes('meaning') || t.includes('purpose'),
-        love:     t.includes('love') || t.includes('heart') || t.includes('feeling'),
-        science:  t.includes('science') || t.includes('physics') || t.includes('quantum') || t.includes('atom'),
-        tech:     t.includes('computer') || t.includes('code') || t.includes('program') || t.includes('software') || t.includes('ai') || t.includes('machine') || t.includes('learn'),
-        food:     t.includes('food') || t.includes('eat') || t.includes('cook') || t.includes('recipe') || t.includes('hungry'),
-        space:    t.includes('space') || t.includes('universe') || t.includes('star') || t.includes('planet') || t.includes('moon') || t.includes('galaxy'),
-        history:  t.includes('history') || t.includes('ancient') || t.includes('war') || t.includes('century'),
-        music:    t.includes('music') || t.includes('song') || t.includes('play') || t.includes('instrument'),
-        animal:   t.includes('animal') || t.includes('dog') || t.includes('cat') || t.includes('bird') || t.includes('fish'),
-        weather:  t.includes('weather') || t.includes('rain') || t.includes('sun') || t.includes('cloud') || t.includes('temperature'),
-        money:    t.includes('money') || t.includes('economy') || t.includes('bank') || t.includes('invest') || t.includes('rich'),
-        health:   t.includes('health') || t.includes('doctor') || t.includes('medic') || t.includes('exercise') || t.includes('sleep'),
-        work:     t.includes('work') || t.includes('job') || t.includes('career') || t.includes('business'),
-        travel:   t.includes('travel') || t.includes('country') || t.includes('city') || t.includes('visit'),
-        hello:    /^(hello|hi|hey|greetings|good morning|good evening)/.test(t),
+        life:     has('life', 'living', 'alive'),
+        meaning:  has('meaning', 'purpose'),
+        love:     has('love', 'heart', 'feeling'),
+        science:  has('scien', 'physics', 'quantum', 'atom'),
+        tech:     has('computer', 'cod(?:e|es|ing)\\b', 'program', 'software', 'ai\\b', 'machine', 'learn'),
+        food:     has('food', 'eat(?:s|ing)?\\b', 'cook', 'recipe', 'hungry'),
+        space:    has('space', 'universe', 'stars?\\b', 'planet', 'moon', 'galax'),
+        history:  has('histor', 'ancient', 'wars?\\b', 'centur'),
+        music:    has('music', 'songs?\\b', 'instrument'),
+        animal:   has('animal', 'dogs?\\b', 'cats?\\b', 'birds?\\b', 'fish'),
+        weather:  has('weather', 'rain', 'sun(?:ny|shine)?\\b', 'cloud', 'temperature'),
+        money:    has('money', 'econom', 'bank', 'invest', 'rich'),
+        health:   has('health', 'doctor', 'medic', 'exercis', 'sleep'),
+        work:     has('work', 'jobs?\\b', 'career', 'business'),
+        travel:   has('travel', 'countr', 'cit(?:y|ies)\\b', 'visit'),
+        hello:    /^(hello|hi|hey|greetings|good morning|good evening)\b/.test(t),
     };
 
     // Build response parts based on detected patterns
@@ -351,41 +395,27 @@ function generateContinuation(inputText) {
     return responses[h % responses.length];
 }
 
-/** Generate "next word" predictions based on input text */
-function generatePredictions(inputText) {
-    const t = inputText.toLowerCase().trim();
-    const h = hashStr(inputText);
+/** Join generated words into text: punctuation hugs the word before it */
+function joinWords(words) {
+    return words.join(' ').replace(/ ([.,!?;:])/g, '$1');
+}
 
-    // Topic-aware top-word picking
-    if (t.includes('meaning') && t.includes('life'))
-        return [
-            { word: 'The', prob: 0.21 }, { word: 'It', prob: 0.14 },
-            { word: 'Many', prob: 0.11 }, { word: 'Life', prob: 0.09 },
-            { word: 'A', prob: 0.08 }, { word: 'Perhaps', prob: 0.06 },
-            { word: 'Some', prob: 0.05 }, { word: 'There', prob: 0.04 },
-        ];
-    if (/^(hello|hi|hey)/.test(t))
-        return [
-            { word: 'Hello', prob: 0.19 }, { word: 'Hi', prob: 0.16 },
-            { word: 'I', prob: 0.12 }, { word: 'Hey', prob: 0.09 },
-            { word: 'Welcome', prob: 0.07 }, { word: 'Thanks', prob: 0.06 },
-            { word: 'Good', prob: 0.05 }, { word: 'Well', prob: 0.04 },
-        ];
-
-    // Generic but varied predictions — pick from different pools
+/**
+ * Top "next token" candidates. The first one is always the word the continuation
+ * actually starts with, so the bar chart and the generated text agree.
+ */
+function generatePredictions(inputText, continuation) {
     const pools = [
-        [{ word:'The', prob:0.18 }, { word:'This', prob:0.13 }, { word:'It', prob:0.11 }, { word:'There', prob:0.09 }, { word:'In', prob:0.08 }, { word:'A', prob:0.07 }, { word:'That', prob:0.05 }, { word:'We', prob:0.04 }],
-        [{ word:'That', prob:0.17 }, { word:'The', prob:0.14 }, { word:'This', prob:0.10 }, { word:'Indeed', prob:0.09 }, { word:'However', prob:0.08 }, { word:'From', prob:0.06 }, { word:'It', prob:0.05 }, { word:'One', prob:0.04 }],
-        [{ word:'It', prob:0.20 }, { word:'The', prob:0.12 }, { word:'There', prob:0.10 }, { word:'This', prob:0.09 }, { word:'Many', prob:0.07 }, { word:'Some', prob:0.06 }, { word:'We', prob:0.05 }, { word:'A', prob:0.04 }],
+        ['The', 'This', 'It', 'There', 'In', 'A', 'That', 'We'],
+        ['That', 'The', 'This', 'Indeed', 'However', 'From', 'It', 'One'],
+        ['It', 'The', 'There', 'This', 'Many', 'Some', 'We', 'A'],
     ];
+    // Deliberately sums to less than 1: the rest is spread over the other ~50k tokens.
+    const probs = [0.19, 0.13, 0.10, 0.08, 0.07, 0.05, 0.04, 0.03];
 
-    const pool = pools[h % pools.length];
-
-    // Normalize
-    const total = pool.reduce((a, b) => a + b.prob, 0);
-    pool.forEach(p => p.prob /= total);
-
-    return pool;
+    const top = continuation[0];
+    const others = pools[hashStr(inputText) % pools.length].filter(w => w !== top);
+    return [top, ...others].slice(0, probs.length).map((word, i) => ({ word, prob: probs[i] }));
 }
 
 
@@ -421,27 +451,43 @@ function enableNext() {
 
 function goToStep(n) {
     if (n < 0 || n >= TOTAL_STEPS) return;
-    skipRequested = true;
-    setTimeout(() => {
-        skipRequested = false;
-        step = n;
-        renderStep();
-    }, 50);
+    step = n;
+    renderStep();
 }
 
-function renderStep() {
+/** Stop whatever is animating and clear anything it left outside the stage */
+function cancelRender() {
+    runId++;
+    document.querySelectorAll('.vocab-popup').forEach(p => p.remove());
+    hideTip();
+}
+
+function renderStep(instant = false) {
+    cancelRender();
+    const run = runId;
+    skipRequested = instant;
     stage.innerHTML = '';
     stage.className = 'stage';
     updateChrome();
-    explanation.classList.add('collapsed');
-    animating = true;
-    STEPS[step].render().then(() => { animating = false; });
+    if (!instant) explanation.classList.add('collapsed');
+    STEPS[step].render().catch(err => {
+        if (err === CANCELLED) return;
+        console.error(err);
+        if (run === runId) enableNext();
+    });
+}
+
+function backToLanding() {
+    cancelRender();
+    walkthrough.classList.add('hidden');
+    landing.classList.remove('hidden');
+    userInput.focus();
 }
 
 // ── Event listeners ────────────────────────────────────────
 startBtn.addEventListener('click', () => {
     const t = userInput.value.trim();
-    if (!t) return;
+    if (!t) { userInput.focus(); return; }
     data.text = t;
     data.tokens = tokenize(t);
     data.ids = data.tokens.map(getID);
@@ -457,31 +503,15 @@ userInput.addEventListener('keydown', e => { if (e.key === 'Enter') startBtn.cli
 
 nextBtn.addEventListener('click', () => {
     if (step < TOTAL_STEPS - 1) goToStep(step + 1);
-    else {
-        walkthrough.classList.add('hidden');
-        landing.classList.remove('hidden');
-    }
+    else backToLanding();
 });
 
 prevBtn.addEventListener('click', () => { if (step > 0) goToStep(step - 1); });
 
-restartBtn.addEventListener('click', () => {
-    skipRequested = true;
-    setTimeout(() => {
-        skipRequested = false;
-        walkthrough.classList.add('hidden');
-        landing.classList.remove('hidden');
-    }, 50);
-});
+restartBtn.addEventListener('click', backToLanding);
 
-skipBtn.addEventListener('click', () => {
-    skipRequested = true;
-    setTimeout(() => {
-        skipRequested = false;
-        renderStep();
-        setTimeout(enableNext, 60);
-    }, 60);
-});
+// Skip redraws the current step in its finished state
+skipBtn.addEventListener('click', () => renderStep(true));
 
 infoBtn.addEventListener('click', () => { explanation.classList.toggle('collapsed'); });
 
@@ -500,28 +530,22 @@ async function renderRawText() {
     row.style.cssText = 'display:flex;flex-wrap:wrap;justify-content:center;font-size:1.3rem;min-height:60px;';
     stage.appendChild(row);
 
-    const chars = data.text.split('');
-    if (skipRequested) {
-        chars.forEach((ch, i) => {
-            const s = el('span', ch === ' ' ? 'char space' : 'char', ch === ' ' ? '·' : ch);
-            s.style.opacity = '1';
-            tip(s, `Character: "${ch === ' ' ? 'space' : ch}" — Unicode: U+${ch.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0')} (${ch.charCodeAt(0)})`, 'below');
-            row.appendChild(s);
-        });
-        enableNext();
-        return;
-    }
+    // Array.from splits by code point, so emoji are not cut into surrogate halves
+    const chars = Array.from(data.text);
+    const makeChar = ch => {
+        const code = ch.codePointAt(0);
+        const s = el('span', ch === ' ' ? 'char space' : 'char', ch === ' ' ? '·' : esc(ch));
+        tip(s, `Character: "${ch === ' ' ? 'space' : ch}" — Unicode: U+${code.toString(16).toUpperCase().padStart(4, '0')} (${code})`, 'below');
+        return s;
+    };
 
-    for (let i = 0; i < chars.length; i++) {
-        if (skipRequested) break;
-        const ch = chars[i];
-        const s = el('span', ch === ' ' ? 'char space' : 'char', ch === ' ' ? '·' : ch);
-        tip(s, `Character: "${ch === ' ' ? 'space' : ch}" — Unicode: U+${ch.charCodeAt(0).toString(16).toUpperCase().padStart(4,'0')} (${ch.charCodeAt(0)})`, 'below');
+    for (const ch of chars) {
+        const s = makeChar(ch);
+        if (skipRequested) s.style.opacity = '1';
         row.appendChild(s);
         await skippableSleep(35);
     }
-    const cursor = el('span', 'char cursor');
-    row.appendChild(cursor);
+    if (!skipRequested) row.appendChild(el('span', 'char cursor'));
     enableNext();
 }
 
@@ -529,12 +553,12 @@ async function renderRawText() {
 async function renderTokenization() {
     stage.classList.add('col');
 
-    const rawRow = el('div', 'status', `"${data.text}"`);
+    const rawRow = el('div', 'status', `"${esc(data.text)}"`);
     rawRow.style.cssText = 'margin-bottom:12px;color:var(--text3);font-size:0.9rem;';
     stage.appendChild(rawRow);
 
     const arrowD = el('div', 'arrow-down', '↓ BPE Tokenizer');
-    tip(arrowD, 'Byte-Pair Encoding: iteratively merges the most frequent character pairs. Trained on a large corpus — GPT-2 used ~40GB of internet text to learn 50,257 merge rules.', 'below');
+    tip(arrowD, 'Byte-Pair Encoding: iteratively merges the most frequent character pairs. Trained on a large corpus — GPT-2 learned 50,000 merge rules from ~40GB of internet text; with the 256 base bytes and one end-of-text token that gives 50,257 tokens.', 'below');
     stage.appendChild(arrowD);
 
     const tokenRow = el('div', '');
@@ -543,11 +567,10 @@ async function renderTokenization() {
 
     if (skipRequested) {
         data.tokens.forEach((t, i) => {
-            const d = el('div', 'token', displayToken(t));
+            const d = el('div', 'token', tokHtml(t));
             d.style.opacity = '1';
             d.style.animation = 'none';
-            const raw = t.startsWith('Ġ') ? `Ġ${displayToken(t)}` : t;
-            tip(d, `Token: "${displayToken(t)}" — Internal: "${raw}". ${t.startsWith('Ġ') ? 'The Ġ means this token had a space before it.' : 'No leading space.'} Token #${i + 1} of ${data.tokens.length}.`);
+            tip(d, `Token: "${displayToken(t)}" — Internal: "${t}". ${t.startsWith('Ġ') ? 'The Ġ means this token had a space before it.' : 'No leading space.'} Token #${i + 1} of ${data.tokens.length}.`);
             tokenRow.appendChild(d);
         });
         enableNext();
@@ -557,10 +580,9 @@ async function renderTokenization() {
     for (let i = 0; i < data.tokens.length; i++) {
         if (skipRequested) break;
         const t = data.tokens[i];
-        const d = el('div', 'token', displayToken(t));
+        const d = el('div', 'token', tokHtml(t));
         d.style.animationDelay = `${i * 0.05}s`;
-        const raw = t.startsWith('Ġ') ? `Ġ${displayToken(t)}` : t;
-        tip(d, `Token: "${displayToken(t)}" — Internal: "${raw}". ${t.startsWith('Ġ') ? 'The Ġ means this token had a space before it.' : 'No leading space.'} Token #${i + 1} of ${data.tokens.length}.`);
+        tip(d, `Token: "${displayToken(t)}" — Internal: "${t}". ${t.startsWith('Ġ') ? 'The Ġ means this token had a space before it.' : 'No leading space.'} Token #${i + 1} of ${data.tokens.length}.`);
         tokenRow.appendChild(d);
         await skippableSleep(120);
     }
@@ -573,7 +595,7 @@ async function renderVocabLookup() {
 
     const note = el('div', 'info-box');
     note.style.marginBottom = '12px';
-    note.innerHTML = 'Each token is matched against a <b>fixed vocabulary of 50,257 entries</b>. The vocabulary was built during training and never changes. Every token maps to exactly one integer ID.';
+    note.innerHTML = 'Each token is matched against a <b>fixed vocabulary of 50,257 entries</b>. The vocabulary was built before training and never changes. Every token maps to exactly one integer ID.';
     stage.appendChild(note);
 
     const tokenRow = el('div', '');
@@ -582,7 +604,7 @@ async function renderVocabLookup() {
 
     const elements = [];
     data.tokens.forEach((t, i) => {
-        const d = el('div', 'token', displayToken(t));
+        const d = el('div', 'token', tokHtml(t));
         d.style.opacity = '1';
         d.style.animation = 'none';
         tip(d, `Token "${displayToken(t)}" → will be looked up in the vocabulary table to find its unique ID number.`);
@@ -612,19 +634,28 @@ async function renderVocabLookup() {
 
         const popup = el('div', 'vocab-popup');
         const id = data.ids[i];
-        const clean = displayToken(data.tokens[i]).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        const shown = displayToken(data.tokens[i]);
+        // Neighbouring rows only exist inside the vocabulary (IDs 0 to 50,256)
+        const neighbour = n => (n >= 0 && n <= 50256)
+            ? `<div class="vocab-row"><span>token_${n}</span><span>${n}</span></div>`
+            : '';
         popup.innerHTML = `
             <div class="vocab-row"><span>…</span><span>…</span></div>
-            <div class="vocab-row"><span>token_${id-1}</span><span>${id-1}</span></div>
-            <div class="vocab-row hl"><span>"${clean}"</span><span>${id}</span></div>
-            <div class="vocab-row"><span>token_${id+1}</span><span>${id+1}</span></div>
+            ${neighbour(id - 1)}
+            <div class="vocab-row hl"><span>"${esc(shown)}"</span><span>${id}</span></div>
+            ${neighbour(id + 1)}
             <div class="vocab-row"><span>…</span><span>…</span></div>
         `;
+        const wrap = stage.closest('.stage-wrap');
+        wrap.appendChild(popup);
+        // Sit above the token, or below it when there is no room, and stay inside the stage
         const rect = tok.getBoundingClientRect();
-        const stageRect = stage.closest('.stage-wrap').getBoundingClientRect();
-        popup.style.left = `${rect.left - stageRect.left + rect.width/2 - 90}px`;
-        popup.style.top = `${rect.top - stageRect.top - 140}px`;
-        stage.closest('.stage-wrap').appendChild(popup);
+        const wrapRect = wrap.getBoundingClientRect();
+        const left = rect.left - wrapRect.left + rect.width / 2 - popup.offsetWidth / 2;
+        let top = rect.top - wrapRect.top - popup.offsetHeight - 8;
+        if (top < 4) top = rect.bottom - wrapRect.top + 8;
+        popup.style.left = `${Math.max(4, Math.min(left, wrapRect.width - popup.offsetWidth - 4))}px`;
+        popup.style.top = `${top}px`;
 
         await skippableSleep(600);
 
@@ -633,7 +664,7 @@ async function renderVocabLookup() {
         tok.style.opacity = '1';
         tok.style.animation = 'flip 0.35s ease forwards';
         tok.removeAttribute('data-tip');
-        tip(tok, `ID ${id} — uniquely represents "${clean}" in the vocabulary. The model only sees this number now.`);
+        tip(tok, `ID ${id} — uniquely represents "${shown}" in the vocabulary. The model only sees this number now.`);
 
         popup.remove();
         await skippableSleep(150);
@@ -724,7 +755,7 @@ async function renderPositionalEncoding() {
         lbl.style.cssText = 'font-size:0.75rem;color:var(--text3);font-family:var(--mono);';
         tip(lbl, `Position ${i} in the sequence (0-indexed). GPT-2 can handle up to position 1,023.`, 'below');
         group.appendChild(lbl);
-        const tokLbl = el('div', 'token', displayToken(t));
+        const tokLbl = el('div', 'token', tokHtml(t));
         tokLbl.style.cssText = 'opacity:1;animation:none;font-size:0.8rem;padding:4px 8px;';
         tip(tokLbl, `"${displayToken(t)}" sits at position ${i}. Its positional vector encodes this exact location.`);
         group.appendChild(tokLbl);
@@ -761,7 +792,7 @@ async function renderCombinedEmbeddings() {
     const posVec = positionalVec(idx, dim);
     const combined = addVec(tokVec, posVec);
 
-    const statusEl = el('div', 'status', `Combining embeddings for token "${displayToken(data.tokens[idx])}" (pos ${idx})`);
+    const statusEl = el('div', 'status', `Combining embeddings for token "${tokHtml(data.tokens[idx])}" (pos ${idx})`);
     stage.appendChild(statusEl);
 
     await skippableSleep(300);
@@ -780,12 +811,7 @@ async function renderCombinedEmbeddings() {
     sumEl.style.borderColor = 'var(--green)';
     sumEl.style.boxShadow = '0 0 12px var(--green-glow)';
 
-    if (skipRequested) {
-        [tvEl, pvEl, sumEl].forEach(e => { e.style.opacity = '1'; e.style.animation = 'none'; });
-        row.append(tvEl, plus, pvEl, eq, sumEl);
-        enableNext();
-        return;
-    }
+    if (skipRequested) [tvEl, pvEl, sumEl].forEach(e => { e.style.opacity = '1'; e.style.animation = 'none'; });
 
     row.appendChild(tvEl);
     await skippableSleep(400);
@@ -809,7 +835,7 @@ async function renderCombinedEmbeddings() {
         const cv = addVec(pseudoVec(tid, dim), positionalVec(i, dim));
         const g = el('div', '');
         g.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;';
-        const tl = el('div', '', displayToken(t));
+        const tl = el('div', '', tokHtml(t));
         tl.style.cssText = 'font-size:0.75rem;color:var(--text3);';
         g.appendChild(tl);
         const ve = makeVecEl(cv, null, `Combined embedding for "${displayToken(t)}" at position ${i}. This is the input vector that enters layer 1 of the transformer.`);
@@ -908,18 +934,18 @@ async function renderAttention() {
 
     await skippableSleep(500);
 
-    const heatLabel = el('div', 'status', 'Attention Scores — softmax(Q·Kᵀ / √64)');
+    const heatLabel = el('div', 'status', 'Attention weights for one head — softmax(Q·Kᵀ / √64), illustrative values');
     heatLabel.style.marginTop = '16px';
     tip(heatLabel, 'The dot product Q·Kᵀ measures similarity between queries and keys. Dividing by √64 prevents the values from getting too large. Softmax ensures each row sums to 1 (probability distribution).', 'below');
     stage.appendChild(heatLabel);
 
     const maskNote = el('div', '', '');
     maskNote.style.cssText = 'font-size:0.75rem;color:var(--text3);text-align:center;margin-bottom:8px;';
-    maskNote.textContent = 'Causal mask: each token only attends to previous tokens + itself';
+    maskNote.textContent = 'Causal mask: each token only attends to previous tokens + itself.'
+        + (data.tokens.length > n ? ` Showing the first ${n} of ${data.tokens.length} tokens.` : '');
     tip(maskNote, 'GPT-2 is autoregressive — it generates text left to right. The causal mask prevents "cheating" by blocking access to future tokens. This is why the upper-right triangle is empty.', 'below');
     stage.appendChild(maskNote);
 
-    const cols = n + 1;
     const grid = el('div', 'attn-grid');
     grid.style.gridTemplateColumns = `60px repeat(${n}, 1fr)`;
     grid.style.maxWidth = `${60 + n * 52}px`;
@@ -928,7 +954,7 @@ async function renderAttention() {
     // Header row
     grid.appendChild(el('div', '')); // corner
     tokens.forEach((t, j) => {
-        const lbl = el('div', 'attn-label', displayToken(t));
+        const lbl = el('div', 'attn-label', tokHtml(t));
         tip(lbl, `Key token: "${displayToken(t)}" (position ${j}). This column shows how much each row-token attends to this token.`, 'below');
         grid.appendChild(lbl);
     });
@@ -950,7 +976,7 @@ async function renderAttention() {
 
     const cells = [];
     for (let i = 0; i < n; i++) {
-        const rl = el('div', 'attn-label side', displayToken(tokens[i]));
+        const rl = el('div', 'attn-label side', tokHtml(tokens[i]));
         tip(rl, `Query token: "${displayToken(tokens[i])}" (position ${i}). This row shows which tokens it pays attention to.`);
         grid.appendChild(rl);
         const rowCells = [];
@@ -1038,7 +1064,7 @@ async function renderFFN() {
 
     const layer2 = el('div', 'ffn-layer');
     layer2.innerHTML = `<div class="ffn-label">Linear₂</div><div class="ffn-sub">3072 → 768</div>`;
-    tip(layer2, 'Second linear projection: compresses back from 3,072 dimensions to 768. Combines the non-linear features into a compact representation. The expand→contract pattern is called a "bottleneck".', 'below');
+    tip(layer2, 'Second linear projection: compresses back from 3,072 dimensions to 768. Combines the non-linear features into a compact representation. This expand→contract shape is the reverse of a bottleneck: the wide middle layer is where most of the parameters in a block live.', 'below');
     const nodes3 = el('div', 'ffn-nodes');
     for (let i = 0; i < 8; i++) {
         const n = el('div', 'ffn-node');
@@ -1053,13 +1079,7 @@ async function renderFFN() {
     const outEl = makeVecEl(outVec, 'Output (768)', `The transformed vector — now contains the "thought-through" representation. Different from the input because the MLP has applied non-linear transformations.`);
     outEl.style.borderColor = 'var(--orange)';
 
-    if (skipRequested) {
-        [inEl, outEl].forEach(e => { e.style.opacity = '1'; e.style.animation = 'none'; });
-        row.append(inEl, arrow1, layer1, arrow2, gelu, arrow3, layer2, arrow4, outEl);
-        row.querySelectorAll('.ffn-node').forEach(nd => nd.classList.add('lit'));
-        enableNext();
-        return;
-    }
+    if (skipRequested) [inEl, outEl].forEach(e => { e.style.opacity = '1'; e.style.animation = 'none'; });
 
     row.appendChild(inEl);
     await skippableSleep(300);
@@ -1093,7 +1113,7 @@ async function renderFFN() {
     const addNorm = el('div', 'info-box');
     addNorm.style.maxWidth = '500px';
     addNorm.style.marginTop = '16px';
-    addNorm.innerHTML = `<b>+ Residual Connection & Layer Norm</b><br>The output is added back to the input (skip connection), then normalized. This helps gradients flow and stabilizes training.`;
+    addNorm.innerHTML = `<b>+ Residual Connection</b><br>The MLP output is added back to its input (skip connection). GPT-2 is pre-norm, so Layer Norm already ran <i>before</i> the MLP rather than after this addition.`;
     tip(addNorm, 'Residual connections are crucial — without them, deep networks (12+ layers) become very hard to train. The gradient can flow directly through the skip connection, avoiding the vanishing gradient problem.', 'below');
     stage.appendChild(addNorm);
 
@@ -1131,7 +1151,7 @@ async function renderLayerStack() {
         const bar = el('div', 'layer-bar');
         bar.innerHTML = `
             <span class="num">${i + 1}</span>
-            <span class="lbl">Attention → FFN → Add & Norm</span>
+            <span class="lbl">LN → Attention → + → LN → MLP → +</span>
             <span class="indicator"></span>
         `;
         tip(bar, `Layer ${i+1}: ${layerDescriptions[i]}. Each layer has ~7M parameters (attention weights + FFN weights + layer norm parameters).`, 'below');
@@ -1199,12 +1219,10 @@ async function renderOutput() {
     tip(probLabel, 'Out of 50,257 possible tokens, these are the ones with the highest probability. In practice, the model might use "top-k" or "nucleus" sampling to introduce controlled randomness.', 'below');
     stage.appendChild(probLabel);
 
-    // Use the smart prediction generator
-    const predictions = generatePredictions(data.text);
-
-    // Normalize
-    const total = predictions.reduce((a, b) => a + b.prob, 0);
-    predictions.forEach(p => p.prob /= total);
+    // The continuation is picked first so the top prediction matches its first word
+    const generated = generateContinuation(data.text);
+    const predictions = generatePredictions(data.text, generated);
+    const shownTotal = predictions.reduce((a, b) => a + b.prob, 0);
 
     const probContainer = el('div', '');
     probContainer.style.cssText = 'width:100%;max-width:600px;';
@@ -1226,41 +1244,37 @@ async function renderOutput() {
         setTimeout(() => { bar.style.width = `${p.prob * 100}%`; }, skipRequested ? 0 : 100 + i * 100);
     });
 
+    // Everything not shown: the distribution covers the whole vocabulary
+    const restRow = el('div', 'prob-row');
+    const restBg = el('div', 'prob-bar-bg');
+    const restBar = el('div', 'prob-bar rest');
+    restBg.appendChild(restBar);
+    restRow.append(el('div', 'prob-word', 'others'), restBg, el('div', 'prob-pct', ((1 - shownTotal) * 100).toFixed(1) + '%'));
+    tip(restRow, `The remaining ${(50257 - predictions.length).toLocaleString()} tokens share what is left. Softmax gives every token in the vocabulary a non-zero probability.`, 'below');
+    probContainer.appendChild(restRow);
+    setTimeout(() => { restBar.style.width = `${(1 - shownTotal) * 100}%`; }, skipRequested ? 0 : 100 + predictions.length * 100);
+
     await skippableSleep(800);
 
     // Generation output
-    const genLabel = el('div', 'status', 'Autoregressive generation — feeding predicted token back:');
+    const genLabel = el('div', 'status', 'Autoregressive generation — feeding each predicted token back in:');
     genLabel.style.margin = '20px 0 8px';
     tip(genLabel, 'GPT-2 generates text one token at a time. After predicting a token, it appends it to the input and runs the ENTIRE process again (all 12 layers!) to predict the next token. This is why generation is slow — each new token requires a full forward pass.', 'below');
     stage.appendChild(genLabel);
 
     const genBox = el('div', 'gen-output');
     tip(genBox, 'The green text is newly generated. Each word required a complete forward pass through the model. In practice, techniques like KV-caching make this much faster by reusing computations.', 'below');
-    const promptSpan = el('span', 'gen-prompt', data.text + ' ');
+    const promptSpan = el('span', 'gen-prompt', esc(data.text) + ' ');
     const newSpan = el('span', 'gen-new', '');
     const cursorSpan = el('span', 'gen-cursor');
     genBox.append(promptSpan, newSpan, cursorSpan);
     stage.appendChild(genBox);
 
-    // Use the smart continuation generator
-    const generated = generateContinuation(data.text);
-
-    if (skipRequested) {
-        newSpan.textContent = generated.join(' ').replace(/ ([.,!?;:])/g, '$1');
-        cursorSpan.remove();
-        enableNext();
-        return;
-    }
+    const demoNote = el('div', 'demo-note', 'Scripted example: no model runs in your browser, so these probabilities and this continuation are illustrative.');
+    stage.appendChild(demoNote);
 
     for (let i = 0; i < generated.length; i++) {
-        if (skipRequested) {
-            const rest = generated.slice(i);
-            newSpan.textContent += rest.join(' ').replace(/ ([.,!?;:])/g, '$1');
-            break;
-        }
-        const word = generated[i];
-        const separator = ['.', ',', '!', '?', ';', ':', '—', '-'].includes(word) ? '' : ' ';
-        newSpan.textContent += (newSpan.textContent.length > 0 ? separator : '') + word;
+        newSpan.textContent = joinWords(generated.slice(0, i + 1));
         genBox.scrollTop = genBox.scrollHeight;
         await skippableSleep(200);
     }
@@ -1270,7 +1284,8 @@ async function renderOutput() {
 
 // ── Keyboard shortcuts ─────────────────────────────────────
 document.addEventListener('keydown', e => {
-    if (landing.classList.contains('hidden') === false) return;
+    if (!landing.classList.contains('hidden')) return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === 'ArrowRight' && !nextBtn.disabled) nextBtn.click();
     if (e.key === 'ArrowLeft' && !prevBtn.disabled) prevBtn.click();
     if (e.key === 's' || e.key === 'S') skipBtn.click();

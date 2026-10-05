@@ -367,15 +367,15 @@ html {
 }
 
 /* Syntax colours: green-led to match the site, with a few contrasting hues */
-.prose .tok-keyword { color: #80b361; font-weight: 600; }
-.prose .tok-string { color: #e6c384; }
-.prose .tok-number { color: #f0a070; }
-.prose .tok-comment { color: #6b7f63; font-style: italic; }
-.prose .tok-function { color: #7fd4c1; }
-.prose .tok-type { color: #8fbcea; }
-.prose .tok-constant { color: #c9a5e8; }
-.prose .tok-decorator { color: #e58fb1; }
-.prose .tok-property { color: #a1c68b; }
+:is(.prose, .code-panel) .tok-keyword { color: #80b361; font-weight: 600; }
+:is(.prose, .code-panel) .tok-string { color: #e6c384; }
+:is(.prose, .code-panel) .tok-number { color: #f0a070; }
+:is(.prose, .code-panel) .tok-comment { color: #6b7f63; font-style: italic; }
+:is(.prose, .code-panel) .tok-function { color: #7fd4c1; }
+:is(.prose, .code-panel) .tok-type { color: #8fbcea; }
+:is(.prose, .code-panel) .tok-constant { color: #c9a5e8; }
+:is(.prose, .code-panel) .tok-decorator { color: #e58fb1; }
+:is(.prose, .code-panel) .tok-property { color: #a1c68b; }
 
 .prose blockquote {
   @apply border-l-4 border-gray-600 pl-4 italic text-gray-400;

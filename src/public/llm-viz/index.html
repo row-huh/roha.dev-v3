@@ -21,7 +21,8 @@
 
                 <div class="input-area">
                     <input type="text" id="user-input" placeholder="What is the meaning of life?"
-                           value="What is the meaning of life?" autocomplete="off" spellcheck="false">
+                           value="What is the meaning of life?" autocomplete="off" spellcheck="false"
+                           maxlength="200" aria-label="Prompt to send through the model">
                     <button id="start-btn" class="btn btn-primary">
                         <span>Begin Journey</span>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -66,7 +67,7 @@
             <!-- Stage Header -->
             <div class="stage-header">
                 <h2 id="stage-title">Raw Text</h2>
-                <button id="info-btn" class="btn btn-icon" title="Toggle explanation">
+                <button id="info-btn" class="btn btn-icon" title="Toggle explanation" aria-label="Toggle explanation">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 </button>
             </div>
@@ -78,7 +79,7 @@
 
             <!-- Visual Stage -->
             <div class="stage-wrap">
-                <div id="stage" class="stage"></div>
+                <div id="stage" class="stage" aria-live="polite"></div>
             </div>
 
             <!-- Navigation -->

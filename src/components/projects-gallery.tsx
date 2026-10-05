@@ -2,21 +2,10 @@
 
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Github, ExternalLink, Youtube } from "lucide-react"
+import { BookOpen, Github, ExternalLink, Youtube } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-
-interface Project {
-  slug: string
-  title: string
-  description: string
-  image: string
-  tags: string[]
-  githubLink?: string
-  liveDemoLink?: string
-  youtubeLink?: string
-  type: "featured" | "hackathon" | "university" | "passion" | "archive"
-}
+import type { Project } from "@/lib/projects-data"
 
 interface ProjectsGalleryProps {
   projects: Project[]
@@ -47,7 +36,7 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
               <h3 className="text-lg font-medium text-white mb-2 group-hover:text-moss-400 transition-colors">
                 {project.title}
               </h3>
-              <p className="text-sm text-gray-400 mb-4 line-clamp-2">
+              <p className="text-sm text-gray-400 mb-4 line-clamp-3">
                 {project.description}
               </p>
               
@@ -88,6 +77,15 @@ export default function ProjectsGallery({ projects }: ProjectsGalleryProps) {
                     aria-label="Demo"
                   >
                     <ExternalLink className="w-4 h-4" />
+                  </Link>
+                )}
+                {project.writeupLink && (
+                  <Link 
+                    href={project.writeupLink} 
+                    className="p-2 rounded-lg bg-gray-800/80 text-gray-400 hover:text-white hover:bg-gray-700 transition-all"
+                    aria-label="Write-up"
+                  >
+                    <BookOpen className="w-4 h-4" />
                   </Link>
                 )}
                 {project.youtubeLink && (

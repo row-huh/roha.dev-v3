@@ -20,7 +20,7 @@ interface BlogsCarouselProps {
 // Contract
 // - Inputs: up to 5 BlogPost items (fetched if not provided): 1 featured + 4 secondary
 // - Output: responsive grid with sticky featured left, scrollable list right
-// - Behavior: hover zoom on images, full-card link overlay, smooth sticky top
+// - Behavior: hover zoom on images, full-card link overlay, featured pinned while the list glides past
 export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
 
@@ -106,243 +106,102 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
     }
   }, [posts])
 
-  // Refs for programmatic scroll sync (must be before any early returns to keep hook order stable)
-  const sectionRef = useRef<HTMLElement | null>(null)
-  const rightRef = useRef<HTMLDivElement | null>(null)
-  const rafRef = useRef<number | null>(null)
-  const targetScrollRef = useRef(0)
-  const currentScrollRef = useRef(0)
-  const isPinnedRef = useRef(false)
-  const touchStartYRef = useRef<number | null>(null)
-  // Track last scroll position and direction for hysteresis logic
-  const lastScrollYRef = useRef(0)
-  const scrollDirRef = useRef<"up" | "down" | "none">("none")
-  const lastPinnedRef = useRef(false)
-  // Hold the max progress reached while pinned to avoid premature rewind
-  const maxPinnedProgressRef = useRef(0)
-  
-  // Tunables: reduce this to make the right column scroll more slowly
-  // 0.20 = fast catch-up, 0.12 = default, 0.06 = slower
-  const CATCH_UP_FACTOR = 0.14
-  // Sticky offset in px for lg:top-24 (6rem)
-  const STICKY_TOP_OFFSET = 96
-  // Bottom offset in px to symmetrically end the pin near the bottom of viewport
-  // Use the same as top by default for symmetric behavior
-  const BOTTOM_OFFSET = -96
-  // Multiplier to control how much the right list moves per wheel/touch delta
-  const SCROLL_MULTIPLIER = 2
-  // Small hysteresis in px to avoid rapid pin/unpin toggling near threshold
-  const TOP_HYSTERESIS = 12
+  // Scroll-linked pin. The grid sticks under the nav while the page keeps scrolling natively
+  // through pinRef's extra height; that scroll progress slides the right-hand list.
+  const pinRef = useRef<HTMLDivElement | null>(null)
+  const stickyRef = useRef<HTMLDivElement | null>(null)
+  const viewportRef = useRef<HTMLDivElement | null>(null)
+  const trackRef = useRef<HTMLDivElement | null>(null)
+
+  const itemCount = (posts ?? blogPosts).length
 
   useEffect(() => {
-    const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2)
+    const pin = pinRef.current
+    const sticky = stickyRef.current
+    const viewport = viewportRef.current
+    const track = trackRef.current
+    if (!pin || !sticky || !viewport || !track) return
 
-    const computePinnedDirectional = (prevPinned: boolean, dir: "up" | "down" | "none") => {
-      if (!sectionRef.current) return false
-      const rect = sectionRef.current.getBoundingClientRect()
-      const viewportHeight = window.innerHeight
-      const top = rect.top
-      const bottomOk = rect.bottom >= (viewportHeight - BOTTOM_OFFSET)
+    // Matches lg:top-24 (6rem)
+    const STICKY_TOP = 96
+    // Page pixels scrolled per pixel the list moves. Higher = slower, calmer list.
+    const SCROLL_DISTANCE = 1.3
+    // Time constant (ms) of the easing towards the scroll position. Higher = more glide.
+    const SMOOTHING = 160
 
-      // If previously pinned, keep it pinned until we clearly leave the zone
-      if (prevPinned) {
-        // Unpin when we reach the bottom boundary regardless of direction
-        if (!bottomOk) return false
-        // When scrolling up, only unpin after moving above sticky top + hysteresis
-        if (dir === "up" && top > STICKY_TOP_OFFSET + TOP_HYSTERESIS) return false
-        // Otherwise remain pinned
-        return true
-      }
+    const desktop = window.matchMedia("(min-width: 1024px)")
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
-      // Not previously pinned: only enter pin when we clearly pass below sticky top - hysteresis
-      if (bottomOk && top <= STICKY_TOP_OFFSET - TOP_HYSTERESIS) return true
-      return false
+    let overflow = 0
+    let current = 0
+    let target = 0
+    let raf: number | null = null
+    let lastTime = 0
+
+    const apply = () => {
+      track.style.transform = `translate3d(0, ${-current}px, 0)`
     }
 
-    const startAnimationLoop = () => {
-      if (rafRef.current != null) return
-      const tick = () => {
-        const el = rightRef.current
-        if (!el) {
-          rafRef.current = null
-          return
-        }
-        const current = currentScrollRef.current
-        const target = targetScrollRef.current
-        const delta = target - current
-        // Small threshold to stop animating
-        if (Math.abs(delta) < 0.5) {
-          currentScrollRef.current = target
-          el.scrollTop = target
-          rafRef.current = null
-          return
-        }
-        // Smoothly approach target; smaller factor = slower perceived speed
-        currentScrollRef.current = current + delta * CATCH_UP_FACTOR
-        el.scrollTop = currentScrollRef.current
-        rafRef.current = requestAnimationFrame(tick)
-      }
-      rafRef.current = requestAnimationFrame(tick)
-    }
-
-    const onScroll = () => {
-      if (!sectionRef.current || !rightRef.current) return
-
-      // Only sync on large screens where the left is sticky (approx >= 1024px)
-      if (window.innerWidth < 1024) return
-
-      const rect = sectionRef.current.getBoundingClientRect()
-      const sectionTop = window.scrollY + rect.top
-      const sectionHeight = sectionRef.current.offsetHeight
-      const viewportHeight = window.innerHeight
-
-  // Match sticky offset (lg:top-24 ~= 6rem = 96px)
-  const topOffset = STICKY_TOP_OFFSET
-
-  // Only start scrolling right column AFTER the featured card is stuck at topOffset
-  // pinStart: when section top reaches sticky position (96px from viewport top)
-  const pinStart = sectionTop - topOffset
-  // pinEnd: when section bottom reaches (viewport bottom - BOTTOM_OFFSET)
-  const pinEnd = sectionTop + sectionHeight - viewportHeight + BOTTOM_OFFSET
-      const pinRange = Math.max(pinEnd - pinStart, 1)
-
-      const y = window.scrollY
-      const lastY = lastScrollYRef.current
-      const dir: "up" | "down" | "none" = y > lastY ? "down" : y < lastY ? "up" : scrollDirRef.current
-      scrollDirRef.current = dir
-      lastScrollYRef.current = y
-      // Progress of the pin phase [0..1] - only counts after card is stuck
-      const tRaw = Math.min(Math.max((y - pinStart) / pinRange, 0), 1)
-      // Apply smooth easing (feels slower and smoother)
-      const t = easeInOutCubic(tRaw)
-
-      const el = rightRef.current
-      const maxScroll = el.scrollHeight - el.clientHeight
-
-      // Update pinned state with hysteresis for wheel/touch handling
-      const prevPinned = lastPinnedRef.current
-      const nowPinned = computePinnedDirectional(prevPinned, dir)
-      isPinnedRef.current = nowPinned
-      lastPinnedRef.current = nowPinned
-
-      // Maintain max progress while pinned to prevent rewind until truly unpinned
-      if (nowPinned) {
-        maxPinnedProgressRef.current = Math.max(maxPinnedProgressRef.current, t)
-      } else {
-        // Reset the held progress once we exit pinned
-        maxPinnedProgressRef.current = t
-      }
-
-      // Only scroll right column when NOT actively hijacking wheel/touch
-      if (!isPinnedRef.current && maxScroll > 0) {
-        // While recently pinned, avoid decreasing progress due to tiny threshold jitters
-        const tStable = scrollDirRef.current === "up" && prevPinned ? Math.max(t, maxPinnedProgressRef.current) : t
-        targetScrollRef.current = tStable * maxScroll
-        // Start the rAF loop if not running
-        startAnimationLoop()
-      }
-    }
-
-    const onResize = () => {
-      // Keep currentScroll in bounds and re-evaluate target
-      currentScrollRef.current = rightRef.current?.scrollTop ?? 0
-      onScroll()
-    }
-
-    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
-
-    const scrollRightBy = (deltaY: number) => {
-      const el = rightRef.current
-      if (!el) return
-      const maxScroll = el.scrollHeight - el.clientHeight
-      if (maxScroll <= 0) return
-      const next = clamp(el.scrollTop + deltaY * SCROLL_MULTIPLIER, 0, maxScroll)
-      // Direct instant scroll - no animation lag
-      el.scrollTop = next
-      targetScrollRef.current = next
-      currentScrollRef.current = next
-    }
-
-    const onWheel = (e: WheelEvent) => {
-      if (window.innerWidth < 1024) return // don't hijack on small screens
-      const dir: "up" | "down" = e.deltaY > 0 ? "down" : "up"
-      const pinned = computePinnedDirectional(lastPinnedRef.current, dir)
-      isPinnedRef.current = pinned
-      lastPinnedRef.current = pinned
-      if (!pinned) return
-
-      const el = rightRef.current
-      if (!el) return
-      const maxScroll = el.scrollHeight - el.clientHeight
-      if (maxScroll <= 0) return
-
-      const dy = e.deltaY
-      const atTop = el.scrollTop <= 0
-      const atBottom = el.scrollTop >= maxScroll
-
-      // Allow page to move only when user tries to scroll past edges
-      if ((atTop && dy < 0) || (atBottom && dy > 0)) {
+    const tick = (now: number) => {
+      const dt = Math.min(now - lastTime, 64)
+      lastTime = now
+      const delta = target - current
+      if (Math.abs(delta) < 0.1) {
+        current = target
+        apply()
+        raf = null
         return
       }
-
-      e.preventDefault()
-      scrollRightBy(dy)
+      // Exponential ease, independent of frame rate
+      current += delta * (1 - Math.exp(-dt / SMOOTHING))
+      apply()
+      raf = requestAnimationFrame(tick)
     }
 
-    const onTouchStart = (e: TouchEvent) => {
-      touchStartYRef.current = e.touches[0]?.clientY ?? null
+    const update = () => {
+      if (!desktop.matches) return
+      const range = pin.offsetHeight - sticky.offsetHeight
+      const scrolled = STICKY_TOP - pin.getBoundingClientRect().top
+      const progress = range > 0 ? Math.min(Math.max(scrolled / range, 0), 1) : 0
+      target = progress * overflow
+
+      if (reducedMotion.matches) {
+        current = target
+        apply()
+      } else if (raf == null) {
+        lastTime = performance.now()
+        raf = requestAnimationFrame(tick)
+      }
     }
 
-    const onTouchMove = (e: TouchEvent) => {
-      if (window.innerWidth < 1024) return
-      const startY = touchStartYRef.current
-      const yNow = e.touches[0]?.clientY ?? startY ?? 0
-      const dyForDir = (startY ?? yNow) - yNow
-      const dir: "up" | "down" = dyForDir > 0 ? "down" : "up"
-      const pinned = computePinnedDirectional(lastPinnedRef.current, dir)
-      isPinnedRef.current = pinned
-      lastPinnedRef.current = pinned
-      if (!pinned) return
-
-      const startY2 = touchStartYRef.current
-      if (startY2 == null) return
-      const y = e.touches[0]?.clientY ?? startY2
-      const dy = startY2 - y
-
-      const el = rightRef.current
-      if (!el) return
-      const maxScroll = el.scrollHeight - el.clientHeight
-      if (maxScroll <= 0) return
-
-      const atTop = el.scrollTop <= 0
-      const atBottom = el.scrollTop >= maxScroll
-      if ((atTop && dy < 0) || (atBottom && dy > 0)) {
+    const measure = () => {
+      if (!desktop.matches) {
+        // Small screens: plain stacked layout, nothing pinned
+        pin.style.height = ""
+        track.style.transform = ""
+        current = target = 0
         return
       }
-      e.preventDefault()
-      scrollRightBy(dy)
+      overflow = Math.max(track.scrollHeight - viewport.clientHeight, 0)
+      pin.style.height = `${sticky.offsetHeight + overflow * SCROLL_DISTANCE}px`
+      update()
     }
 
-    window.addEventListener("scroll", onScroll, { passive: true })
-    window.addEventListener("resize", onResize)
-    window.addEventListener("wheel", onWheel, { passive: false })
-    window.addEventListener("touchstart", onTouchStart, { passive: true })
-    window.addEventListener("touchmove", onTouchMove, { passive: false })
+    const observer = new ResizeObserver(measure)
+    observer.observe(sticky)
+    observer.observe(track)
 
-    // Initialize state
-    currentScrollRef.current = rightRef.current?.scrollTop ?? 0
-    onScroll()
+    window.addEventListener("scroll", update, { passive: true })
+    window.addEventListener("resize", measure)
+    measure()
 
     return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("resize", onResize)
-      window.removeEventListener("wheel", onWheel)
-      window.removeEventListener("touchstart", onTouchStart)
-      window.removeEventListener("touchmove", onTouchMove)
-      if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
-      rafRef.current = null
+      observer.disconnect()
+      window.removeEventListener("scroll", update)
+      window.removeEventListener("resize", measure)
+      if (raf != null) cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [itemCount])
 
   const items = posts ?? blogPosts
   if (!items || items.length === 0) return null
@@ -355,17 +214,19 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
   // If these files are missing, overlays simply won't render.
 
   return (
-    <section ref={sectionRef} className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
+    <section className="relative z-10 px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-32">
       <div className="mx-auto max-w-7xl">
             <h2 className="text-4xl font-medium text-white mb-6">Latest Insights</h2>
             <p className="text-lg text-gray-400 mb-12">
               I write a lot but only a fraction makes it online. 
               Catch up on the latest updates;
             </p>
+        {/* pinRef gets extra height on lg (set in the effect); the grid sticks inside it while that height scrolls by */}
+        <div ref={pinRef}>
         {/* Grid Setup: 4 cols on lg, single on small; responsive gap */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
-          {/* Left: Featured (spans 3) - Sticky + smooth top transition */}
-          <div className="lg:col-span-3 lg:sticky lg:top-24 lg:self-start transition-[top] duration-300">
+        <div ref={stickyRef} className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8 lg:sticky lg:top-24">
+          {/* Left: Featured (spans 3) */}
+          <div className="lg:col-span-3 lg:self-start">
             <article className="group relative">
                 <div
                   className="relative overflow-hidden rounded-md shadow-md isolate cursor-pointer"
@@ -426,11 +287,14 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
 
           {/* Secondary cards: small two-column tiles under the featured post on phones and tablets,
               a programmatically scrolled column beside the sticky featured post on large screens */}
-          {/* Right programmatic scroller: disable native wheel scroll so it follows page scroll */}
+          {/* Right: clipped window on lg; the track inside is moved by transform, with a soft fade where cards leave */}
           <div
-            ref={rightRef}
-            className="lg:col-span-1 grid grid-cols-2 gap-4 sm:gap-6 lg:flex lg:flex-col lg:gap-8 lg:h-[600px] lg:overflow-hidden lg:pr-2"
-            style={{ scrollBehavior: "auto" }}
+            ref={viewportRef}
+            className="lg:col-span-1 lg:h-[min(600px,calc(100vh-8rem))] lg:overflow-hidden lg:pr-2 lg:[mask-image:linear-gradient(to_bottom,black_calc(100%-56px),transparent)]"
+          >
+          <div
+            ref={trackRef}
+            className="grid grid-cols-2 gap-4 sm:gap-6 lg:flex lg:flex-col lg:gap-8 lg:will-change-transform"
           >
             {secondary.map((post, i) => {
               const overlays = [
@@ -496,6 +360,8 @@ export default function BlogsCarousel({ posts }: BlogsCarouselProps) {
               </article>
             )})}
           </div>
+          </div>
+        </div>
         </div>
       </div>
     </section>

@@ -39,7 +39,7 @@ function HomePageContent() {
 
 
   return (
-  <div className="min-h-screen bg-black text-white relative overflow-hidden">
+  <div className="min-h-screen bg-black text-white relative overflow-clip">
       {/* Scroll Progress Indicator */}
       <ScrollProgress />
 

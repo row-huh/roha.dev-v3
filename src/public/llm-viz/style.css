@@ -700,6 +700,7 @@ body {
 }
 .prob-bar.top { background: linear-gradient(90deg, var(--green), var(--cyan)); }
 .prob-bar.other { background: var(--accent); opacity: 0.6; }
+.prob-bar.rest { background: var(--text3); opacity: 0.35; }
 .prob-pct {
     width: 52px;
     font-family: var(--mono);
@@ -844,6 +845,14 @@ body {
     margin-left: 1px;
 }
 
+.demo-note {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--text3);
+    text-align: center;
+    max-width: 700px;
+}
+
 /* QKV visualization */
 .qkv-container {
     display: flex;
@@ -872,65 +881,30 @@ body {
 /* ============================================================
    TOOLTIPS
    ============================================================ */
-/* Wrapper that holds the element + tooltip */
-[data-tip] {
-    position: relative;
-    cursor: help;
-}
-[data-tip]::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) translateY(4px);
+/* One floating tooltip, positioned from script.js */
+[data-tip] { cursor: help; }
+.tooltip {
+    position: fixed;
+    top: 0;
+    left: 0;
     background: #1e2536;
     color: var(--text2);
     font-family: var(--sans);
     font-size: 0.78rem;
-    font-weight: 400;
     line-height: 1.5;
     padding: 10px 14px;
     border-radius: var(--radius);
     border: 1px solid var(--border-hi);
     box-shadow: 0 8px 30px rgba(0,0,0,0.45);
-    white-space: normal;
     width: max-content;
-    max-width: 300px;
+    max-width: min(300px, calc(100vw - 16px));
     z-index: 500;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    visibility: hidden;
+    transition: opacity 0.15s ease;
 }
-[data-tip]:hover::after {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-/* Variant: tooltip below */
-[data-tip].tip-below::after {
-    bottom: auto;
-    top: calc(100% + 8px);
-    transform: translateX(-50%) translateY(-4px);
-}
-[data-tip].tip-below:hover::after {
-    transform: translateX(-50%) translateY(0);
-}
-/* Variant: tooltip left-aligned */
-[data-tip].tip-left::after {
-    left: 0;
-    transform: translateX(0) translateY(4px);
-}
-[data-tip].tip-left:hover::after {
-    transform: translateX(0) translateY(0);
-}
-/* Variant: tooltip right-aligned */
-[data-tip].tip-right::after {
-    left: auto;
-    right: 0;
-    transform: translateX(0) translateY(4px);
-}
-[data-tip].tip-right:hover::after {
-    transform: translateX(0) translateY(0);
-}
+.tooltip.visible { opacity: 1; visibility: visible; }
 
 /* ---- Animations ---- */
 @keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
@@ -949,4 +923,13 @@ body {
     .attn-cell { min-width: 20px; min-height: 20px; }
     .block-diagram { max-width: 100%; }
     .gen-output { font-size: 0.95rem; }
+    .input-area { flex-wrap: wrap; }
+    .input-area input { min-width: 0; flex-basis: 100%; }
+    .input-area .btn { flex: 1; justify-content: center; }
+}
+/* 11 progress dots do not fit a phone at full size */
+@media (max-width: 480px) {
+    .dot { width: 20px; height: 20px; font-size: 0.6rem; border-width: 1.5px; }
+    .progress-track { height: 24px; }
+    .progress-bar, .progress-track::before { top: 10px; }
 }
